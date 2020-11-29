@@ -25,5 +25,7 @@ namespace DAO
         }
 
         public ErrorCode Code { get; init; }
+
+        public override string ToString() => $"{Code} : {base.ToString()}";
     }
 }
