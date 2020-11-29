@@ -55,7 +55,8 @@ namespace DAO
         float? HOblig = null,
         float? HMax = null,
         char? CRCT = 'N',
-        char? PesPedr = 'N'
+        char? PesPedr = 'N',
+        string? Composante = null
     );
     public record Enseignement
     (
@@ -81,6 +82,7 @@ namespace DAO
         string Code,
         int Vet,
         string Libelle,
+        string Composante,
         string? Diplome = null,
         int? Vdi = null
     );
