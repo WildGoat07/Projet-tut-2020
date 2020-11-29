@@ -14,8 +14,8 @@ namespace DAO
         /// <param name="value">Détail de l'année à créer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        /// <returns>La nouvelle année universitaire, ou null si erreur</returns>
-        Task<AnneeUniv?> CreateAsync(AnneeUniv value);
+        /// <returns>La nouvelle année universitaire</returns>
+        Task<AnneeUniv> CreateAsync(AnneeUniv value);
 
         /// <summary>
         /// Supprime une année universitaire
@@ -40,7 +40,7 @@ namespace DAO
         /// <param name="newValue">Nouvelle valeur de l'année</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        /// <returns>L'année modifié, ou null si erreur</returns>
-        Task<AnneeUniv?> UpdateAsync(AnneeUniv oldValue, AnneeUniv newValue);
+        /// <returns>L'année modifiée</returns>
+        Task<AnneeUniv> UpdateAsync(AnneeUniv oldValue, AnneeUniv newValue);
     }
 }
