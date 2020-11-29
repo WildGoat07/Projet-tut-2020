@@ -23,8 +23,7 @@ namespace DAO
         /// <param name="value">Année à supprimer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        /// <returns>True si supprimé avec succès, False autrement</returns>
-        Task<bool> DeleteAsync(AnneeUniv value);
+        Task DeleteAsync(AnneeUniv value);
 
         /// <summary>
         /// Récupère toutes les année enregistrées
