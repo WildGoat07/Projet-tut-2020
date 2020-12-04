@@ -1,8 +1,70 @@
-# Projet-tut-2020
-Application pour la gestion des enseignements
+# Projet Tutoré 2020
 
-- [x] Analyse du contenu de la base de données et conception d’un schéma conceptuel
-- [ ] Analyse détaillée des différentes opérations proposées par l’application et élaboration d’un cahier des charges
-- [ ] Conception et validation des interfaces et les interactions pour les différentes opérations
-- [ ] Conception et développement des différentes opérations
-- [ ] Conception et développement d’un module pour générer les fichiers des services des enseignants (format à définir) et pour mettre à jour les services à partir de ces fichiers (complétés et corrigés par les enseignants.)
+## Cahier des charges :
+
+A = composante dirigée par l'utilisateur connecté 
+
+- Identifiants de connexion à l'API stockés dans `composante`, ou dans une nouvelle table
+- Développer une application/site web
+    - Page de connexion
+    - Déconnexion
+    - Aperçu des données de A dans l'espace client
+    - Pouvoir changer le mot de passe de A
+    - Pouvoir regénérer le Token
+    - Pouvoir voir/modifier les données liées à A :
+        - Interdiction d'éditer, créer ou supprimer un Diplôme
+        - Ajouter/éditer/supprimer une étape de A
+        - Ajouter/éditer/supprimer un semestre de A
+        - Ajouter/éditer/supprimer une ue de A
+        - Ajouter/éditer/supprimer une ec de A
+        - Interdiction d'éditer, créer ou supprimer une catégorie
+        - Ajouter/éditer/supprimer un enseignement de A
+        - Interdiction d'éditer, créer ou supprimer une année universitaire
+        - Ajouter/éditer/supprimer un service de A
+        - Voir tous les horsComp d'un enseignant appartenant à A ou les `horscomp` concernant A
+        - Ajouter/éditer/supprimer un `horscomp` concernant A
+        - Voir tous les enseignants, mais uniquement le nom/prénom et composante de ceux n'appartenant **pas** à A
+        - Interdiction d'éditer, créer ou supprimer un enseignant **sauf** son `id_comp` si ce dernier vaut `NULL` ou A. Impossible de donner une valeur différente de `NULL` ou A à `id_comp`.
+        - Possibilité d'éditer uniquement le nom et lieu de la composante A.
+- Développer une API web
+    - Identification via utilisateur/mot de passe => renvoie un Token
+    - Pouvoir changer le mot de passe de A
+    - Pouvoir regénérer le Token
+    - Uitilisation du Token pour toute autre requête que la connexion ou regénérer le Token
+    - Pouvoir voir/modifier les données liées à A :
+        - Interdiction d'éditer, créer ou supprimer un Diplôme
+        - Ajouter/éditer/supprimer une étape de A
+        - Ajouter/éditer/supprimer un semestre de A
+        - Ajouter/éditer/supprimer une ue de A
+        - Ajouter/éditer/supprimer une ec de A
+        - Interdiction d'éditer, créer ou supprimer une catégorie
+        - Ajouter/éditer/supprimer un enseignement de A
+        - Interdiction d'éditer, créer ou supprimer une année universitaire
+        - Ajouter/éditer/supprimer un service de A
+        - Voir tous les horsComp d'un enseignant appartenant à A ou les `horscomp` concernant A
+        - Ajouter/éditer/supprimer un `horscomp` concernant A
+        - Voir tous les enseignants, mais uniquement le nom/prénom et composante de ceux n'appartenant **pas** à A
+        - Interdiction d'éditer, créer ou supprimer un enseignant **sauf** son `id_comp` si ce dernier vaut `NULL` ou A. Impossible de donner une valeur différente de `NULL` ou A à `id_comp`.
+        - Possibilité d'éditer uniquement le nom et lieu de la composante A.
+- Développer un client local intéragissant avec l'API
+    - Page connexion
+    - Pouvoir garder stocké le Token pour éviter de renvoyer ses informations
+    - Déconnexion
+    - Aperçu des données de A dans l'espace client
+    - Pouvoir changer le mot de passe de A
+    - Pouvoir regénérer le Token
+    - Pouvoir voir/modifier les données liées à A :
+        - Interdiction d'éditer, créer ou supprimer un Diplôme
+        - Ajouter/éditer/supprimer une étape de A
+        - Ajouter/éditer/supprimer un semestre de A
+        - Ajouter/éditer/supprimer une ue de A
+        - Ajouter/éditer/supprimer une ec de A
+        - Interdiction d'éditer, créer ou supprimer une catégorie
+        - Ajouter/éditer/supprimer un enseignement de A
+        - Interdiction d'éditer, créer ou supprimer une année universitaire
+        - Ajouter/éditer/supprimer un service de A
+        - Voir tous les horsComp d'un enseignant appartenant à A ou les `horscomp` concernant A
+        - Ajouter/éditer/supprimer un `horscomp` concernant A
+        - Voir tous les enseignants, mais uniquement le nom/prénom et composante de ceux n'appartenant **pas** à A
+        - Interdiction d'éditer, créer ou supprimer un enseignant **sauf** son `id_comp` si ce dernier vaut `NULL` ou A. Impossible de donner une valeur différente de `NULL` ou A à `id_comp`.
+        - Possibilité d'éditer uniquement le nom et lieu de la composante A.
