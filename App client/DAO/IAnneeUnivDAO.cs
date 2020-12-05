@@ -18,6 +18,15 @@ namespace DAO
         Task<AnneeUniv> CreateAsync(AnneeUniv value);
 
         /// <summary>
+        /// Créé de nouvelles années universitaires
+        /// </summary>
+        /// <param name="values">Détails des l'années à créer</param>
+        /// <exception cref="DAOException">Une erreur est survenue</exception>
+        /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
+        /// <returns>Les nouvelles années universitaires</returns>
+        Task<AnneeUniv[]> CreateAsync(ReadOnlySpan<AnneeUniv> values);
+
+        /// <summary>
         /// Supprime une année universitaire
         /// </summary>
         /// <param name="value">Année à supprimer</param>
@@ -26,11 +35,23 @@ namespace DAO
         Task DeleteAsync(AnneeUniv value);
 
         /// <summary>
+        /// Supprime des années universitaires
+        /// </summary>
+        /// <param name="values">Années à supprimer</param>
+        /// <exception cref="DAOException">Une erreur est survenue</exception>
+        /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
+        Task DeleteAsync(ReadOnlySpan<AnneeUniv> values);
+
+        /// <summary>
         /// Récupère toutes les année enregistrées
         /// </summary>
+        /// <param name="maxCount">Quantité maximum à récupérer</param>
+        /// <param name="page">
+        /// Les <paramref name="maxCount"/>* <paramref name="page"/> première valeurs seront évitées
+        /// </param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <returns>Toutes les années disponibles</returns>
-        Task<AnneeUniv[]> GetAllAsync();
+        Task<AnneeUniv[]> GetAllAsync(int maxCount, int page);
 
         /// <summary>
         /// Modifie une année universitaire
@@ -41,5 +62,15 @@ namespace DAO
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>L'année modifiée</returns>
         Task<AnneeUniv> UpdateAsync(AnneeUniv oldValue, AnneeUniv newValue);
+
+        /// <summary>
+        /// Modifie des années universitaires
+        /// </summary>
+        /// <param name="oldValues">Anciennes valeurs des années</param>
+        /// <param name="newValues">Nouvelles valeurs des années</param>
+        /// <exception cref="DAOException">Une erreur est survenue</exception>
+        /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
+        /// <returns>Les années modifiées</returns>
+        Task<AnneeUniv[]> UpdateAsync(ReadOnlySpan<AnneeUniv> oldValues, ReadOnlySpan<AnneeUniv> newValues);
     }
 }
