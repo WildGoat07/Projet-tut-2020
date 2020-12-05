@@ -27,8 +27,8 @@ namespace DAO
         string LibelleDiplome,
         int Vdi,
         string LibelleVdi,
-        int? Debut = null,
-        int? Fin = null
+        int? AnneeDebut = null,
+        int? AnneeFin = null
     );
     public record Ec
     (
@@ -41,6 +41,7 @@ namespace DAO
         int? HTP = 0,
         int? HTPL = 0,
         int? HPRJ = 0,
+        int? NombreEpreuves = 1,
         int? CNU = 2700,
         int? NumCategorie = null,
         int? Pere = null,
