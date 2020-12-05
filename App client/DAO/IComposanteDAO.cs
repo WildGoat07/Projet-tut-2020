@@ -42,10 +42,15 @@ namespace DAO
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         Task DeleteAsync(ReadOnlySpan<Composante> values);
 
-        /// <summary> Récupère toutes les composantes </summary> <param name="maxCount">Quantité
-        /// maximum à récupérer</param> <param name="page"> Les <paramref name="maxCount"/>*
-        /// <paramref name="page"/> première valeurs seront évitées <exception
-        /// cref="DAOException">Une erreur est survenue</exception> <returns>Toutes les composantes disponibles</returns>
+        /// <summary>
+        /// Récupère toutes les composantes
+        /// </summary>
+        /// <param name="maxCount">Quantité maximum à récupérer</param>
+        /// <param name="page">
+        /// Les <paramref name="maxCount"/> * <paramref name="page"/> première valeurs seront évitées
+        /// </param>
+        /// <exception cref="DAOException">Une erreur est survenue</exception>
+        /// <returns>Toutes les composantes disponibles</returns>
         Task<Composante[]> GetAllAsync(int maxCount, int page);
 
         /// <summary>

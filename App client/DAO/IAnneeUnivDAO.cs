@@ -47,7 +47,7 @@ namespace DAO
         /// </summary>
         /// <param name="maxCount">Quantité maximum à récupérer</param>
         /// <param name="page">
-        /// Les <paramref name="maxCount"/>* <paramref name="page"/> première valeurs seront évitées
+        /// Les <paramref name="maxCount"/> * <paramref name="page"/> première valeurs seront évitées
         /// </param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <returns>Toutes les années disponibles</returns>
