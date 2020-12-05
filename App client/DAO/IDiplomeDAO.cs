@@ -15,7 +15,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Le nouveau diplôme</returns>
-        Task<Diplome> CreateAsync(Diplome value);
+        async Task<Diplome> CreateAsync(Diplome value) => (await CreateAsync(new Diplome[] { value })).First();
 
         /// <summary>
         /// Créé de nouveaux diplômes
@@ -32,7 +32,7 @@ namespace DAO
         /// <param name="value">Diplôme à supprimer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        Task DeleteAsync(Diplome value);
+        async Task DeleteAsync(Diplome value) => await DeleteAsync(new Diplome[] { value });
 
         /// <summary>
         /// Supprime des diplômes
@@ -68,7 +68,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Le diplôme modifié</returns>
-        Task<Diplome> UpdateAsync(Diplome oldValue, Diplome newValue);
+        async Task<Diplome> UpdateAsync(Diplome oldValue, Diplome newValue) => (await UpdateAsync(new Diplome[] { oldValue }, new Diplome[] { newValue })).First();
 
         /// <summary>
         /// Modifie des diplôme

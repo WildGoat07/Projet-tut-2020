@@ -15,7 +15,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>La nouvelle composante</returns>
-        Task<Composante> CreateAsync(Composante value);
+        async Task<Composante> CreateAsync(Composante value) => (await CreateAsync(new Composante[] { value })).First();
 
         /// <summary>
         /// Créé des nouvelles composantes
@@ -32,7 +32,7 @@ namespace DAO
         /// <param name="value">Composante à supprimer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        Task DeleteAsync(Composante value);
+        async Task DeleteAsync(Composante value) => await DeleteAsync(new Composante[] { value });
 
         /// <summary>
         /// Supprime des composantes
@@ -68,7 +68,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>La composante modifiée</returns>
-        Task<Composante> UpdateAsync(Composante oldValue, Composante newValue);
+        async Task<Composante> UpdateAsync(Composante oldValue, Composante newValue) => (await UpdateAsync(new Composante[] { oldValue }, new Composante[] { newValue })).First();
 
         /// <summary>
         /// Modifie des composantes

@@ -15,7 +15,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>La nouvelle année universitaire</returns>
-        Task<AnneeUniv> CreateAsync(AnneeUniv value);
+        async Task<AnneeUniv> CreateAsync(AnneeUniv value) => (await CreateAsync(new AnneeUniv[] { value })).First();
 
         /// <summary>
         /// Créé de nouvelles années universitaires
@@ -32,7 +32,7 @@ namespace DAO
         /// <param name="value">Année à supprimer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        Task DeleteAsync(AnneeUniv value);
+        async Task DeleteAsync(AnneeUniv value) => await DeleteAsync(new AnneeUniv[] { value });
 
         /// <summary>
         /// Supprime des années universitaires
@@ -61,7 +61,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>L'année modifiée</returns>
-        Task<AnneeUniv> UpdateAsync(AnneeUniv oldValue, AnneeUniv newValue);
+        async Task<AnneeUniv> UpdateAsync(AnneeUniv oldValue, AnneeUniv newValue) => (await UpdateAsync(new AnneeUniv[] { oldValue }, new AnneeUniv[] { newValue })).First();
 
         /// <summary>
         /// Modifie des années universitaires

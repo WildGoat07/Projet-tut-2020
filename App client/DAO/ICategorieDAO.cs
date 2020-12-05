@@ -15,7 +15,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>La nouvelle catégorie</returns>
-        Task<Categorie> CreateAsync(Categorie value);
+        async Task<Categorie> CreateAsync(Categorie value) => (await CreateAsync(new Categorie[] { value })).First();
 
         /// <summary>
         /// Créé des nouvelles catégories
@@ -32,7 +32,7 @@ namespace DAO
         /// <param name="value">Catégorie à supprimer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        Task DeleteAsync(Categorie value);
+        async Task DeleteAsync(Categorie value) => await DeleteAsync(new Categorie[] { value });
 
         /// <summary>
         /// Supprime des catégories
@@ -68,7 +68,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>La catégorie modifiée</returns>
-        Task<Categorie> UpdateAsync(Categorie oldValue, Categorie newValue);
+        async Task<Categorie> UpdateAsync(Categorie oldValue, Categorie newValue) => (await UpdateAsync(new Categorie[] { oldValue }, new Categorie[] { newValue })).First();
 
         /// <summary>
         /// Modifie des catégories
