@@ -51,7 +51,7 @@ namespace DAO
         /// </param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <returns>Tous les diplômes disponibles</returns>
-        Task<Diplome[]> GetAllAsync(int maxCount, int page);
+        async Task<Diplome[]> GetAllAsync(int maxCount, int page) => await GetFilteredAsync(maxCount, page);
 
         /// <summary>
         /// Récupère un diplôme
@@ -59,6 +59,19 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <returns>Le diplôme correspondant à l'id</returns>
         Task<Diplome> GetByIdAsync(string code, int version);
+
+        /// <summary>
+        /// Récupère tous les diplômes selon des filtres
+        /// </summary>
+        /// <param name="maxCount">Quantité maximum à récupérer</param>
+        /// <param name="page">
+        /// Les <paramref name="maxCount"/> * <paramref name="page"/> première valeurs seront évitées
+        /// </param>
+        /// <param name="begin">Année de départ du diplôme</param>
+        /// <param name="begin">Année de fin du diplôme</param>
+        /// <exception cref="DAOException">Une erreur est survenue</exception>
+        /// <returns>Tous les diplômes filtrés disponibles</returns>
+        Task<Diplome[]> GetFilteredAsync(int maxCount, int page, int? begin = null, int? end = null);
 
         /// <summary>
         /// Modifie un diplôme
