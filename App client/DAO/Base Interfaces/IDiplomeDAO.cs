@@ -85,7 +85,7 @@ namespace DAO
         async Task<Diplome> UpdateAsync(Diplome oldValue, Diplome newValue) => (await UpdateAsync(new Diplome[] { oldValue }, new Diplome[] { newValue })).First();
 
         /// <summary>
-        /// Modifie des diplôme
+        /// Modifie des diplômes
         /// </summary>
         /// <param name="oldValues">Anciennes valeurs des diplômes</param>
         /// <param name="newValues">Nouvelles valeurs des diplômes</param>
