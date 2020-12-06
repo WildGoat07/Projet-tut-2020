@@ -57,6 +57,7 @@ namespace DAO
         /// Récupère une ec
         /// </summary>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
+        /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>La ec correspondante à l'id</returns>
         Task<Ec> GetByIdAsync(string code);
 

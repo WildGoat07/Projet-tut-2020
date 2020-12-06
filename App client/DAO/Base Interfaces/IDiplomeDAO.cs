@@ -57,6 +57,7 @@ namespace DAO
         /// Récupère un diplôme
         /// </summary>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
+        /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Le diplôme correspondant à l'id</returns>
         Task<Diplome> GetByIdAsync(string code, int version);
 

@@ -64,6 +64,7 @@ namespace DAO
         /// Récupère une composante
         /// </summary>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
+        /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>La composante correspondante à l'id</returns>
         Task<Composante> GetByIdAsync(string id);
 
