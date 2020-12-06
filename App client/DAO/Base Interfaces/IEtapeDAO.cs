@@ -11,14 +11,14 @@ namespace DAO
         /// <summary>
         /// Créé une nouvelle étape
         /// </summary>
-        /// <param name="value">Détail du l'étape à créer</param>
+        /// <param name="value">Détail de l'étape à créer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>La nouvelle étape</returns>
         async Task<Etape> CreateAsync(Etape value) => (await CreateAsync(new Etape[] { value })).First();
 
         /// <summary>
-        /// Créé de nouvealles étapes
+        /// Créé de nouvelles étapes
         /// </summary>
         /// <param name="values">Détails des étapes à créer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
