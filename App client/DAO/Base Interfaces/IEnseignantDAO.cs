@@ -70,9 +70,14 @@ namespace DAO
         /// </param>
         /// <param name="function">Fonction des enseignants</param>
         /// <param name="comp">Composante ratachée aux enseignants</param>
+        /// <param name="CRCT">CRCT des enseignants</param>
+        /// <param name="PesPedr">PesPedr des enseignants</param>
+        /// <param name="forcedHours">Min/Max des heures obligatoires</param>
+        /// <param name="maxHours">Min/Max des heures max</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
+        /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Tous les enseignants filtrés disponibles</returns>
-        Task<Enseignant[]> GetFilteredAsync(int maxCount, int page, string? function = null, int? comp = null);
+        Task<Enseignant[]> GetFilteredAsync(int maxCount, int page, ReadOnlyMemory<string>? function = null, ReadOnlyMemory<int>? comp = null, ReadOnlyMemory<char>? CRCT = null, ReadOnlyMemory<char>? PesPedr = null, (float?, float?)? forcedHours = null, (float?, float?)? maxHours = null);
 
         /// <summary>
         /// Modifie un enseignant

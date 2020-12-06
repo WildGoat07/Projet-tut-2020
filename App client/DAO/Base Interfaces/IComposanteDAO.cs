@@ -58,7 +58,7 @@ namespace DAO
         /// </param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <returns>Toutes les composantes disponibles</returns>
-        Task<Composante[]> GetAllAsync(int maxCount, int page);
+        async Task<Composante[]> GetAllAsync(int maxCount, int page) => await GetFilteredAsync(maxCount, page);
 
         /// <summary>
         /// Récupère une composante
@@ -67,6 +67,19 @@ namespace DAO
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>La composante correspondante à l'id</returns>
         Task<Composante> GetByIdAsync(string id);
+
+        /// <summary>
+        /// Récupère toutes les composantes
+        /// </summary>
+        /// <param name="maxCount">Quantité maximum à récupérer</param>
+        /// <param name="page">
+        /// Les <paramref name="maxCount"/> * <paramref name="page"/> première valeurs seront évitées
+        /// </param>
+        /// <param name="location">Lieu de la composante</param>
+        /// <exception cref="DAOException">Une erreur est survenue</exception>
+        /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
+        /// <returns>Toutes les composantes disponibles</returns>
+        Task<Composante[]> GetFilteredAsync(int maxCount, int page, ReadOnlyMemory<string>? location = null);
 
         /// <summary>
         /// Modifie une composante

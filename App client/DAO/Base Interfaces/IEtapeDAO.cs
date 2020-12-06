@@ -69,8 +69,9 @@ namespace DAO
         /// Les <paramref name="maxCount"/> * <paramref name="page"/> première valeurs seront évitées
         /// </param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
+        /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Toutes les étape filtrées disponibles</returns>
-        Task<Etape[]> GetFilteredAsync(int maxCount, int page, string? comp = null, (string, int)? diplome = null);
+        Task<Etape[]> GetFilteredAsync(int maxCount, int page, ReadOnlyMemory<string>? comp = null, ReadOnlyMemory<(string, int)>? diplome = null);
 
         /// <summary>
         /// Modifie une étape

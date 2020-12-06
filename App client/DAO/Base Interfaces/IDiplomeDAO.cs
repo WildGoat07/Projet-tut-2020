@@ -68,11 +68,11 @@ namespace DAO
         /// <param name="page">
         /// Les <paramref name="maxCount"/> * <paramref name="page"/> première valeurs seront évitées
         /// </param>
-        /// <param name="begin">Année de départ du diplôme</param>
-        /// <param name="begin">Année de fin du diplôme</param>
+        /// <param name="begin">Années de départ du diplôme</param>
+        /// <param name="end">Années de fin du diplôme</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <returns>Tous les diplômes filtrés disponibles</returns>
-        Task<Diplome[]> GetFilteredAsync(int maxCount, int page, int? begin = null, int? end = null);
+        Task<Diplome[]> GetFilteredAsync(int maxCount, int page, ReadOnlyMemory<int>? begin = null, ReadOnlyMemory<int>? end = null);
 
         /// <summary>
         /// Modifie un diplôme

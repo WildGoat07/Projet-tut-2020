@@ -72,9 +72,16 @@ namespace DAO
         /// <param name="nature">Nature des ec filtrées</param>
         /// <param name="ue">Ue liée aux ec filtrées</param>
         /// <param name="category">Categorie des ec filtrées</param>
+        /// <param name="CmHours">Min/max des heures de CM</param>
+        /// <param name="EiHours">Min/max des heures de EI</param>
+        /// <param name="PrjHours">Min/max des heures de projet</param>
+        /// <param name="TdHours">Min/max des heures de TD</param>
+        /// <param name="TpHours">Min/max des heures de TP</param>
+        /// <param name="TplHours">Min/max des heures de TPL</param>
+        /// <param name="stepCount">Min/max du nombre d'épreuves</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <returns>Toutes les ec filtrées disponibles</returns>
-        Task<Ec[]> GetFilteredAsync(int maxCount, int page, int? owner = null, char? nature = null, int? ue = null, int? category = null);
+        Task<Ec[]> GetFilteredAsync(int maxCount, int page, ReadOnlyMemory<int>? owner = null, ReadOnlyMemory<char>? nature = null, ReadOnlyMemory<int>? ue = null, ReadOnlyMemory<int>? category = null, (int?, int?)? CmHours = null, (int?, int?)? EiHours = null, (int?, int?)? TdHours = null, (int?, int?)? TpHours = null, (int?, int?)? TplHours = null, (int?, int?)? PrjHours = null, (int?, int?)? stepCount = null);
 
         /// <summary>
         /// Modifie une ec
