@@ -67,13 +67,13 @@ namespace DAO
         /// <param name="page">
         /// Les <paramref name="maxCount"/> * <paramref name="page"/> première valeurs seront évitées
         /// </param>
-        /// <param name="owner">Father of the filtered ec</param>
-        /// <param name="nature">Nature character of the filtered ec</param>
-        /// <param name="ue">Ue linked by the filtered ec</param>
-        /// <param name="category">Category id of the filtered ec</param>
+        /// <param name="owner">Père des ec filtrées</param>
+        /// <param name="nature">Nature des ec filtrées</param>
+        /// <param name="ue">Ue liée aux ec filtrées</param>
+        /// <param name="category">Categorie des ec filtrées</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
-        /// <returns>Tous les diplômes filtrés disponibles</returns>
-        Task<Diplome[]> GetFilteredAsync(int maxCount, int page, int? owner = null, char? nature = null, int? ue = null, int? category = null);
+        /// <returns>Toutes les ec filtrées disponibles</returns>
+        Task<Ec[]> GetFilteredAsync(int maxCount, int page, int? owner = null, char? nature = null, int? ue = null, int? category = null);
 
         /// <summary>
         /// Modifie une ec
