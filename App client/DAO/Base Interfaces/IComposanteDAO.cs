@@ -27,6 +27,13 @@ namespace DAO
         Task<Composante[]> CreateAsync(ReadOnlySpan<Composante> values);
 
         /// <summary>
+        /// Récupère la composante en cours
+        /// </summary>
+        /// <exception cref="DAOException">Une erreur est survenue</exception>
+        /// <returns>La composante en cours</returns>
+        Task<Composante> CurrentAsync();
+
+        /// <summary>
         /// Supprime une composante
         /// </summary>
         /// <param name="value">Composante à supprimer</param>
