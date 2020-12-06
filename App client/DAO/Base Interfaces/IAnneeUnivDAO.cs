@@ -20,7 +20,7 @@ namespace DAO
         /// <summary>
         /// Créé de nouvelles années universitaires
         /// </summary>
-        /// <param name="values">Détails des l'années à créer</param>
+        /// <param name="values">Détails des années à créer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Les nouvelles années universitaires</returns>
