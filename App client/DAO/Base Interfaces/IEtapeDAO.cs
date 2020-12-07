@@ -24,7 +24,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Les nouvelles étapes</returns>
-        Task<Etape[]> CreateAsync(ReadOnlySpan<Etape> values);
+        Task<Etape[]> CreateAsync(ArraySegment<Etape> values);
 
         /// <summary>
         /// Supprime une étape
@@ -40,7 +40,7 @@ namespace DAO
         /// <param name="value">Étapes à supprimer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        Task DeleteAsync(ReadOnlySpan<Etape> value);
+        Task DeleteAsync(ArraySegment<Etape> value);
 
         /// <summary>
         /// Récupère toutes les étapes
@@ -73,7 +73,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Toutes les étape filtrées disponibles</returns>
-        Task<Etape[]> GetFilteredAsync(int maxCount, int page, ReadOnlyMemory<string>? comp = null, ReadOnlyMemory<(string, int)>? diplome = null);
+        Task<Etape[]> GetFilteredAsync(int maxCount, int page, ArraySegment<string>? comp = null, ArraySegment<(string, int)>? diplome = null);
 
         /// <summary>
         /// Modifie une étape
@@ -93,6 +93,6 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Les étapes modifiées</returns>
-        Task<Etape[]> UpdateAsync(ReadOnlySpan<Etape> oldValues, ReadOnlySpan<Etape> newValues);
+        Task<Etape[]> UpdateAsync(ArraySegment<Etape> oldValues, ArraySegment<Etape> newValues);
     }
 }

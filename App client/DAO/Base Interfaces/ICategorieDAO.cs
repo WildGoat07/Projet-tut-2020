@@ -24,7 +24,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Les nouvelles catégories</returns>
-        Task<Categorie[]> CreateAsync(ReadOnlySpan<Categorie> values);
+        Task<Categorie[]> CreateAsync(ArraySegment<Categorie> values);
 
         /// <summary>
         /// Supprime une catégorie
@@ -40,7 +40,7 @@ namespace DAO
         /// <param name="values">Catégories à supprimer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        Task DeleteAsync(ReadOnlySpan<Categorie> values);
+        Task DeleteAsync(ArraySegment<Categorie> values);
 
         /// <summary>
         /// Récupère toutes les catégories
@@ -78,6 +78,6 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Les catégories modifiées</returns>
-        Task<Categorie[]> UpdateAsync(ReadOnlySpan<Categorie> oldValues, ReadOnlySpan<Categorie> newValues);
+        Task<Categorie[]> UpdateAsync(ArraySegment<Categorie> oldValues, ArraySegment<Categorie> newValues);
     }
 }

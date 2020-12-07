@@ -24,7 +24,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Les nouvelles composantes</returns>
-        Task<Composante[]> CreateAsync(ReadOnlySpan<Composante> values);
+        Task<Composante[]> CreateAsync(ArraySegment<Composante> values);
 
         /// <summary>
         /// Récupère la composante en cours
@@ -47,7 +47,7 @@ namespace DAO
         /// <param name="values">Composantes à supprimer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        Task DeleteAsync(ReadOnlySpan<Composante> values);
+        Task DeleteAsync(ArraySegment<Composante> values);
 
         /// <summary>
         /// Récupère toutes les composantes
@@ -79,7 +79,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Toutes les composantes disponibles</returns>
-        Task<Composante[]> GetFilteredAsync(int maxCount, int page, ReadOnlyMemory<string>? location = null);
+        Task<Composante[]> GetFilteredAsync(int maxCount, int page, ArraySegment<string>? location = null);
 
         /// <summary>
         /// Modifie une composante
@@ -99,6 +99,6 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Les composantes modifiées</returns>
-        Task<Composante[]> UpdateAsync(ReadOnlySpan<Composante> oldValues, ReadOnlySpan<Composante> newValues);
+        Task<Composante[]> UpdateAsync(ArraySegment<Composante> oldValues, ArraySegment<Composante> newValues);
     }
 }

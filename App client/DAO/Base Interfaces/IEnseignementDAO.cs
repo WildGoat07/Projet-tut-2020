@@ -24,7 +24,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Les nouveaux enseignements</returns>
-        Task<Enseignement[]> CreateAsync(ReadOnlySpan<Enseignement> values);
+        Task<Enseignement[]> CreateAsync(ArraySegment<Enseignement> values);
 
         /// <summary>
         /// Supprime un enseignement
@@ -40,7 +40,7 @@ namespace DAO
         /// <param name="value">Enseignements à supprimer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        Task DeleteAsync(ReadOnlySpan<Enseignement> value);
+        Task DeleteAsync(ArraySegment<Enseignement> value);
 
         /// <summary>
         /// Récupère tous les enseignements
@@ -86,7 +86,7 @@ namespace DAO
         /// <param name="year">Année des enseignements</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <returns>Tous les enseignements filtrés disponibles</returns>
-        Task<Enseignement[]> GetFilteredAsync(int maxCount, int page, ReadOnlyMemory<string>? ec = null, ReadOnlyMemory<string>? year = null, (int?, int?)? expectedQuantity = null, (int?, int?)? realQuantity = null, (int?, int?)? CmGroups = null, (int?, int?)? EiGroups = null, (int?, int?)? TdGroups = null, (int?, int?)? TpGroups = null, (int?, int?)? TplGroups = null, (int?, int?)? PrjGroups = null, (int?, int?)? CmGroupsSer = null, (int?, int?)? EiGroupsSer = null, (int?, int?)? TdGroupsSer = null, (int?, int?)? TpGroupsSer = null, (int?, int?)? TplGroupsSer = null, (int?, int?)? PrjGroupsSer = null);
+        Task<Enseignement[]> GetFilteredAsync(int maxCount, int page, ArraySegment<string>? ec = null, ArraySegment<string>? year = null, (int?, int?)? expectedQuantity = null, (int?, int?)? realQuantity = null, (int?, int?)? CmGroups = null, (int?, int?)? EiGroups = null, (int?, int?)? TdGroups = null, (int?, int?)? TpGroups = null, (int?, int?)? TplGroups = null, (int?, int?)? PrjGroups = null, (int?, int?)? CmGroupsSer = null, (int?, int?)? EiGroupsSer = null, (int?, int?)? TdGroupsSer = null, (int?, int?)? TpGroupsSer = null, (int?, int?)? TplGroupsSer = null, (int?, int?)? PrjGroupsSer = null);
 
         /// <summary>
         /// Modifie un enseignement
@@ -106,6 +106,6 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Les enseignements modifiés</returns>
-        Task<Enseignement[]> UpdateAsync(ReadOnlySpan<Enseignement> oldValues, ReadOnlySpan<Enseignement> newValues);
+        Task<Enseignement[]> UpdateAsync(ReadOnlyMemory<Enseignement> oldValues, ReadOnlyMemory<Enseignement> newValues);
     }
 }

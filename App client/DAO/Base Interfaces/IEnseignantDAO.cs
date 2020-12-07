@@ -24,7 +24,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Les nouveaux enseignants</returns>
-        Task<Enseignant[]> CreateAsync(ReadOnlySpan<Enseignant> values);
+        Task<Enseignant[]> CreateAsync(ArraySegment<Enseignant> values);
 
         /// <summary>
         /// Supprime un enseignant
@@ -40,7 +40,7 @@ namespace DAO
         /// <param name="values">Enseignants à supprimer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        Task DeleteAsync(ReadOnlySpan<Enseignant> values);
+        Task DeleteAsync(ArraySegment<Enseignant> values);
 
         /// <summary>
         /// Récupère toutes les enseignants
@@ -77,7 +77,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Tous les enseignants filtrés disponibles</returns>
-        Task<Enseignant[]> GetFilteredAsync(int maxCount, int page, ReadOnlyMemory<string>? function = null, ReadOnlyMemory<int>? comp = null, ReadOnlyMemory<char>? CRCT = null, ReadOnlyMemory<char>? PesPedr = null, (float?, float?)? forcedHours = null, (float?, float?)? maxHours = null);
+        Task<Enseignant[]> GetFilteredAsync(int maxCount, int page, ArraySegment<string>? function = null, ArraySegment<int>? comp = null, ArraySegment<char>? CRCT = null, ArraySegment<char>? PesPedr = null, (float?, float?)? forcedHours = null, (float?, float?)? maxHours = null);
 
         /// <summary>
         /// Modifie un enseignant
@@ -97,6 +97,6 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Les enseignants modifiés</returns>
-        Task<Enseignant[]> UpdateAsync(ReadOnlySpan<Enseignant> oldValues, ReadOnlySpan<Enseignant> newValues);
+        Task<Enseignant[]> UpdateAsync(ArraySegment<Enseignant> oldValues, ArraySegment<Enseignant> newValues);
     }
 }

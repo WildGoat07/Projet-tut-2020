@@ -24,7 +24,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Les nouvelles horsComp</returns>
-        Task<HorsComp[]> CreateAsync(ReadOnlySpan<HorsComp> values);
+        Task<HorsComp[]> CreateAsync(ArraySegment<HorsComp> values);
 
         /// <summary>
         /// Supprime une horsComp
@@ -40,7 +40,7 @@ namespace DAO
         /// <param name="value">HorsComp à supprimer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        Task DeleteAsync(ReadOnlySpan<HorsComp> value);
+        Task DeleteAsync(ArraySegment<HorsComp> value);
 
         /// <summary>
         /// Récupère toutes les horsComp
@@ -78,7 +78,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Toutes les horsComp filtrées disponibles</returns>
-        Task<HorsComp[]> GetFilteredAsync(int maxCount, int page, ReadOnlyMemory<string>? course = null, ReadOnlyMemory<string>? comp = null, ReadOnlyMemory<string>? year = null, (int?, int?)? CmHours = null, (int?, int?)? EiHours = null, (int?, int?)? TdHours = null, (int?, int?)? TpHours = null, (int?, int?)? TplHours = null, (int?, int?)? PrjHours = null, (float?, float?)? equivalentHours = null);
+        Task<HorsComp[]> GetFilteredAsync(int maxCount, int page, ArraySegment<string>? course = null, ArraySegment<string>? comp = null, ArraySegment<string>? year = null, (int?, int?)? CmHours = null, (int?, int?)? EiHours = null, (int?, int?)? TdHours = null, (int?, int?)? TpHours = null, (int?, int?)? TplHours = null, (int?, int?)? PrjHours = null, (float?, float?)? equivalentHours = null);
 
         /// <summary>
         /// Modifie une horsComp
@@ -98,6 +98,6 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Les horsComp modifiées</returns>
-        Task<HorsComp[]> UpdateAsync(ReadOnlySpan<HorsComp> oldValues, ReadOnlySpan<HorsComp> newValues);
+        Task<HorsComp[]> UpdateAsync(ArraySegment<HorsComp> oldValues, ArraySegment<HorsComp> newValues);
     }
 }

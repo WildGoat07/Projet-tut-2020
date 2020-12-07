@@ -24,7 +24,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Les nouvelles ue</returns>
-        Task<Ue[]> CreateAsync(ReadOnlySpan<Ue> values);
+        Task<Ue[]> CreateAsync(ArraySegment<Ue> values);
 
         /// <summary>
         /// Supprime une ue
@@ -40,7 +40,7 @@ namespace DAO
         /// <param name="values">Ue à supprimer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        Task DeleteAsync(ReadOnlySpan<Ue> values);
+        Task DeleteAsync(ArraySegment<Ue> values);
 
         /// <summary>
         /// Récupère toutes les ue
@@ -75,7 +75,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Toutes les ue filtrées disponibles</returns>
-        Task<Ue[]> GetFilteredAsync(int maxCount, int page, ReadOnlyMemory<char>? nature = null, ReadOnlyMemory<int>? ECTS = null, ReadOnlyMemory<string>? parent = null, ReadOnlyMemory<Semestre>? semester = null);
+        Task<Ue[]> GetFilteredAsync(int maxCount, int page, ArraySegment<char>? nature = null, ArraySegment<int>? ECTS = null, ArraySegment<string>? parent = null, ArraySegment<Semestre>? semester = null);
 
         /// <summary>
         /// Modifie une ue
@@ -95,6 +95,6 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Les ue modifiées</returns>
-        Task<Ue[]> UpdateAsync(ReadOnlySpan<Ue> oldValues, ReadOnlySpan<Ue> newValues);
+        Task<Ue[]> UpdateAsync(ReadOnlyMemory<Ue> oldValues, ReadOnlyMemory<Ue> newValues);
     }
 }

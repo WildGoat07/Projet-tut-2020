@@ -24,7 +24,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Les nouvelles ec</returns>
-        Task<Ec[]> CreateAsync(ReadOnlySpan<Ec> values);
+        Task<Ec[]> CreateAsync(ArraySegment<Ec> values);
 
         /// <summary>
         /// Supprime une ec
@@ -40,7 +40,7 @@ namespace DAO
         /// <param name="values">Ec à supprimer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        Task DeleteAsync(ReadOnlySpan<Ec> values);
+        Task DeleteAsync(ArraySegment<Ec> values);
 
         /// <summary>
         /// Récupère toutes les ec
@@ -81,7 +81,7 @@ namespace DAO
         /// <param name="stepCount">Min/max du nombre d'épreuves</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <returns>Toutes les ec filtrées disponibles</returns>
-        Task<Ec[]> GetFilteredAsync(int maxCount, int page, ReadOnlyMemory<int>? owner = null, ReadOnlyMemory<char>? nature = null, ReadOnlyMemory<int>? ue = null, ReadOnlyMemory<int>? category = null, (int?, int?)? CmHours = null, (int?, int?)? EiHours = null, (int?, int?)? TdHours = null, (int?, int?)? TpHours = null, (int?, int?)? TplHours = null, (int?, int?)? PrjHours = null, (int?, int?)? stepCount = null);
+        Task<Ec[]> GetFilteredAsync(int maxCount, int page, ArraySegment<int>? owner = null, ArraySegment<char>? nature = null, ArraySegment<int>? ue = null, ArraySegment<int>? category = null, (int?, int?)? CmHours = null, (int?, int?)? EiHours = null, (int?, int?)? TdHours = null, (int?, int?)? TpHours = null, (int?, int?)? TplHours = null, (int?, int?)? PrjHours = null, (int?, int?)? stepCount = null);
 
         /// <summary>
         /// Modifie une ec
@@ -101,6 +101,6 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Les ec modifiées</returns>
-        Task<Ec[]> UpdateAsync(ReadOnlySpan<Ec> oldValues, ReadOnlySpan<Ec> newValues);
+        Task<Ec[]> UpdateAsync(ArraySegment<Ec> oldValues, ArraySegment<Ec> newValues);
     }
 }

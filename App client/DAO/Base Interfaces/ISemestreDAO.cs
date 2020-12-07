@@ -24,7 +24,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Les nouveaux semestres</returns>
-        Task<Semestre[]> CreateAsync(ReadOnlySpan<Semestre> values);
+        Task<Semestre[]> CreateAsync(ArraySegment<Semestre> values);
 
         /// <summary>
         /// Supprime un semestre
@@ -40,7 +40,7 @@ namespace DAO
         /// <param name="value">Semestres à supprimer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        Task DeleteAsync(ReadOnlySpan<Semestre> value);
+        Task DeleteAsync(ArraySegment<Semestre> value);
 
         /// <summary>
         /// Récupère tous les semestres
@@ -72,7 +72,7 @@ namespace DAO
         /// <param name="step">L'étape des semestres</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <returns>Tous les semestres filtrés disponibles</returns>
-        Task<Semestre[]> GetFilteredAsync(int maxCount, int page, ReadOnlyMemory<int>? number = null, ReadOnlyMemory<(string?, int?)>? step = null);
+        Task<Semestre[]> GetFilteredAsync(int maxCount, int page, ArraySegment<int>? number = null, ArraySegment<(string?, int?)>? step = null);
 
         /// <summary>
         /// Modifie un semestre
@@ -92,6 +92,6 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Les semestres modifiés</returns>
-        Task<Semestre[]> UpdateAsync(ReadOnlySpan<Semestre> oldValues, ReadOnlySpan<Semestre> newValues);
+        Task<Semestre[]> UpdateAsync(ArraySegment<Semestre> oldValues, ArraySegment<Semestre> newValues);
     }
 }

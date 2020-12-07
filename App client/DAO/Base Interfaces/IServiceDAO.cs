@@ -24,7 +24,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Les nouveaux services</returns>
-        Task<Service[]> CreateAsync(ReadOnlySpan<Service> values);
+        Task<Service[]> CreateAsync(ArraySegment<Service> values);
 
         /// <summary>
         /// Supprime un service
@@ -40,7 +40,7 @@ namespace DAO
         /// <param name="value">Services à supprimer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        Task DeleteAsync(ReadOnlySpan<Service> value);
+        Task DeleteAsync(ArraySegment<Service> value);
 
         /// <summary>
         /// Récupère tous les services
@@ -84,7 +84,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Tous les services filtrés disponibles</returns>
-        Task<Service[]> GetFilteredAsync(int maxCount, int page, ReadOnlyMemory<string>? teacher = null, ReadOnlyMemory<string>? ec = null, ReadOnlyMemory<string>? year = null, (int?, int?)? CmNumber = null, (int?, int?)? EiNumber = null, (int?, int?)? TdNumber = null, (int?, int?)? TpNumber = null, (int?, int?)? TplNumber = null, (int?, int?)? PrjNumber = null, (int?, int?)? equivalentHours = null);
+        Task<Service[]> GetFilteredAsync(int maxCount, int page, ArraySegment<string>? teacher = null, ArraySegment<string>? ec = null, ArraySegment<string>? year = null, (int?, int?)? CmNumber = null, (int?, int?)? EiNumber = null, (int?, int?)? TdNumber = null, (int?, int?)? TpNumber = null, (int?, int?)? TplNumber = null, (int?, int?)? PrjNumber = null, (int?, int?)? equivalentHours = null);
 
         /// <summary>
         /// Modifie un service
@@ -96,14 +96,11 @@ namespace DAO
         /// <returns>Le service modifié</returns>
         async Task<Service> UpdateAsync(Service oldValue, Service newValue) => (await UpdateAsync(new Service[] { oldValue }, new Service[] { newValue })).First();
 
-        /// <summary>
-        /// Modifie des services
-        /// </summary>
-        /// <param name="oldValues">Anciennes valeurs des services</param>
-        /// <param name="newValues">Nouvelles valeurs des services</param>
-        /// <exception cref="DAOException">Une erreur est survenue</exception>
-        /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        /// <returns>Les services modifiés</returns>
-        Task<Service[]> UpdateAsync(ReadOnlySpan<Service> oldValues, ReadOnlySpan<Service> newValues);
+        /// <summary> Modifie des services </summary> <param name="oldValues">Anciennes valeurs des
+        /// services</param> <param name="newValues">ReadOnlyMemoryleurs des
+        /// services</pReadOnlyMemory /// <exception cref="DAOException">Une erreur est
+        /// survenue</exception> <exception cref="ArgumentNullException">Un des paramètres est
+        /// null</exception> <returns>Les services modifiés</returns>
+        Task<Service[]> UpdateAsync(ArraySegment<Service> oldValues, ArraySegment<Service> newValues);
     }
 }
