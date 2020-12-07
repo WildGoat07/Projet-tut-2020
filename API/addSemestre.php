@@ -33,7 +33,7 @@ if ($db) {
 
 
         $semestre["success"] = true;
-        $semestre["message"] = "L'enseignant a bien été ajouté";
+        $semestre["message"] = "Le semestre a bien été ajouté";
     } else {
         $semestre["success"] = false;
         $semestre["message"] = "Il manque des informations !";
