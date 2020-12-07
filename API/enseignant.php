@@ -6,62 +6,38 @@ header('Content-Type: application/json');
 $db = new Database();
 
 if ($db) {
+    $requete = $db->query("SELECT * FROM `enseignant`");
 
-    $requete = $db->query("SELECT id_ens,nom,prenom,fonction,HOblig,HMax,CRCT,PES_PEDR,id_comp FROM `enseignant`");
-
-    $array = array();
+    $enseignant = new stdClass();
+    $enseignant->values = [];
 
     foreach ($requete as $req) {
+        $obj = new stdClass();
 
-        if (array_key_exists('id_ens', $req))
-            $id_ens = $req['id_ens'];
+        $obj->id_ens = utf8_encode($req['id_ens']);
 
-        if (array_key_exists('nom', $req))
-            $nom = $req['nom'];
+        $obj->nom = utf8_encode($req['nom']);
 
-        if (array_key_exists('prenom', $req))
-            $prenom = $req['prenom'];
+        $obj->prenom = utf8_encode($req['prenom']);
 
-        if (array_key_exists('fonction', $req))
-            $fonction = $req['fonction'];
+        $obj->fonction = utf8_encode($req['fonction']);
 
-        if (array_key_exists('HOblig', $req))
-            $HOblig = $req['HOblig'];
+        $obj->HOblig = utf8_encode($req['HOblig']);
 
-        if (array_key_exists('HMax', $req))
-            $HMax = $req['HMax'];
+        $obj->HMax = utf8_encode($req['HMax']);
 
-        if (array_key_exists('CRCT', $req))
-            $CRCT = $req['CRCT'];
+        $obj->CRCT = utf8_encode($req['CRCT']);
 
-        if (array_key_exists('PES_PEDR', $req))
-            $PES_PEDR = $req['PES_PEDR'];
+        $obj->PES_PEDR = utf8_encode($req['PES_PEDR']);
 
-        if (array_key_exists('id_comp', $req))
-            $id_comp = $req['id_comp'];
+        $obj->id_comp = utf8_encode($req['id_comp']);
 
-        $arrayReq = array(
-            'id_ens' => $id_ens,
-            'nom' => $nom,
-            'prenom' => $prenom,
-            'fonction' => $fonction,
-            'HOblig' => $HOblig,
-            'HMax' => $HMax,
-            'CRCT' => $CRCT,
-            'PES_PEDR' => $PES_PEDR,
-            'id_comp' => $id_comp
-        );
-        array_push($array, $arrayReq);
+        $enseignant->values[] = $obj;
     }
 
-    $enseignant["success"] = true;
-    $enseignant["values"] = $array;
+    $enseignant->success = true;
 
     echo json_encode($enseignant);
 } else {
     echo json_encode($connectionDB);
 }
-
-
-
-

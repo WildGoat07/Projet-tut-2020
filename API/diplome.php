@@ -6,47 +6,32 @@ header('Content-Type: application/json');
 $db = new Database();
 
 if ($db) {
-
     $requete = $db->query("SELECT * FROM `diplome`");
 
-    $array = array();
+    $diplome = new stdClass();
+    $diplome->values = [];
 
     foreach ($requete as $req) {
+        $obj = new stdClass();
 
-        if (array_key_exists('code_diplome', $req))
-            $code_diplome = $req['code_diplome'];
+        $obj->code_diplome = utf8_encode($req['code_diplome']);
 
-        if (array_key_exists('libelle_diplome', $req))
-            $libelle_diplome = $req['libelle_diplome'];
+        $obj->libelle_diplome = utf8_encode($req['libelle_diplome']);
 
-        if (array_key_exists('vdi', $req))
-            $vdi = $req['vdi'];
+        $obj->vdi = utf8_encode($req['vdi']);
 
-        if (array_key_exists('libelle_vdi', $req))
-            $libelle_vdi = $req['libelle_vdi'];
+        $obj->libelle_vdi = utf8_encode($req['libelle_vdi']);
 
-        if (array_key_exists('annee_deb', $req))
-            $annee_deb = $req['annee_deb'];
+        $obj->annee_deb = utf8_encode($req['annee_deb']);
 
-        if (array_key_exists('annee_fin', $req))
-            $annee_fin = $req['annee_fin'];
+        $obj->annee_fin = utf8_encode($req['annee_fin']);
 
-        $arrayReq = array(
-            'code_diplome' => $code_diplome,
-            'libelle_diplome' => $libelle_diplome,
-            'vdi' => $vdi,
-            'libelle_vdi' => $libelle_vdi,
-            'annee_deb' => $annee_deb,
-            'annee_fin' => $annee_fin
-        );
-        array_push($array, $arrayReq);
+        $diplome->values[] = $obj;
     }
 
-    $diplome["success"] = true;
-    $diplome["results"]["Diplomes"] = $array;
+    $diplome->success = true;
+
+    echo json_encode($diplome);
 } else {
     echo json_encode($connectionDB);
 }
-
-
-echo json_encode($diplome);

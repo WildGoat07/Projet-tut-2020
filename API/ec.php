@@ -13,7 +13,7 @@ if ($db) {
 
     foreach ($requete as $req) {
         $obj = new stdClass();
-        
+
         $obj->code_ec = utf8_encode($req['code_ec']);
 
         $obj->libelle_ec = utf8_encode($req['libelle_ec']);
@@ -42,17 +42,12 @@ if ($db) {
 
         $obj->code_ue = utf8_encode($req['code_ue']);
 
-        $ec->values[]=$obj;
+        $ec->values[] = $obj;
     }
 
     $ec->success = true;
 
-    //var_dump($ec);
-
     echo json_encode($ec);
-
 } else {
-    //echo json_encode($connectionDB);
+    echo json_encode($connectionDB);
 }
-
-
