@@ -94,6 +94,7 @@ namespace DAO
         /// <param name="newValues">Nouvelles valeurs des ue</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
+        /// <exception cref="ArgumentException">Les tableaux sont de taille différente</exception>
         /// <returns>Les ue modifiées</returns>
         Task<Ue[]> UpdateAsync(ReadOnlyMemory<Ue> oldValues, ReadOnlyMemory<Ue> newValues);
     }

@@ -97,6 +97,7 @@ namespace DAO
         /// <param name="newValues">Nouvelles valeurs des horsComp</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
+        /// <exception cref="ArgumentException">Les tableaux sont de taille différente</exception>
         /// <returns>Les horsComp modifiées</returns>
         Task<HorsComp[]> UpdateAsync(ArraySegment<HorsComp> oldValues, ArraySegment<HorsComp> newValues);
     }

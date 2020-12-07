@@ -70,6 +70,7 @@ namespace DAO
         /// <param name="newValues">Nouvelles valeurs des années</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
+        /// <exception cref="ArgumentException">Les tableaux sont de taille différente</exception>
         /// <returns>Les années modifiées</returns>
         Task<AnneeUniv[]> UpdateAsync(ArraySegment<AnneeUniv> oldValues, ArraySegment<AnneeUniv> newValues);
     }

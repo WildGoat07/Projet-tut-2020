@@ -91,6 +91,7 @@ namespace DAO
         /// <param name="newValues">Nouvelles valeurs des diplômes</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
+        /// <exception cref="ArgumentException">Les tableaux sont de taille différente</exception>
         /// <returns>Les diplômes modifiés</returns>
         Task<Diplome[]> UpdateAsync(ArraySegment<Diplome> oldValues, ArraySegment<Diplome> newValues);
     }

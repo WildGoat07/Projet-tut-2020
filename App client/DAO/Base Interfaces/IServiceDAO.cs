@@ -96,11 +96,15 @@ namespace DAO
         /// <returns>Le service modifié</returns>
         async Task<Service> UpdateAsync(Service oldValue, Service newValue) => (await UpdateAsync(new Service[] { oldValue }, new Service[] { newValue })).First();
 
-        /// <summary> Modifie des services </summary> <param name="oldValues">Anciennes valeurs des
-        /// services</param> <param name="newValues">ReadOnlyMemoryleurs des
-        /// services</pReadOnlyMemory /// <exception cref="DAOException">Une erreur est
-        /// survenue</exception> <exception cref="ArgumentNullException">Un des paramètres est
-        /// null</exception> <returns>Les services modifiés</returns>
+        /// <summary>
+        /// Modifie des services
+        /// </summary>
+        /// <param name="oldValues">Anciennes valeurs des services</param>
+        /// <param name="newValues">ReadOnlyMemoryleurs des services</param>
+        /// <exception cref="DAOException">Une erreur est survenue</exception>
+        /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
+        /// <exception cref="ArgumentException">Les tableaux sont de taille différente</exception>
+        /// <returns>Les services modifiés</returns>
         Task<Service[]> UpdateAsync(ArraySegment<Service> oldValues, ArraySegment<Service> newValues);
     }
 }
