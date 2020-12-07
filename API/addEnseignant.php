@@ -23,13 +23,9 @@ if ($db) {
             $prenom, $fonction, $HOblig, $HMax, $CRCT, $PES_PEDR, $id_comp
         ]);
 
-        if ($requete) {
-            $enseignant["success"] = true;
-            $enseignant["message"] = "L'enseignant a bien été ajouté";
-        } else {
-            $enseignant["success"] = false;
-            $enseignant["message"] = "Aucune insertion effectuée !";
-        }
+
+        $enseignant["success"] = true;
+        $enseignant["message"] = "L'enseignant a bien été ajouté";
     } else {
         $enseignant["success"] = false;
         $enseignant["message"] = "Il manque des informations !";
