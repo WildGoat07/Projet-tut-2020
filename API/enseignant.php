@@ -3,11 +3,11 @@ require_once 'app/Database.php';
 
 header('Content-Type: application/json');
 
+$db = new Database();
+
 if ($db) {
 
-    $requete = $db->prepare("SELECT * FROM `enseignant`");
-    $requete->execute();
-
+    $requete = $db->query("SELECT * FROM `enseignant`");
 
     $array = array();
 
