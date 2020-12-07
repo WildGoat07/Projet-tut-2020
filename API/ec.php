@@ -6,77 +6,53 @@ header('Content-Type: application/json');
 $db = new Database();
 
 if ($db) {
-    $requete = $db->query("SELECT * FROM ec");
+    $requete = $db->query("SELECT * FROM `ec`");
 
-    $array = array();
+    $ec = new stdClass();
+    $ec->values = [];
 
     foreach ($requete as $req) {
+        $obj = new stdClass();
+        
+        $obj->code_ec = utf8_encode($req['code_ec']);
 
-        if (array_key_exists('code_ec', $req))
-            $code_ec = $req['code_ec'];
+        $obj->libelle_ec = utf8_encode($req['libelle_ec']);
 
-        if (array_key_exists('libelle_ec', $req))
-            $libelle_ec = $req['libelle_ec'];
+        $obj->nature = utf8_encode($req['nature']);
 
-        if (array_key_exists('nature', $req))
-            $nature = $req['nature'];
+        $obj->HCM = utf8_encode($req['HCM']);
 
-        if (array_key_exists('HCM', $req))
-            $HCM = $req['HCM'];
+        $obj->HEI = utf8_encode($req['HEI']);
 
-        if (array_key_exists('HEI', $req))
-            $HEI = $req['HEI'];
+        $obj->HTD = utf8_encode($req['HTD']);
 
-        if (array_key_exists('HTD', $req))
-            $HTD = $req['HTD'];
+        $obj->HTP = utf8_encode($req['HTP']);
 
-        if (array_key_exists('HTP', $req))
-            $HTP = $req['HTP'];
+        $obj->HTPL = utf8_encode($req['HTPL']);
 
-        if (array_key_exists('HTPL', $req))
-            $HTPL = $req['HTPL'];
+        $obj->HPRJ = utf8_encode($req['HPRJ']);
 
-        if (array_key_exists('HPRJ', $req))
-            $HPRJ = $req['HPRJ'];
+        $obj->NbEpr = utf8_encode($req['NbEpr']);
 
-        if (array_key_exists('NbEpr', $req))
-            $NbEpr = $req['NbEpr'];
+        $obj->CNU = utf8_encode($req['CNU']);
 
-        if (array_key_exists('CNU', $req))
-            $CNU = $req['CNU'];
+        $obj->no_cat = utf8_encode($req['no_cat']);
 
-        if (array_key_exists('no_cat', $req))
-            $no_cat = $req['no_cat'];
+        $obj->code_ec_pere = utf8_encode($req['code_ec_pere']);
 
-        if (array_key_exists('code_ec_pere', $req))
-            $code_ec_pere = $req['code_ec_pere'];
+        $obj->code_ue = utf8_encode($req['code_ue']);
 
-        if (array_key_exists('code_ue', $req))
-            $code_ue = $req['code_ue'];
-
-        $arrayReq = array(
-            'code_ec' => $code_ec,
-            'libelle_ec' => $libelle_ec,
-            'nature' => $nature,
-            'HCM' => $HCM,
-            'HEI' => $HEI,
-            'HTD' => $HTD,
-            'HTP' => $HTP,
-            'HTPL' => $HTPL,
-            'HPRJ' => $HPRJ,
-            'NbEpr' => $NbEpr,
-            'CNU' => $CNU,
-            'no_cat' => $no_cat,
-            'code_ec_pere' => $code_ec_pere,
-            'code_ue' => $code_ue
-        );
-        array_push($array, $arrayReq);
+        $ec->values[]=$obj;
     }
 
-    $ec["success"] = true;
-    $ec["results"]["Ec"] = $array;
+    $ec->success = true;
+
+    //var_dump($ec);
+
+    echo json_encode($ec);
+
 } else {
-    echo json_encode($connectionDB);
+    //echo json_encode($connectionDB);
 }
 
-echo json_encode($ec);
+

@@ -56,10 +56,12 @@ if ($db) {
 
     $enseignant["success"] = true;
     $enseignant["values"] = $array;
+
+    echo json_encode($enseignant);
 } else {
     echo json_encode($connectionDB);
 }
 
 
 
-echo json_encode($enseignant);
+
