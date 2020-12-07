@@ -6,7 +6,7 @@ header('Content-Type: application/json');
 $db = new Database();
 
 if ($db) {
-    $requete = $db->query("SELECT * FROM ec")->fetchAll();
+    $requete = $db->query("SELECT * FROM ec");
 
     $array = array();
 
@@ -74,7 +74,6 @@ if ($db) {
     }
 
     $ec["success"] = true;
-    $ec["results"]["nb"] = count($array);
     $ec["results"]["Ec"] = $array;
 } else {
     echo json_encode($connectionDB);
