@@ -1,6 +1,5 @@
 <?php
 
-header('Content-Type: application/json');
 try {
     $db = new PDO('mysql:dbname=projet_se;host=localhost', 'root', '');
 } catch (Exception $e) {

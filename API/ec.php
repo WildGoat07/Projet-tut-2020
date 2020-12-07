@@ -3,7 +3,7 @@ require_once 'app/Database.php';
 
 header('Content-Type: application/json');
 
-if ($db == true) {
+if ($db) {
     $requete = $db->prepare("SELECT * FROM `ec`");
     $requete->execute();
     $resultats = $requete->fetchAll();

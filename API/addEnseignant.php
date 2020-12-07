@@ -1,13 +1,14 @@
 <?php
 require_once 'app/Database.php';
 
-header('Content-Type: application/json');
+//header('Content-Type: application/json');
 
-if ($db == true) {
+if ($db) {
     if (!empty($_POST["id_ens"]) && !empty($_POST["nom"]) && !empty($_POST["prenom"]) && !empty($_POST["fonction"]) && !empty($_POST["HOblig"]) && !empty($_POST["HMax"]) && !empty($_POST["CRCT"]) && !empty($_POST["PES_PEDR"]) && !empty($_POST["id_comp"])) {
 
 
-        $requete = $db->prepare("INSERT INTO `enseignant` (`id_ens`, `nom`, `prenom`, `fonction`, `HOblig`, `HMax`, `CRCT`, `PES_PEDR`, `id_comp`) VALUES (:id_ens, :nom, :prenom, :fonction, :HOblig, :HMax, :CRCT, :PES_PEDR, :id_comp);");
+
+        $requete = $db->prepare("INSERT INTO `enseignant` VALUES (:id_ens, :nom, :prenom, :fonction, :HOblig, :HMax, :CRCT, :PES_PEDR, :id_comp)");
         $requete->bindParam(':id_ens', $_POST["id_ens"]);
         $requete->bindParam(':nom', $_POST["nom"]);
         $requete->bindParam(':prenom', $_POST["prenom"]);
@@ -18,6 +19,8 @@ if ($db == true) {
         $requete->bindParam(':PES_PEDR', $_POST["PES_PEDR"]);
         $requete->bindParam(':id_comp', $_POST["id_comp"]);
         $requete->execute();
+
+
 
         $enseignant["success"] = true;
         $enseignant["message"] = "L'enseignant a bien été ajouté";
