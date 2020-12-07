@@ -7,7 +7,7 @@ $db = new Database();
 
 if ($db) {
 
-    $requete = $db->query("SELECT * FROM `enseignant`");
+    $requete = $db->query("SELECT id_ens,nom,prenom,fonction,HOblig,HMax,CRCT,PES_PEDR,id_comp FROM `enseignant`");
 
     $array = array();
 
