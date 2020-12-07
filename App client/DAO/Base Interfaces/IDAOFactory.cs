@@ -14,6 +14,7 @@ namespace DAO
         IDiplomeDAO DiplomeDAO { get; }
         IEcDAO EcDAO { get; }
         IEnseignantDAO EnseignantDAO { get; }
+        IEnseignementDAO EnseignementDAO { get; }
         IEtapeDAO EtapeDAO { get; }
         IHorsCompDAO HorsCompDAO { get; }
         ISemestreDAO SemestreDAO { get; }
