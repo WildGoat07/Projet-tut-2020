@@ -6,7 +6,7 @@ header('Content-Type: application/json');
 $db = new Database();
 
 if ($db) {
-    $requete = $db->query("SELECT code_ue, libelle_ue, nature, ECTS, code_ue_pere, code_sem FROM ue WHERE nature LIKE '".$_POST['nature']. "' or nature LIKE UPPER('".$_POST['nature']."')");
+    $requete = $db->query("SELECT code_ue, libelle_ue, nature, ECTS, code_ue_pere, code_sem FROM ue WHERE nature LIKE '%".$_POST['nature']. "%' or nature LIKE UPPER('%".$_POST['nature']."%')");
 
     $ue = new stdClass();
     $ue->values = [];
