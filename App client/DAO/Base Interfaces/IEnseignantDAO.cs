@@ -74,10 +74,12 @@ namespace DAO
         /// <param name="PesPedr">PesPedr des enseignants</param>
         /// <param name="forcedHours">Min/Max des heures obligatoires</param>
         /// <param name="maxHours">Min/Max des heures max</param>
+        /// <param name="orderBy">Champ utilisé pour trier</param>
+        /// <param name="reverseOrder">True si le tri doit être inversé</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Tous les enseignants filtrés disponibles</returns>
-        Task<Enseignant[]> GetFilteredAsync(int maxCount, int page, ArraySegment<string>? function = null, ArraySegment<int>? comp = null, ArraySegment<char>? CRCT = null, ArraySegment<char>? PesPedr = null, (float?, float?)? forcedHours = null, (float?, float?)? maxHours = null);
+        Task<Enseignant[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, ArraySegment<string>? function = null, ArraySegment<int>? comp = null, ArraySegment<char>? CRCT = null, ArraySegment<char>? PesPedr = null, (float?, float?)? forcedHours = null, (float?, float?)? maxHours = null);
 
         /// <summary>
         /// Modifie un enseignant

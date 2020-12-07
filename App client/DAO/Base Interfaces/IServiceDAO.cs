@@ -81,10 +81,12 @@ namespace DAO
         /// <param name="ec">EC rattachée aux services</param>
         /// <param name="teacher">Enseignant rataché aux services</param>
         /// <param name="year">Année des services</param>
+        /// <param name="orderBy">Champ utilisé pour trier</param>
+        /// <param name="reverseOrder">True si le tri doit être inversé</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Tous les services filtrés disponibles</returns>
-        Task<Service[]> GetFilteredAsync(int maxCount, int page, ArraySegment<string>? teacher = null, ArraySegment<string>? ec = null, ArraySegment<string>? year = null, (int?, int?)? CmNumber = null, (int?, int?)? EiNumber = null, (int?, int?)? TdNumber = null, (int?, int?)? TpNumber = null, (int?, int?)? TplNumber = null, (int?, int?)? PrjNumber = null, (int?, int?)? equivalentHours = null);
+        Task<Service[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, ArraySegment<string>? teacher = null, ArraySegment<string>? ec = null, ArraySegment<string>? year = null, (int?, int?)? CmNumber = null, (int?, int?)? EiNumber = null, (int?, int?)? TdNumber = null, (int?, int?)? TpNumber = null, (int?, int?)? TplNumber = null, (int?, int?)? PrjNumber = null, (int?, int?)? equivalentHours = null);
 
         /// <summary>
         /// Modifie un service

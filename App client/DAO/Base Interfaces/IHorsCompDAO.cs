@@ -75,10 +75,12 @@ namespace DAO
         /// <param name="TdHours">Min/max des heures de TD</param>
         /// <param name="TpHours">Min/max des heures de TP</param>
         /// <param name="TplHours">Min/max des heures de TPL</param>
+        /// <param name="orderBy">Champ utilisé pour trier</param>
+        /// <param name="reverseOrder">True si le tri doit être inversé</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Toutes les horsComp filtrées disponibles</returns>
-        Task<HorsComp[]> GetFilteredAsync(int maxCount, int page, ArraySegment<string>? course = null, ArraySegment<string>? comp = null, ArraySegment<string>? year = null, (int?, int?)? CmHours = null, (int?, int?)? EiHours = null, (int?, int?)? TdHours = null, (int?, int?)? TpHours = null, (int?, int?)? TplHours = null, (int?, int?)? PrjHours = null, (float?, float?)? equivalentHours = null);
+        Task<HorsComp[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, ArraySegment<string>? course = null, ArraySegment<string>? comp = null, ArraySegment<string>? year = null, (int?, int?)? CmHours = null, (int?, int?)? EiHours = null, (int?, int?)? TdHours = null, (int?, int?)? TpHours = null, (int?, int?)? TplHours = null, (int?, int?)? PrjHours = null, (float?, float?)? equivalentHours = null);
 
         /// <summary>
         /// Modifie une horsComp

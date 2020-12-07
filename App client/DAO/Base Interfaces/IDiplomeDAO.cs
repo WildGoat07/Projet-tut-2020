@@ -70,9 +70,11 @@ namespace DAO
         /// </param>
         /// <param name="begin">Années de départ du diplôme</param>
         /// <param name="end">Années de fin du diplôme</param>
+        /// <param name="orderBy">Champ utilisé pour trier</param>
+        /// <param name="reverseOrder">True si le tri doit être inversé</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <returns>Tous les diplômes filtrés disponibles</returns>
-        Task<Diplome[]> GetFilteredAsync(int maxCount, int page, ArraySegment<int>? begin = null, ArraySegment<int>? end = null);
+        Task<Diplome[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, ArraySegment<int>? begin = null, ArraySegment<int>? end = null);
 
         /// <summary>
         /// Modifie un diplôme

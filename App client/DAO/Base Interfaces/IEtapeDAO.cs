@@ -70,10 +70,12 @@ namespace DAO
         /// </param>
         /// <param name="comp">Composante des étapes</param>
         /// <param name="diplome">Diplôme des étapes</param>
+        /// <param name="orderBy">Champ utilisé pour trier</param>
+        /// <param name="reverseOrder">True si le tri doit être inversé</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Toutes les étape filtrées disponibles</returns>
-        Task<Etape[]> GetFilteredAsync(int maxCount, int page, ArraySegment<string>? comp = null, ArraySegment<(string, int)>? diplome = null);
+        Task<Etape[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, ArraySegment<string>? comp = null, ArraySegment<(string, int)>? diplome = null);
 
         /// <summary>
         /// Modifie une étape

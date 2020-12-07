@@ -76,10 +76,12 @@ namespace DAO
         /// Les <paramref name="maxCount"/> * <paramref name="page"/> première valeurs seront évitées
         /// </param>
         /// <param name="location">Lieu de la composante</param>
+        /// <param name="orderBy">Champ utilisé pour trier</param>
+        /// <param name="reverseOrder">True si le tri doit être inversé</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Toutes les composantes disponibles</returns>
-        Task<Composante[]> GetFilteredAsync(int maxCount, int page, ArraySegment<string>? location = null);
+        Task<Composante[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, ArraySegment<string>? location = null);
 
         /// <summary>
         /// Modifie une composante

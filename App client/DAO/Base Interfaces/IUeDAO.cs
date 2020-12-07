@@ -72,10 +72,12 @@ namespace DAO
         /// <param name="nature">Nature des UE</param>
         /// <param name="parent">Parent des UE</param>
         /// <param name="semester">Semestre des UE</param>
+        /// <param name="orderBy">Champ utilisé pour trier</param>
+        /// <param name="reverseOrder">True si le tri doit être inversé</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Toutes les ue filtrées disponibles</returns>
-        Task<Ue[]> GetFilteredAsync(int maxCount, int page, ArraySegment<char>? nature = null, ArraySegment<int>? ECTS = null, ArraySegment<string>? parent = null, ArraySegment<Semestre>? semester = null);
+        Task<Ue[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, ArraySegment<char>? nature = null, ArraySegment<int>? ECTS = null, ArraySegment<string>? parent = null, ArraySegment<Semestre>? semester = null);
 
         /// <summary>
         /// Modifie une ue
