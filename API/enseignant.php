@@ -7,15 +7,14 @@ $db = new Database();
 
 if ($db) {
     $strReq = "SELECT `id_ens`, `nom`, `prenom`, `fonction`, `HOblig`, `HMax`, `CRCT`, `PES_PEDR`, `id_comp` FROM `enseignant`";
-    $postObj = json_decode($_POST['data']);
+    $postObj = json_decode(file_get_contents('php://input'));
     if (isset($postObj->filters)) {
         $firstFilter = true;
         $whereSet = false;
         if (isset($postObj->filters->id_ens)) {
-            if (!$firstFilter) {
+            if (!$firstFilter)
                 $strReq .= " AND ";
-                $firstFilter = false;
-            }
+            $firstFilter = false;
             $firstArrayFilter = true;
             if (!$whereSet) {
                 $strReq .= " WHERE ";
@@ -25,16 +24,15 @@ if ($db) {
             foreach ($postObj->filters->id_ens as $id) {
                 if (!$firstArrayFilter)
                     $strReq .= " OR ";
-                $strReq .= "`id_ens` = $id";
+                $strReq .= "`id_ens` = \"$id\"";
                 $firstArrayFilter = false;
             }
             $strReq .= ')';
         }
         if (isset($postObj->filters->nom)) {
-            if (!$firstFilter) {
+            if (!$firstFilter)
                 $strReq .= " AND ";
-                $firstFilter = false;
-            }
+            $firstFilter = false;
             $firstArrayFilter = true;
             if (!$whereSet) {
                 $strReq .= " WHERE ";
@@ -44,16 +42,15 @@ if ($db) {
             foreach ($postObj->filters->nom as $nom) {
                 if (!$firstArrayFilter)
                     $strReq .= " OR ";
-                $strReq .= "`nom` = $nom";
+                $strReq .= "`nom` = \"$nom\"";
                 $firstArrayFilter = false;
             }
             $strReq .= ')';
         }
         if (isset($postObj->filters->prenom)) {
-            if (!$firstFilter) {
+            if (!$firstFilter)
                 $strReq .= " AND ";
-                $firstFilter = false;
-            }
+            $firstFilter = false;
             $firstArrayFilter = true;
             if (!$whereSet) {
                 $strReq .= " WHERE ";
@@ -63,16 +60,15 @@ if ($db) {
             foreach ($postObj->filters->prenom as $prenom) {
                 if (!$firstArrayFilter)
                     $strReq .= " OR ";
-                $strReq .= "`prenom` = $prenom";
+                $strReq .= "`prenom` = \"$prenom\"";
                 $firstArrayFilter = false;
             }
             $strReq .= ')';
         }
         if (isset($postObj->filters->fonction)) {
-            if (!$firstFilter) {
+            if (!$firstFilter)
                 $strReq .= " AND ";
-                $firstFilter = false;
-            }
+            $firstFilter = false;
             $firstArrayFilter = true;
             if (!$whereSet) {
                 $strReq .= " WHERE ";
@@ -82,16 +78,15 @@ if ($db) {
             foreach ($postObj->filters->fonction as $fonction) {
                 if (!$firstArrayFilter)
                     $strReq .= " OR ";
-                $strReq .= "`fonction` = $fonction";
+                $strReq .= "`fonction` = \"$fonction\"";
                 $firstArrayFilter = false;
             }
             $strReq .= ')';
         }
         if (isset($postObj->filters->CRCT)) {
-            if (!$firstFilter) {
+            if (!$firstFilter)
                 $strReq .= " AND ";
-                $firstFilter = false;
-            }
+            $firstFilter = false;
             $firstArrayFilter = true;
             if (!$whereSet) {
                 $strReq .= " WHERE ";
@@ -101,16 +96,15 @@ if ($db) {
             foreach ($postObj->filters->CRCT as $CRCT) {
                 if (!$firstArrayFilter)
                     $strReq .= " OR ";
-                $strReq .= "`CRCT` = $CRCT";
+                $strReq .= "`CRCT` = \"$CRCT\"";
                 $firstArrayFilter = false;
             }
             $strReq .= ')';
         }
         if (isset($postObj->filters->PES_PEDR)) {
-            if (!$firstFilter) {
+            if (!$firstFilter)
                 $strReq .= " AND ";
-                $firstFilter = false;
-            }
+            $firstFilter = false;
             $firstArrayFilter = true;
             if (!$whereSet) {
                 $strReq .= " WHERE ";
@@ -120,16 +114,15 @@ if ($db) {
             foreach ($postObj->filters->PES_PEDR as $PES_PEDR) {
                 if (!$firstArrayFilter)
                     $strReq .= " OR ";
-                $strReq .= "`PES_PEDR` = $PES_PEDR";
+                $strReq .= "`PES_PEDR` = \"$PES_PEDR\"";
                 $firstArrayFilter = false;
             }
             $strReq .= ')';
         }
         if (isset($postObj->filters->id_comp)) {
-            if (!$firstFilter) {
+            if (!$firstFilter)
                 $strReq .= " AND ";
-                $firstFilter = false;
-            }
+            $firstFilter = false;
             $firstArrayFilter = true;
             if (!$whereSet) {
                 $strReq .= " WHERE ";
@@ -139,16 +132,15 @@ if ($db) {
             foreach ($postObj->filters->id_comp as $id_comp) {
                 if (!$firstArrayFilter)
                     $strReq .= " OR ";
-                $strReq .= "`id_comp` = $id_comp";
+                $strReq .= "`id_comp` = \"$id_comp\"";
                 $firstArrayFilter = false;
             }
             $strReq .= ')';
         }
         if (isset($postObj->filters->id_comp)) {
-            if (!$firstFilter) {
+            if (!$firstFilter)
                 $strReq .= " AND ";
-                $firstFilter = false;
-            }
+            $firstFilter = false;
             $firstArrayFilter = true;
             if (!$whereSet) {
                 $strReq .= " WHERE ";
@@ -158,16 +150,15 @@ if ($db) {
             foreach ($postObj->filters->id_comp as $id_comp) {
                 if (!$firstArrayFilter)
                     $strReq .= " OR ";
-                $strReq .= "`id_comp` = $id_comp";
+                $strReq .= "`id_comp` = \"$id_comp\"";
                 $firstArrayFilter = false;
             }
             $strReq .= ')';
         }
         if (isset($postObj->filters->HOblig)) {
-            if (!$firstFilter) {
+            if (!$firstFilter)
                 $strReq .= " AND ";
-                $firstFilter = false;
-            }
+            $firstFilter = false;
             if (!$whereSet) {
                 $strReq .= " WHERE ";
                 $whereSet = true;
@@ -184,10 +175,9 @@ if ($db) {
             }
         }
         if (isset($postObj->filters->HMax)) {
-            if (!$firstFilter) {
+            if (!$firstFilter)
                 $strReq .= " AND ";
-                $firstFilter = false;
-            }
+            $firstFilter = false;
             if (!$whereSet) {
                 $strReq .= " WHERE ";
                 $whereSet = true;
@@ -214,7 +204,8 @@ if ($db) {
     else
         $strReq .= " ORDER BY `id_ens`";
     $strReq .= "LIMIT $postObj->quantity OFFSET $postObj->skip";
-    //$requete = $db->query();
+
+    $requete = $db->query($strReq);
 
     $enseignant = new stdClass();
     $enseignant->values = [];

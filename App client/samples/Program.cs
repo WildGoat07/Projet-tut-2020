@@ -20,15 +20,24 @@ namespace samples
         private static async Task TestRequest()
         {
             var url = new Uri("http://localhost/Projet-tut-2020/API/enseignant.php");
-            var request = new HttpRequestMessage(HttpMethod.Post, url);
-            request.Content = new StringContent(
-@"{
-   ""filters"":{
-      ""id_ens"":""cg462"",
-      ""prenom"":""Jean""
-   }
-}", Encoding.UTF8, "application/json");
-            var response = await Client.SendAsync(request);
+            var response = await Client.PostAsync(url, new StringContent(@"
+{
+    ""filters"":
+    {
+        ""prenom"":
+        [
+            ""Henri"",
+            ""Kamel""
+        ],
+        ""HMax"":
+        {
+            ""min"":100,
+            ""max"":200
+        }
+    },
+    ""quantity"":1,
+    ""skip"":1
+}", Encoding.UTF8, "application/json"));
             Console.WriteLine(await response.Content.ReadAsStringAsync());
         }
 
