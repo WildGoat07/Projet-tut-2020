@@ -119,46 +119,45 @@ if ($db) {
             }
             $strReq .= ')';
         }
-
-
-        if (isset($postObj->order))
-            if (isset($postObj->reverse_order) && $postObj->reverse_order)
-                $strReq .= " ORDER BY DESC `$postObj->order`";
-            else
-                $strReq .= " ORDER BY `$postObj->order`";
-        else if (isset($postObj->reverse_order) && $postObj->reverse_order)
-            $strReq .= " ORDER BY DESC `code_diplome`";
-        else
-            $strReq .= " ORDER BY `code_diplome`";
-        $strReq .= "LIMIT $postObj->quantity OFFSET $postObj->skip";
-
-        $requete = $db->query($strReq);
-
-        $diplome = new stdClass();
-        $diplome->values = [];
-
-        foreach ($requete as $req) {
-            $obj = new stdClass();
-
-            $obj->code_diplome = utf8_encode($req['code_diplome']);
-
-            $obj->libelle_diplome = utf8_encode($req['libelle_diplome']);
-
-            $obj->vdi = utf8_encode($req['vdi']);
-
-            $obj->libelle_vdi = utf8_encode($req['libelle_vdi']);
-
-            $obj->annee_deb = utf8_encode($req['annee_deb']);
-
-            $obj->annee_fin = utf8_encode($req['annee_fin']);
-
-            $diplome->values[] = $obj;
-        }
-
-        $diplome->success = true;
-
-        echo json_encode($diplome);
-    } else {
-        echo json_encode($connectionDB);
     }
+
+    if (isset($postObj->order))
+        if (isset($postObj->reverse_order) && $postObj->reverse_order)
+            $strReq .= " ORDER BY DESC `$postObj->order`";
+        else
+            $strReq .= " ORDER BY `$postObj->order`";
+    else if (isset($postObj->reverse_order) && $postObj->reverse_order)
+        $strReq .= " ORDER BY DESC `code_diplome`";
+    else
+        $strReq .= " ORDER BY `code_diplome`";
+    $strReq .= "LIMIT $postObj->quantity OFFSET $postObj->skip";
+
+    $requete = $db->query($strReq);
+
+    $diplome = new stdClass();
+    $diplome->values = [];
+
+    foreach ($requete as $req) {
+        $obj = new stdClass();
+
+        $obj->code_diplome = utf8_encode($req['code_diplome']);
+
+        $obj->libelle_diplome = utf8_encode($req['libelle_diplome']);
+
+        $obj->vdi = utf8_encode($req['vdi']);
+
+        $obj->libelle_vdi = utf8_encode($req['libelle_vdi']);
+
+        $obj->annee_deb = utf8_encode($req['annee_deb']);
+
+        $obj->annee_fin = utf8_encode($req['annee_fin']);
+
+        $diplome->values[] = $obj;
+    }
+
+    $diplome->success = true;
+
+    echo json_encode($diplome);
+} else {
+    echo json_encode($connectionDB);
 }

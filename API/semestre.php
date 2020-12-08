@@ -101,43 +101,42 @@ if ($db) {
             }
             $strReq .= ')';
         }
-
-        if (isset($postObj->order))
-            if (isset($postObj->reverse_order) && $postObj->reverse_order)
-                $strReq .= " ORDER BY DESC `$postObj->order`";
-            else
-                $strReq .= " ORDER BY `$postObj->order`";
-        else if (isset($postObj->reverse_order) && $postObj->reverse_order)
-            $strReq .= " ORDER BY DESC `code_sem`";
-        else
-            $strReq .= " ORDER BY `code_sem`";
-        $strReq .= "LIMIT $postObj->quantity OFFSET $postObj->skip";
-
-        $requete = $db->query($strReq);
-
-        $semestre = new stdClass();
-        $semestre->values = [];
-
-        foreach ($requete as $req) {
-            $obj = new stdClass();
-
-            $obj->code_sem = utf8_encode($req['code_sem']);
-
-            $obj->libelle_sem = utf8_encode($req['libelle_sem']);
-
-            $obj->no_sem = utf8_encode($req['no_sem']);
-
-            $obj->code_etape = utf8_encode($req['code_etape']);
-
-            $obj->vet = utf8_encode($req['vet']);
-
-            $semestre->values[] = $obj;
-        }
-
-        $semestre->success = true;
-
-        echo json_encode($semestre);
-    } else {
-        echo json_encode($connectionDB);
     }
+    if (isset($postObj->order))
+        if (isset($postObj->reverse_order) && $postObj->reverse_order)
+            $strReq .= " ORDER BY DESC `$postObj->order`";
+        else
+            $strReq .= " ORDER BY `$postObj->order`";
+    else if (isset($postObj->reverse_order) && $postObj->reverse_order)
+        $strReq .= " ORDER BY DESC `code_sem`";
+    else
+        $strReq .= " ORDER BY `code_sem`";
+    $strReq .= "LIMIT $postObj->quantity OFFSET $postObj->skip";
+
+    $requete = $db->query($strReq);
+
+    $semestre = new stdClass();
+    $semestre->values = [];
+
+    foreach ($requete as $req) {
+        $obj = new stdClass();
+
+        $obj->code_sem = utf8_encode($req['code_sem']);
+
+        $obj->libelle_sem = utf8_encode($req['libelle_sem']);
+
+        $obj->no_sem = utf8_encode($req['no_sem']);
+
+        $obj->code_etape = utf8_encode($req['code_etape']);
+
+        $obj->vet = utf8_encode($req['vet']);
+
+        $semestre->values[] = $obj;
+    }
+
+    $semestre->success = true;
+
+    echo json_encode($semestre);
+} else {
+    echo json_encode($connectionDB);
 }
