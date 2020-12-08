@@ -1,0 +1,84 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DAO
+{
+    public interface ICategorieDAO
+    {
+        /// <summary>
+        /// Créé une nouvelle catégorie
+        /// </summary>
+        /// <param name="value">Détail de la catégorie à créer</param>
+        /// <exception cref="DAOException">Une erreur est survenue</exception>
+        /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
+        /// <returns>La nouvelle catégorie</returns>
+        async Task<Categorie> CreateAsync(Categorie value) => (await CreateAsync(new Categorie[] { value })).First();
+
+        /// <summary>
+        /// Créé des nouvelles catégories
+        /// </summary>
+        /// <param name="values">Détails des catégories à créer</param>
+        /// <exception cref="DAOException">Une erreur est survenue</exception>
+        /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
+        /// <returns>Les nouvelles catégories</returns>
+        Task<Categorie[]> CreateAsync(ArraySegment<Categorie> values);
+
+        /// <summary>
+        /// Supprime une catégorie
+        /// </summary>
+        /// <param name="value">Catégorie à supprimer</param>
+        /// <exception cref="DAOException">Une erreur est survenue</exception>
+        /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
+        async Task DeleteAsync(Categorie value) => await DeleteAsync(new Categorie[] { value });
+
+        /// <summary>
+        /// Supprime des catégories
+        /// </summary>
+        /// <param name="values">Catégories à supprimer</param>
+        /// <exception cref="DAOException">Une erreur est survenue</exception>
+        /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
+        Task DeleteAsync(ArraySegment<Categorie> values);
+
+        /// <summary>
+        /// Récupère toutes les catégories
+        /// </summary>
+        /// <param name="maxCount">Quantité maximum à récupérer</param>
+        /// <param name="page">
+        /// Les <paramref name="maxCount"/> * <paramref name="page"/> première valeurs seront évitées
+        /// </param>
+        /// <exception cref="DAOException">Une erreur est survenue</exception>
+        /// <returns>Toutes les catégories disponibles</returns>
+        Task<Categorie[]> GetAllAsync(int maxCount, int page);
+
+        /// <summary>
+        /// Récupère une catégorie
+        /// </summary>
+        /// <exception cref="DAOException">Une erreur est survenue</exception>
+        /// <returns>La catégorie correspondante à l'id</returns>
+        Task<Categorie> GetByIdAsync(int id);
+
+        /// <summary>
+        /// Modifie une catégorie
+        /// </summary>
+        /// <param name="oldValue">Ancienne valeur de la catégorie</param>
+        /// <param name="newValue">Nouvelle valeur de la catégorie</param>
+        /// <exception cref="DAOException">Une erreur est survenue</exception>
+        /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
+        /// <returns>La catégorie modifiée</returns>
+        async Task<Categorie> UpdateAsync(Categorie oldValue, Categorie newValue) => (await UpdateAsync(new Categorie[] { oldValue }, new Categorie[] { newValue })).First();
+
+        /// <summary>
+        /// Modifie des catégories
+        /// </summary>
+        /// <param name="oldValues">Anciennes valeurs des catégories</param>
+        /// <param name="newValues">Nouvelles valeurs des catégories</param>
+        /// <exception cref="DAOException">Une erreur est survenue</exception>
+        /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
+        /// <exception cref="ArgumentException">Les tableaux sont de taille différente</exception>
+        /// <returns>Les catégories modifiées</returns>
+        Task<Categorie[]> UpdateAsync(ArraySegment<Categorie> oldValues, ArraySegment<Categorie> newValues);
+    }
+}
