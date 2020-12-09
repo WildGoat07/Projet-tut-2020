@@ -8,6 +8,7 @@ $db = new Database();
 if ($db) {
     $strReq = "SELECT `id_ens`, `nom`, `prenom`, `fonction`, `HOblig`, `HMax`, `CRCT`, `PES_PEDR`, `id_comp` FROM `enseignant`";
     $postObj = json_decode(file_get_contents('php://input'));
+
     if (isset($postObj->filters)) {
         $firstFilter = true;
         $whereSet = false;
@@ -203,6 +204,7 @@ if ($db) {
         $strReq .= " ORDER BY DESC `id_ens`";
     else
         $strReq .= " ORDER BY `id_ens`";
+        
     $strReq .= "LIMIT $postObj->quantity OFFSET $postObj->skip";
 
     $requete = $db->query($strReq);

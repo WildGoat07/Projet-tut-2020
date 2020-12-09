@@ -19,24 +19,20 @@ namespace samples
 
         private static async Task TestRequest()
         {
-            var url = new Uri("http://localhost/Projet-tut-2020/API/enseignant.php");
+            var url = new Uri("http://localhost/Projet-tut-2020/API/ue/CUe.php");
             var response = await Client.PostAsync(url, new StringContent(@"
 {
-    ""filters"":
-    {
-        ""prenom"":
-        [
-            ""Henri"",
-            ""Kamel""
-        ],
-        ""HMax"":
+    ""values"":
+    [
         {
-            ""min"":100,
-            ""max"":200
+            ""code_ue"":""testCodeUe"",
+            ""libelle_ue"":""testLibelleUe"",
+            ""nature"":""T"",
+            ""ECTS"":0000,
+            ""code_ue_pere"":""tCodeUeP"",
+            ""code_sem"":""testCodeSem""
         }
-    },
-    ""quantity"":1,
-    ""skip"":1
+    ]
 }", Encoding.UTF8, "application/json"));
             Console.WriteLine(await response.Content.ReadAsStringAsync());
         }
