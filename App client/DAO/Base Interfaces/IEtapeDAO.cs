@@ -15,7 +15,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>La nouvelle étape</returns>
-        async Task<Etape> CreateAsync(Etape value) => (await CreateAsync(new Etape[] { value })).First();
+        async Task<Etape> CreateAsync(Etape value) => (await CreateAsync(new[] { value })).First();
 
         /// <summary>
         /// Créé de nouvelles étapes
@@ -24,7 +24,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Les nouvelles étapes</returns>
-        Task<Etape[]> CreateAsync(ArraySegment<Etape> values);
+        Task<Etape[]> CreateAsync(IEnumerable<Etape> values);
 
         /// <summary>
         /// Supprime une étape
@@ -32,7 +32,7 @@ namespace DAO
         /// <param name="value">Étape à supprimer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        async Task DeleteAsync(Etape value) => await DeleteAsync(new Etape[] { value });
+        async Task DeleteAsync(Etape value) => await DeleteAsync(new[] { value });
 
         /// <summary>
         /// Supprime des étapes
@@ -40,7 +40,7 @@ namespace DAO
         /// <param name="value">Étapes à supprimer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        Task DeleteAsync(ArraySegment<Etape> value);
+        Task DeleteAsync(IEnumerable<Etape> value);
 
         /// <summary>
         /// Récupère toutes les étapes
@@ -59,7 +59,15 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>L'étape correspondante à l'id</returns>
-        Task<Etape> GetByIdAsync(string code, int version);
+        async Task<Etape> GetByIdAsync(string code, int version) => (await GetByIdAsync(new[] { (code, version) })).First();
+
+        /// <summary>
+        /// Récupère des étapes
+        /// </summary>
+        /// <exception cref="DAOException">Une erreur est survenue</exception>
+        /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
+        /// <returns>Les étapes correspondantes à l'id</returns>
+        Task<Etape[]> GetByIdAsync(IEnumerable<(string, int)> id);
 
         /// <summary>
         /// Récupère toutes les étapes selon des filtres
@@ -75,7 +83,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Toutes les étape filtrées disponibles</returns>
-        Task<Etape[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, ArraySegment<string>? comp = null, ArraySegment<(string, int)>? diplome = null);
+        Task<Etape[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, IEnumerable<string>? comp = null, IEnumerable<(string, int)>? diplome = null);
 
         /// <summary>
         /// Modifie une étape
@@ -85,17 +93,16 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>L'étape modifiée</returns>
-        async Task<Etape> UpdateAsync(Etape oldValue, Etape newValue) => (await UpdateAsync(new Etape[] { oldValue }, new Etape[] { newValue })).First();
+        async Task<Etape> UpdateAsync(Etape oldValue, Etape newValue) => (await UpdateAsync(new[] { (oldValue, newValue) })).First();
 
         /// <summary>
         /// Modifie des étapes
         /// </summary>
-        /// <param name="oldValues">Anciennes valeurs des étapes</param>
-        /// <param name="newValues">Nouvelles valeurs des étapes</param>
+        /// <param name="values">Valeurs des étapes</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <exception cref="ArgumentException">Les tableaux sont de taille différente</exception>
         /// <returns>Les étapes modifiées</returns>
-        Task<Etape[]> UpdateAsync(ArraySegment<Etape> oldValues, ArraySegment<Etape> newValues);
+        Task<Etape[]> UpdateAsync(IEnumerable<(Etape, Etape)> values);
     }
 }

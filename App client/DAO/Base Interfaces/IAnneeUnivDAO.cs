@@ -15,7 +15,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>La nouvelle année universitaire</returns>
-        async Task<AnneeUniv> CreateAsync(AnneeUniv value) => (await CreateAsync(new AnneeUniv[] { value })).First();
+        async Task<AnneeUniv> CreateAsync(AnneeUniv value) => (await CreateAsync(new[] { value })).First();
 
         /// <summary>
         /// Créé de nouvelles années universitaires
@@ -24,7 +24,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Les nouvelles années universitaires</returns>
-        Task<AnneeUniv[]> CreateAsync(ArraySegment<AnneeUniv> values);
+        Task<AnneeUniv[]> CreateAsync(IEnumerable<AnneeUniv> values);
 
         /// <summary>
         /// Supprime une année universitaire
@@ -32,7 +32,7 @@ namespace DAO
         /// <param name="value">Année à supprimer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        async Task DeleteAsync(AnneeUniv value) => await DeleteAsync(new AnneeUniv[] { value });
+        async Task DeleteAsync(AnneeUniv value) => await DeleteAsync(new[] { value });
 
         /// <summary>
         /// Supprime des années universitaires
@@ -40,7 +40,7 @@ namespace DAO
         /// <param name="values">Années à supprimer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        Task DeleteAsync(ArraySegment<AnneeUniv> values);
+        Task DeleteAsync(IEnumerable<AnneeUniv> values);
 
         /// <summary>
         /// Récupère toutes les année enregistrées
@@ -61,17 +61,16 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>L'année modifiée</returns>
-        async Task<AnneeUniv> UpdateAsync(AnneeUniv oldValue, AnneeUniv newValue) => (await UpdateAsync(new AnneeUniv[] { oldValue }, new AnneeUniv[] { newValue })).First();
+        async Task<AnneeUniv> UpdateAsync(AnneeUniv oldValue, AnneeUniv newValue) => (await UpdateAsync(new[] { (oldValue, newValue) })).First();
 
         /// <summary>
         /// Modifie des années universitaires
         /// </summary>
-        /// <param name="oldValues">Anciennes valeurs des années</param>
-        /// <param name="newValues">Nouvelles valeurs des années</param>
+        /// <param name="values">Valeurs des années</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <exception cref="ArgumentException">Les tableaux sont de taille différente</exception>
         /// <returns>Les années modifiées</returns>
-        Task<AnneeUniv[]> UpdateAsync(ArraySegment<AnneeUniv> oldValues, ArraySegment<AnneeUniv> newValues);
+        Task<AnneeUniv[]> UpdateAsync(IEnumerable<(AnneeUniv, AnneeUniv)> values);
     }
 }

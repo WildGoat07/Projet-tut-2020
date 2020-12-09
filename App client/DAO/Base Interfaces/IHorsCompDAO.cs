@@ -15,7 +15,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>La nouvelle horsComp</returns>
-        async Task<HorsComp> CreateAsync(HorsComp value) => (await CreateAsync(new HorsComp[] { value })).First();
+        async Task<HorsComp> CreateAsync(HorsComp value) => (await CreateAsync(new[] { value })).First();
 
         /// <summary>
         /// Créé de nouvelles horsComp
@@ -24,7 +24,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Les nouvelles horsComp</returns>
-        Task<HorsComp[]> CreateAsync(ArraySegment<HorsComp> values);
+        Task<HorsComp[]> CreateAsync(IEnumerable<HorsComp> values);
 
         /// <summary>
         /// Supprime une horsComp
@@ -32,7 +32,7 @@ namespace DAO
         /// <param name="value">HorsComp à supprimer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        async Task DeleteAsync(HorsComp value) => await DeleteAsync(new HorsComp[] { value });
+        async Task DeleteAsync(HorsComp value) => await DeleteAsync(new[] { value });
 
         /// <summary>
         /// Supprime des horsComp
@@ -40,7 +40,7 @@ namespace DAO
         /// <param name="value">HorsComp à supprimer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        Task DeleteAsync(ArraySegment<HorsComp> value);
+        Task DeleteAsync(IEnumerable<HorsComp> value);
 
         /// <summary>
         /// Récupère toutes les horsComp
@@ -59,7 +59,15 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>L'horsComp correspondante à l'id</returns>
-        Task<HorsComp> GetByIdAsync(string code, int version);
+        async Task<HorsComp> GetByIdAsync(string code, int version) => (await GetByIdAsync(new[] { (code, version) })).First();
+
+        /// <summary>
+        /// Récupère des horsComp
+        /// </summary>
+        /// <exception cref="DAOException">Une erreur est survenue</exception>
+        /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
+        /// <returns>Les horsComp correspondantes à l'id</returns>
+        Task<HorsComp[]> GetByIdAsync(IEnumerable<(string, int)> id);
 
         /// <summary>
         /// Récupère toutes les horsComp selon des filtres
@@ -80,7 +88,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Toutes les horsComp filtrées disponibles</returns>
-        Task<HorsComp[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, ArraySegment<string>? course = null, ArraySegment<string>? comp = null, ArraySegment<string>? year = null, (int?, int?)? CmHours = null, (int?, int?)? EiHours = null, (int?, int?)? TdHours = null, (int?, int?)? TpHours = null, (int?, int?)? TplHours = null, (int?, int?)? PrjHours = null, (float?, float?)? equivalentHours = null);
+        Task<HorsComp[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, IEnumerable<string>? course = null, IEnumerable<string>? comp = null, IEnumerable<string>? year = null, (int?, int?)? CmHours = null, (int?, int?)? EiHours = null, (int?, int?)? TdHours = null, (int?, int?)? TpHours = null, (int?, int?)? TplHours = null, (int?, int?)? PrjHours = null, (float?, float?)? equivalentHours = null);
 
         /// <summary>
         /// Modifie une horsComp
@@ -90,17 +98,16 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>L'horsComp modifiée</returns>
-        async Task<HorsComp> UpdateAsync(HorsComp oldValue, HorsComp newValue) => (await UpdateAsync(new HorsComp[] { oldValue }, new HorsComp[] { newValue })).First();
+        async Task<HorsComp> UpdateAsync(HorsComp oldValue, HorsComp newValue) => (await UpdateAsync(new[] { (oldValue, newValue) })).First();
 
         /// <summary>
         /// Modifie des horsComp
         /// </summary>
-        /// <param name="oldValues">Anciennes valeurs des horsComp</param>
-        /// <param name="newValues">Nouvelles valeurs des horsComp</param>
+        /// <param name="values">Valeurs des horsComp</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <exception cref="ArgumentException">Les tableaux sont de taille différente</exception>
         /// <returns>Les horsComp modifiées</returns>
-        Task<HorsComp[]> UpdateAsync(ArraySegment<HorsComp> oldValues, ArraySegment<HorsComp> newValues);
+        Task<HorsComp[]> UpdateAsync(IEnumerable<(HorsComp, HorsComp)> values);
     }
 }

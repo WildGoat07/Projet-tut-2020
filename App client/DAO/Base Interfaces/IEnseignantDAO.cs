@@ -15,7 +15,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Le nouvel enseignant</returns>
-        async Task<Enseignant> CreateAsync(Enseignant value) => (await CreateAsync(new Enseignant[] { value })).First();
+        async Task<Enseignant> CreateAsync(Enseignant value) => (await CreateAsync(new[] { value })).First();
 
         /// <summary>
         /// Créé de nouveaux enseignants
@@ -24,7 +24,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Les nouveaux enseignants</returns>
-        Task<Enseignant[]> CreateAsync(ArraySegment<Enseignant> values);
+        Task<Enseignant[]> CreateAsync(IEnumerable<Enseignant> values);
 
         /// <summary>
         /// Supprime un enseignant
@@ -32,7 +32,7 @@ namespace DAO
         /// <param name="value">Enseignant à supprimer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        async Task DeleteAsync(Enseignant value) => await DeleteAsync(new Enseignant[] { value });
+        async Task DeleteAsync(Enseignant value) => await DeleteAsync(new[] { value });
 
         /// <summary>
         /// Supprime des enseignants
@@ -40,7 +40,7 @@ namespace DAO
         /// <param name="values">Enseignants à supprimer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        Task DeleteAsync(ArraySegment<Enseignant> values);
+        Task DeleteAsync(IEnumerable<Enseignant> values);
 
         /// <summary>
         /// Récupère toutes les enseignants
@@ -59,7 +59,15 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>L'enseignant correspondant à l'id</returns>
-        Task<Enseignant> GetByIdAsync(string id);
+        async Task<Enseignant> GetByIdAsync(string id) => (await GetByIdAsync(new[] { id })).First();
+
+        /// <summary>
+        /// Récupère des enseignants
+        /// </summary>
+        /// <exception cref="DAOException">Une erreur est survenue</exception>
+        /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
+        /// <returns>Les enseignants correspondants à l'id</returns>
+        Task<Enseignant[]> GetByIdAsync(IEnumerable<string> id);
 
         /// <summary>
         /// Récupère tous les enseignants selon des filtres
@@ -79,7 +87,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Tous les enseignants filtrés disponibles</returns>
-        Task<Enseignant[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, ArraySegment<string>? function = null, ArraySegment<int>? comp = null, ArraySegment<char>? CRCT = null, ArraySegment<char>? PesPedr = null, (float?, float?)? forcedHours = null, (float?, float?)? maxHours = null);
+        Task<Enseignant[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, IEnumerable<string>? function = null, IEnumerable<int>? comp = null, IEnumerable<char>? CRCT = null, IEnumerable<char>? PesPedr = null, (float?, float?)? forcedHours = null, (float?, float?)? maxHours = null);
 
         /// <summary>
         /// Modifie un enseignant
@@ -89,17 +97,16 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>L'enseignant modifié</returns>
-        async Task<Enseignant> UpdateAsync(Enseignant oldValue, Enseignant newValue) => (await UpdateAsync(new Enseignant[] { oldValue }, new Enseignant[] { newValue })).First();
+        async Task<Enseignant> UpdateAsync(Enseignant oldValue, Enseignant newValue) => (await UpdateAsync(new[] { (oldValue, newValue) })).First();
 
         /// <summary>
         /// Modifie des enseignants
         /// </summary>
-        /// <param name="oldValues">Anciennes valeurs des enseignants</param>
-        /// <param name="newValues">Nouvelles valeurs des enseignants</param>
+        /// <param name="values">Valeurs des enseignants</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <exception cref="ArgumentException">Les tableaux sont de taille différente</exception>
         /// <returns>Les enseignants modifiés</returns>
-        Task<Enseignant[]> UpdateAsync(ArraySegment<Enseignant> oldValues, ArraySegment<Enseignant> newValues);
+        Task<Enseignant[]> UpdateAsync(IEnumerable<(Enseignant, Enseignant)> values);
     }
 }

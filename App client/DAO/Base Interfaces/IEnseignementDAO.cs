@@ -15,7 +15,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Le nouvel enseignement</returns>
-        async Task<Enseignement> CreateAsync(Enseignement value) => (await CreateAsync(new Enseignement[] { value })).First();
+        async Task<Enseignement> CreateAsync(Enseignement value) => (await CreateAsync(new[] { value })).First();
 
         /// <summary>
         /// Créé de nouveaux enseignements
@@ -24,7 +24,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Les nouveaux enseignements</returns>
-        Task<Enseignement[]> CreateAsync(ArraySegment<Enseignement> values);
+        Task<Enseignement[]> CreateAsync(IEnumerable<Enseignement> values);
 
         /// <summary>
         /// Supprime un enseignement
@@ -32,7 +32,7 @@ namespace DAO
         /// <param name="value">Enseignement à supprimer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        async Task DeleteAsync(Enseignement value) => await DeleteAsync(new Enseignement[] { value });
+        async Task DeleteAsync(Enseignement value) => await DeleteAsync(new[] { value });
 
         /// <summary>
         /// Supprime des enseignements
@@ -40,7 +40,7 @@ namespace DAO
         /// <param name="value">Enseignements à supprimer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        Task DeleteAsync(ArraySegment<Enseignement> value);
+        Task DeleteAsync(IEnumerable<Enseignement> value);
 
         /// <summary>
         /// Récupère tous les enseignements
@@ -59,7 +59,15 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>L'enseignement correspondant à l'id</returns>
-        Task<Enseignement> GetByIdAsync(string code);
+        async Task<Enseignement> GetByIdAsync(string code) => (await GetByIdAsync(new[] { code })).First();
+
+        /// <summary>
+        /// Récupère un enseignement
+        /// </summary>
+        /// <exception cref="DAOException">Une erreur est survenue</exception>
+        /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
+        /// <returns>L'enseignement correspondant à l'id</returns>
+        Task<Enseignement[]> GetByIdAsync(IEnumerable<string> code);
 
         /// <summary>
         /// Récupère tous les enseignements selon des filtres
@@ -88,7 +96,7 @@ namespace DAO
         /// <param name="reverseOrder">True si le tri doit être inversé</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <returns>Tous les enseignements filtrés disponibles</returns>
-        Task<Enseignement[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, ArraySegment<string>? ec = null, ArraySegment<string>? year = null, (int?, int?)? expectedQuantity = null, (int?, int?)? realQuantity = null, (int?, int?)? CmGroups = null, (int?, int?)? EiGroups = null, (int?, int?)? TdGroups = null, (int?, int?)? TpGroups = null, (int?, int?)? TplGroups = null, (int?, int?)? PrjGroups = null, (int?, int?)? CmGroupsSer = null, (int?, int?)? EiGroupsSer = null, (int?, int?)? TdGroupsSer = null, (int?, int?)? TpGroupsSer = null, (int?, int?)? TplGroupsSer = null, (int?, int?)? PrjGroupsSer = null);
+        Task<Enseignement[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, IEnumerable<string>? ec = null, IEnumerable<string>? year = null, (int?, int?)? expectedQuantity = null, (int?, int?)? realQuantity = null, (int?, int?)? CmGroups = null, (int?, int?)? EiGroups = null, (int?, int?)? TdGroups = null, (int?, int?)? TpGroups = null, (int?, int?)? TplGroups = null, (int?, int?)? PrjGroups = null, (int?, int?)? CmGroupsSer = null, (int?, int?)? EiGroupsSer = null, (int?, int?)? TdGroupsSer = null, (int?, int?)? TpGroupsSer = null, (int?, int?)? TplGroupsSer = null, (int?, int?)? PrjGroupsSer = null);
 
         /// <summary>
         /// Modifie un enseignement
@@ -98,17 +106,16 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>L'enseignement modifié</returns>
-        async Task<Enseignement> UpdateAsync(Enseignement oldValue, Enseignement newValue) => (await UpdateAsync(new Enseignement[] { oldValue }, new Enseignement[] { newValue })).First();
+        async Task<Enseignement> UpdateAsync(Enseignement oldValue, Enseignement newValue) => (await UpdateAsync(new[] { (oldValue, newValue) })).First();
 
         /// <summary>
         /// Modifie des enseignements
         /// </summary>
-        /// <param name="oldValues">Anciennes valeurs des enseignements</param>
-        /// <param name="newValues">Nouvelles valeurs des enseignements</param>
+        /// <param name="values">Valeurs des enseignements</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <exception cref="ArgumentException">Les tableaux sont de taille différente</exception>
         /// <returns>Les enseignements modifiés</returns>
-        Task<Enseignement[]> UpdateAsync(ReadOnlyMemory<Enseignement> oldValues, ReadOnlyMemory<Enseignement> newValues);
+        Task<Enseignement[]> UpdateAsync(IEnumerable<(Enseignement, Enseignement)> values);
     }
 }

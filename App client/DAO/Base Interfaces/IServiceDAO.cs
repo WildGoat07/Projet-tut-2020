@@ -15,7 +15,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Le nouveau service</returns>
-        async Task<Service> CreateAsync(Service value) => (await CreateAsync(new Service[] { value })).First();
+        async Task<Service> CreateAsync(Service value) => (await CreateAsync(new[] { value })).First();
 
         /// <summary>
         /// Créé de nouveaux services
@@ -24,7 +24,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Les nouveaux services</returns>
-        Task<Service[]> CreateAsync(ArraySegment<Service> values);
+        Task<Service[]> CreateAsync(IEnumerable<Service> values);
 
         /// <summary>
         /// Supprime un service
@@ -32,7 +32,7 @@ namespace DAO
         /// <param name="value">Service à supprimer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        async Task DeleteAsync(Service value) => await DeleteAsync(new Service[] { value });
+        async Task DeleteAsync(Service value) => await DeleteAsync(new[] { value });
 
         /// <summary>
         /// Supprime des services
@@ -40,7 +40,7 @@ namespace DAO
         /// <param name="value">Services à supprimer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        Task DeleteAsync(ArraySegment<Service> value);
+        Task DeleteAsync(IEnumerable<Service> value);
 
         /// <summary>
         /// Récupère tous les services
@@ -62,7 +62,15 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Le service correspondant à l'id</returns>
-        Task<Service> GetByIdAsync(string teacher, string ec, string year);
+        async Task<Service> GetByIdAsync(string teacher, string ec, string year) => (await GetByIdAsync(new[] { (teacher, ec, year) })).First();
+
+        /// <summary>
+        /// Récupère des services
+        /// </summary>
+        /// <exception cref="DAOException">Une erreur est survenue</exception>
+        /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
+        /// <returns>Les services correspondants à l'id</returns>
+        Task<Service[]> GetByIdAsync(IEnumerable<(string, string, string)> id);
 
         /// <summary>
         /// Récupère tous les services selon des filtres
@@ -86,7 +94,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Tous les services filtrés disponibles</returns>
-        Task<Service[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, ArraySegment<string>? teacher = null, ArraySegment<string>? ec = null, ArraySegment<string>? year = null, (int?, int?)? CmNumber = null, (int?, int?)? EiNumber = null, (int?, int?)? TdNumber = null, (int?, int?)? TpNumber = null, (int?, int?)? TplNumber = null, (int?, int?)? PrjNumber = null, (int?, int?)? equivalentHours = null);
+        Task<Service[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, IEnumerable<string>? teacher = null, IEnumerable<string>? ec = null, IEnumerable<string>? year = null, (int?, int?)? CmNumber = null, (int?, int?)? EiNumber = null, (int?, int?)? TdNumber = null, (int?, int?)? TpNumber = null, (int?, int?)? TplNumber = null, (int?, int?)? PrjNumber = null, (int?, int?)? equivalentHours = null);
 
         /// <summary>
         /// Modifie un service
@@ -96,17 +104,16 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Le service modifié</returns>
-        async Task<Service> UpdateAsync(Service oldValue, Service newValue) => (await UpdateAsync(new Service[] { oldValue }, new Service[] { newValue })).First();
+        async Task<Service> UpdateAsync(Service oldValue, Service newValue) => (await UpdateAsync(new[] { (oldValue, newValue) })).First();
 
         /// <summary>
         /// Modifie des services
         /// </summary>
-        /// <param name="oldValues">Anciennes valeurs des services</param>
-        /// <param name="newValues">ReadOnlyMemoryleurs des services</param>
+        /// <param name="values">Valeurs des services</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <exception cref="ArgumentException">Les tableaux sont de taille différente</exception>
         /// <returns>Les services modifiés</returns>
-        Task<Service[]> UpdateAsync(ArraySegment<Service> oldValues, ArraySegment<Service> newValues);
+        Task<Service[]> UpdateAsync(IEnumerable<(Service, Service)> values);
     }
 }

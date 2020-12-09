@@ -15,7 +15,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>La nouvelle ec</returns>
-        async Task<Ec> CreateAsync(Ec value) => (await CreateAsync(new Ec[] { value })).First();
+        async Task<Ec> CreateAsync(Ec value) => (await CreateAsync(new[] { value })).First();
 
         /// <summary>
         /// Créé des nouvelles ec
@@ -24,7 +24,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Les nouvelles ec</returns>
-        Task<Ec[]> CreateAsync(ArraySegment<Ec> values);
+        Task<Ec[]> CreateAsync(IEnumerable<Ec> values);
 
         /// <summary>
         /// Supprime une ec
@@ -32,7 +32,7 @@ namespace DAO
         /// <param name="value">Ec à supprimer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        async Task DeleteAsync(Ec value) => await DeleteAsync(new Ec[] { value });
+        async Task DeleteAsync(Ec value) => await DeleteAsync(new[] { value });
 
         /// <summary>
         /// Supprime des ec
@@ -40,7 +40,7 @@ namespace DAO
         /// <param name="values">Ec à supprimer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        Task DeleteAsync(ArraySegment<Ec> values);
+        Task DeleteAsync(IEnumerable<Ec> values);
 
         /// <summary>
         /// Récupère toutes les ec
@@ -59,7 +59,15 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>La ec correspondante à l'id</returns>
-        Task<Ec> GetByIdAsync(string code);
+        async Task<Ec> GetByIdAsync(string code) => (await GetByIdAsync(new[] { code })).First();
+
+        /// <summary>
+        /// Récupère des ec
+        /// </summary>
+        /// <exception cref="DAOException">Une erreur est survenue</exception>
+        /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
+        /// <returns>Les ec correspondantes à l'id</returns>
+        Task<Ec[]> GetByIdAsync(IEnumerable<string> code);
 
         /// <summary>
         /// Récupère tous les ec selon des filtres
@@ -83,7 +91,7 @@ namespace DAO
         /// <param name="reverseOrder">True si le tri doit être inversé</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <returns>Toutes les ec filtrées disponibles</returns>
-        Task<Ec[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, ArraySegment<int>? owner = null, ArraySegment<char>? nature = null, ArraySegment<int>? ue = null, ArraySegment<int>? category = null, (int?, int?)? CmHours = null, (int?, int?)? EiHours = null, (int?, int?)? TdHours = null, (int?, int?)? TpHours = null, (int?, int?)? TplHours = null, (int?, int?)? PrjHours = null, (int?, int?)? stepCount = null);
+        Task<Ec[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, IEnumerable<int>? owner = null, IEnumerable<char>? nature = null, IEnumerable<int>? ue = null, IEnumerable<int>? category = null, (int?, int?)? CmHours = null, (int?, int?)? EiHours = null, (int?, int?)? TdHours = null, (int?, int?)? TpHours = null, (int?, int?)? TplHours = null, (int?, int?)? PrjHours = null, (int?, int?)? stepCount = null);
 
         /// <summary>
         /// Modifie une ec
@@ -93,17 +101,16 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>La ec modifiée</returns>
-        async Task<Ec> UpdateAsync(Ec oldValue, Ec newValue) => (await UpdateAsync(new Ec[] { oldValue }, new Ec[] { newValue })).First();
+        async Task<Ec> UpdateAsync(Ec oldValue, Ec newValue) => (await UpdateAsync(new[] { (oldValue, newValue) })).First();
 
         /// <summary>
         /// Modifie des ec
         /// </summary>
-        /// <param name="oldValues">Anciennes valeurs des ec</param>
-        /// <param name="newValues">Nouvelles valeurs des ec</param>
+        /// <param name="values">Valeurs des ec</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <exception cref="ArgumentException">Les tableaux sont de taille différente</exception>
         /// <returns>Les ec modifiées</returns>
-        Task<Ec[]> UpdateAsync(ArraySegment<Ec> oldValues, ArraySegment<Ec> newValues);
+        Task<Ec[]> UpdateAsync(IEnumerable<(Ec, Ec)> values);
     }
 }
