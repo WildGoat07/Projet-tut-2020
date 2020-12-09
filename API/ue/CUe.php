@@ -6,7 +6,7 @@ header('Content-Type: application/json');
 $db = new Database();
 
 if ($db) {
-    $strReq = "INSERT INTO `ue`";
+    
     $postObj = json_decode(utf8_encode(file_get_contents('php://input')));
 
     $presence = new stdClass();
@@ -17,117 +17,66 @@ if ($db) {
     $presence->code_ue_pere = false;
     $presence->code_sem = false;
 
-    $strReq .= " (";
-    $firstValue = true;
+    $returnedValues = new stdClass;
+    $returnedValues->values = [];
+
     foreach ($postObj->values as $values) {
-        if(!$presence->code_ue) {
-            if (!$firstValue)
-                $strReq .= ",";
-            $firstValue=false; 
-            $strReq .= " `code_ue` ";
-        }
-        $presence->code_ue = true;
+        $strReq = "INSERT INTO `ue` (";
+        $data = "(";
 
-        if(!$presence->libelle_ue) {
-            if (!$firstValue)
-                $strReq .= ",";
-            $firstValue=false;
-            $strReq .= " `libelle_ue` ";
-        }
-        $presence->libelle_ue = true;
+        $strReq .= " `code_ue` ";
+        $data .= "'$values->code_ue'";
 
+        $strReq .= " ,`libelle_ue` ";
+        $data .= ",'$values->libelle_ue'";
+
+        
         if (isset($values->nature)) {
-            if(!$presence->nature) {
-                if (!$firstValue)
-                    $strReq .= ",";
-                $firstValue=false;
-                $strReq .= " `nature` ";
-            }
-            $presence->nature = true;
+            $strReq .= " ,`nature` ";
+            $data .= ",'$values->nature'";
         }
 
         if (isset($values->ECTS)) {
-            if(!$presence->ECTS) {
-                if (!$firstValue)
-                    $strReq .= ",";
-                $firstValue=false;
-                $strReq .= " `ECTS` ";
-            }
-            $presence->ECTS = true;
+            $strReq .= " ,`ECTS` ";
+            $data .= ",'$values->ECTS'";
         }
 
         if (isset($values->code_ue_pere)) {
-            if(!$presence->code_ue_pere) {
-                if (!$firstValue)
-                    $strReq .= ",";
-                $firstValue=false;
-                $strReq .= " `code_ue_pere` ";
-            }
-            $presence->code_ue_pere = true;
+            $strReq .= " ,`code_ue_pere` ";
+            $data .= ",'$values->code_ue_pere'";
         }
 
         if (isset($values->code_sem)) {
-            if(!$presence->code_sem) {
-                if (!$firstValue)
-                    $strReq .= ",";
-                $firstValue=false;
-                $strReq .= " `code_sem` ";
-            }
-            $presence->code_sem = true;
+            $strReq .= " ,`code_sem`";
+            $data .= ",'$values->code_sem'";
+        }
+
+        $strReq .= ") VALUES $data )";
+    
+        $result = $db->query($strReq);
+        $returnedValues->succes=false;
+        if($result) {
+            //on retourne le denrier résultat enregistré
+            $getLast = $db->query("SELECT `code_ue`,`libelle_ue`,`nature`,`ECTS`,`code_ue_pere`,`code_sem` FROM `ue`
+            ORDER BY code_ue DESC
+            LIMIT 1; ");
+
+            $result = $getLast->fetch(PDO::FETCH_OBJ);
+
+            $obj = new stdClass();
+            $obj->code_ue = $result->code_ue;
+            $obj->libelle_ue = $result->libelle_ue;
+            $obj->nature = $result->nature;
+            $obj->ECTS = $result->ECTS;
+            $obj->code_ue_pere = $result->code_ue_pere;
+            $obj->code_sem = $result->code_sem;
+
+            $returnedValues->values[] = $obj;
+            $returnedValues->succes=true;
         }
     }
-    $strReq .= ") VALUES ";
 
-    $firstValue = true;
-    foreach ($postObj->values as $values) { //Une fois qu'on a déterminé les clés présentes on rajoute le VALUES à la requête
-        if (!$firstValue)
-            $data = ",(";
-        else 
-            $data = "(";
-        $firstValue=false;
-
-        $data .= "`$values->code_ue`";
-        $data .= ",`$values->libelle_ue`";
-        
-        if ($presence->nature) {
-            if(isset($values->nature))
-                $data .= ",`$values->nature`";
-            else 
-                $data .= ",`U`";
-        }
-
-        if ($presence->ECTS) {
-            if(isset($values->ECTS))
-                $data .= ",`$values->ECTS`";
-            else 
-                $data .= ",`2700`";
-        }
-
-        if ($presence->code_ue_pere) {
-            if(isset($values->code_ue_pere))
-                $data .= ",`$values->code_ue_pere`";
-            else 
-                $data .= ",`NULL`";
-        }
-
-        if ($presence->code_sem) {
-            if(isset($values->code_sem))
-                $data .= ",`$values->code_sem`";
-            else 
-                $data .= ",`NULL`";
-        }
-
-        $data .= ")";
-        $strReq .= $data;
-    }
-
-
-    $requete = $db->query($strReq);
-
-    $ue = new stdClass();
-    $ue->success = true;
-
-    echo json_encode($ue);
+    echo json_encode($returnedValues);
 } else {
     echo json_encode($connectionDB);
 }
