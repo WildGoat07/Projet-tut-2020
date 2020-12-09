@@ -19,6 +19,7 @@ if ($db) {
 
     $returnedValues = new stdClass;
     $returnedValues->values = [];
+    $returnedValues->succes=false;
 
     foreach ($postObj->values as $values) {
         $strReq = "INSERT INTO `ue` (";
@@ -54,7 +55,7 @@ if ($db) {
         $strReq .= ") VALUES $data )";
     
         $result = $db->query($strReq);
-        $returnedValues->succes=false;
+        
         if($result) {
             //on retourne le denrier résultat enregistré
             $getLast = $db->query("SELECT `code_ue`,`libelle_ue`,`nature`,`ECTS`,`code_ue_pere`,`code_sem` FROM `ue`
