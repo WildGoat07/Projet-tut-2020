@@ -6,7 +6,10 @@ header('Content-Type: application/json');
 $db = new Database();
 
 if ($db) {
-    $requete = $db->query("SELECT annee FROM `annee_univ`");
+    $strReq = "SELECT `annee` FROM `annee_univ`";
+    $postObj = json_decode(file_get_contents('php://input'));
+
+    $requete = $db->query($strReq);
 
     $annee = new stdClass();
     $annee->values = [];
