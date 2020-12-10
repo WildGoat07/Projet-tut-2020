@@ -1,11 +1,8 @@
 <?php
-require_once 'app/Database.php';
+require_once '../app/Database.php';
 
-//header('Content-Type: application/json');
+header('Content-Type: application/json');
 
-$db = new Database();
-
-if ($db) {
     if (!empty($_POST["id_ens"]) && !empty($_POST["code_ec"]) && !empty($_POST["annee"])) {
 
 
@@ -60,8 +57,5 @@ if ($db) {
         $service["success"] = false;
         $service["message"] = "Il manque des informations !";
     }
-} else {
-    echo json_encode($connectionDB);
-}
 
 echo json_encode($service);

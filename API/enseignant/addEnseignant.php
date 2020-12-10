@@ -1,11 +1,8 @@
 <?php
-require_once 'app/Database.php';
+require_once '../app/Database.php';
 
 header('Content-Type: application/json');
 
-$db = new Database();
-
-if ($db) {
     if (!empty($_POST["id_ens"]) && !empty($_POST["nom"]) && !empty($_POST["prenom"]) && !empty($_POST["fonction"]) && !empty($_POST["HOblig"]) && !empty($_POST["HMax"]) && !empty($_POST["CRCT"]) && !empty($_POST["PES_PEDR"]) && !empty($_POST["id_comp"])) {
 
 
@@ -30,8 +27,6 @@ if ($db) {
         $enseignant["success"] = false;
         $enseignant["message"] = "Il manque des informations !";
     }
-} else {
-    echo json_encode($connectionDB);
-}
+
 
 echo json_encode($enseignant);
