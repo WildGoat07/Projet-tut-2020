@@ -56,14 +56,14 @@ foreach ($postObj->values as $values) {
 
     $strReq .= ") VALUES $data )";
 
-    $requete=$pdo->prepare($strReq);
+    $requete=$db->prepare($strReq);
     
     if ( $requete->execute() ) {
         $resultStr = "SELECT `code_ue`, `libelle_ue`, `nature`, `ECTS`, `code_ue_pere`, `code_sem` FROM `ue` WHERE ";
         $resultStr .= "code_ue = $id_entered[$indexId]";
         $indexId++;
 
-        $result=$pdo->query($resultStr);
+        $result=$db->query($resultStr);
         $row=$result->fetch(PDO::FETCH_OBJ);
 
         $obj = new stdClass();
