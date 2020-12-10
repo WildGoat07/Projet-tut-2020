@@ -55,7 +55,7 @@ foreach ($postObj->values as $values) {
 
     if ($requete->execute()) {
         $resultStr = "SELECT `code_diplome`, `libelle_diplome`, `vdi`, `libelle_vdi`, `annee_deb`, `annee_fin` FROM `diplome` WHERE ";
-        $resultStr .= "code_diplome = $id_entered[$indexId]";
+        $resultStr .= "`code_diplome` = '$id_entered[$indexId]'";
         $indexId++;
 
         $result = $db->query($resultStr);
