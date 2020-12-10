@@ -7,27 +7,15 @@ $postObj = json_decode(utf8_encode(file_get_contents('php://input')));
 
 $suppressedValues = new stdClass;
 $suppressedValues->success=false;
-
-$rowStr = "SELECT COUNT(`code_ue`) AS 'row' FROM `ue`";
-
-$initialRowsReq = $db->query($rowStr);
-$result = $initialRowsReq->fetch(PDO::FETCH_OBJ);
-
-$initialRows=$result->row;
+$suppressedValues->rowsDeleted = 0;
 
 foreach ($postObj->values as $values) {
     $strReq = "DELETE FROM `ue` WHERE `code_ue`= '$values->code_ue'";
 
     $requete=$db->query($strReq);
-        
+    if($requete->rowCount() != 0)
+        $suppressedValues->rowsDeleted += 1;
 }
-
-$finalRowsReq = $db->query($rowStr);
-$result = $finalRowsReq->fetch(PDO::FETCH_OBJ);
-
-$finalRows = $result->row;
-
-$suppressedValues->rowsDeleted = $initialRows-$finalRows;
 
 if($suppressedValues->rowsDeleted != 0)
     $suppressedValues->success=true;

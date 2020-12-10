@@ -8,14 +8,6 @@ $postObj = json_decode(utf8_encode(file_get_contents('php://input')));
 $id_entered=[];
 $indexId=0;
 
-$presence = new stdClass();
-    $presence->code_ue = false;
-    $presence->libelle_ue = false;
-    $presence->nature = false;
-    $presence->ECTS = false;
-    $presence->code_ue_pere = false;
-    $presence->code_sem = false;
-
 $returnedValues = new stdClass;
     $returnedValues->values = [];
     $returnedValues->success=false;
