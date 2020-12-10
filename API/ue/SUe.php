@@ -3,7 +3,6 @@ require_once '../app/Database.php';
 
 header('Content-Type: application/json');
 
-$db = new Database();
 
 $strReq = "SELECT `code_ue`, `libelle_ue`, `nature`, `ECTS`, `code_ue_pere`, `code_sem` FROM `ue`";
 $postObj = json_decode(file_get_contents('php://input'));
