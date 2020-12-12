@@ -92,6 +92,12 @@ namespace DAO
         Task<Composante[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, IEnumerable<string>? location = null);
 
         /// <summary>
+        /// Change la composante courante
+        /// </summary>
+        /// <param name="newCurrent">La nouvelle composante courante</param>
+        Task SetCurrentAsync(Composante newCurrent);
+
+        /// <summary>
         /// Modifie une composante
         /// </summary>
         /// <param name="oldValue">Ancienne valeur de la composante</param>
