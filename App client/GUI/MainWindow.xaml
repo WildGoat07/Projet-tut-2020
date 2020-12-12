@@ -6,13 +6,40 @@
         xmlns:local="clr-namespace:GUI"
         mc:Ignorable="d"
         Title="" Height="700" Width="1200" Background="#FFF6F6F6">
+    <Window.Resources>
+        <Style x:Key="imageButton" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}">
+                            <Grid>
+                                <ContentPresenter x:Name="MyContentPresenter" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2" />
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#302765BD" />
+                            </Trigger>
+
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#602765BD" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <DockPanel>
         <StackPanel DockPanel.Dock="Top">
             <Menu VerticalAlignment="Top">
                 <MenuItem Header="test" />
             </Menu>
             <StackPanel Margin="5" VerticalAlignment="Bottom" Orientation="Horizontal">
-                <Button Content="test" />
+                <Button Content="test" Style="{DynamicResource imageButton}" />
             </StackPanel>
         </StackPanel>
         <StackPanel DockPanel.Dock="Left" MinWidth="120" Orientation="Vertical" Background="#FFF6F6F6">
