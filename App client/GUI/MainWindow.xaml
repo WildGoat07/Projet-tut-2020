@@ -7,7 +7,15 @@
         mc:Ignorable="d"
         Title="" Height="700" Width="1200" Background="#FFF6F6F6">
     <DockPanel>
-        <StackPanel MinWidth="120" Orientation="Vertical" Background="#FFF6F6F6">
+        <StackPanel DockPanel.Dock="Top">
+            <Menu VerticalAlignment="Top">
+                <MenuItem Header="test" />
+            </Menu>
+            <StackPanel Margin="5" VerticalAlignment="Bottom" Orientation="Horizontal">
+                <Button Content="test" />
+            </StackPanel>
+        </StackPanel>
+        <StackPanel DockPanel.Dock="Left" MinWidth="120" Orientation="Vertical" Background="#FFF6F6F6">
             <StackPanel.Effect>
                 <DropShadowEffect Opacity="0.35" Direction="0" ShadowDepth="2" BlurRadius="10" />
             </StackPanel.Effect>
