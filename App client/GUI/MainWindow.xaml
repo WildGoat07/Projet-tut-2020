@@ -12,7 +12,7 @@
                 <DropShadowEffect Opacity="0.35" Direction="0" ShadowDepth="2" BlurRadius="10" />
             </StackPanel.Effect>
             <!--side-->
-            <TextBlock HorizontalAlignment="Center" Margin="0,15,0,0" Text="logo" />
+            <TextBlock HorizontalAlignment="Center" Margin="0,15,0,0" d:Text="logo" />
             <Separator />
             <Grid Name="compoButton" MouseEnter="SideButtonMouseEnter" MouseLeave="SideButtonMouseLeave" MouseDown="SideButtonMouseDown" MouseUp="SideButtonMouseUp">
                 <Label Content="Composantes" HorizontalContentAlignment="Right" Margin="0,0,15,0" />
@@ -60,7 +60,10 @@
             </Grid>
         </StackPanel>
         <Grid>
+            <ComboBox VerticalAlignment="Top" HorizontalAlignment="Left" Name="yearSelection" Margin="25,5" Visibility="Hidden" d:Visibility="Visible" />
+            <Label Name="moduleTitle" VerticalAlignment="Top" HorizontalAlignment="Center" d:Content="Test" FontSize="24" />
             <!--center-->
+            <TabControl Margin="5,50,5,5" Name="modules" Background="#FFF6F6F6" SelectionChanged="modules_SelectionChanged" />
         </Grid>
     </DockPanel>
 </Window>

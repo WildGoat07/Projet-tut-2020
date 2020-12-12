@@ -23,17 +23,56 @@ namespace GUI
         public MainWindow()
         {
             InitializeComponent();
+            _ = UpdateYearSelectionAsync();
         }
 
-        public static Color Accent { get; } = Color.FromRgb(39, 101, 189);
+        public void LoadModule(Module module)
+        {
+            if (module is DateDepedantModule m)
+                m.years = yearSelection;
+            var item = new TabItem();
+            var header = new StackPanel();
+            header.Children.Add(new Label { Content = module.Title });
+            header.Children.Add(new Image());
+            item.Header = header;
+            item.Content = module.Content;
+            item.Tag = module;
+            modules.Items.Add(item);
+        }
 
-        public static Color AlphaAccent(byte a) => Color.FromArgb(a, Accent.R, Accent.G, Accent.B);
+        public async Task UpdateYearSelectionAsync()
+        {
+            var selection = yearSelection.SelectedItem;
+            yearSelection.Items.Clear();
+            yearSelection.Items.Add("Toutes les années");
+            if (App.Factory != null)
+                foreach (var item in await App.Factory.AnneeUnivDAO.GetAllAsync())
+                    yearSelection.Items.Add(item.Annee);
+            yearSelection.SelectedItem = selection ?? yearSelection.Items[0];
+        }
+
+        private void modules_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var item = modules.SelectedItem as TabItem;
+            if (item != null)
+            {
+                var module = item.Tag as Module;
+                if (module != null)
+                {
+                    moduleTitle.Content = module.Title;
+                    if (module is DateDepedantModule)
+                        yearSelection.Visibility = Visibility.Visible;
+                    else
+                        yearSelection.Visibility = Visibility.Hidden;
+                }
+            }
+        }
 
         private void SideButtonMouseDown(object sender, MouseButtonEventArgs e)
         {
             var grid = sender as Grid;
             if (grid != null)
-                grid.Background = new SolidColorBrush(AlphaAccent(75));
+                grid.Background = new SolidColorBrush(App.AlphaAccent(75));
         }
 
         private void SideButtonMouseEnter(object sender, MouseEventArgs e)
@@ -41,9 +80,9 @@ namespace GUI
             var grid = sender as Grid;
             if (grid != null)
             {
-                grid.Background = new SolidColorBrush(AlphaAccent(25));
+                grid.Background = new SolidColorBrush(App.AlphaAccent(25));
                 if (grid.Children[0] is Label label)
-                    label.Foreground = new SolidColorBrush(Accent);
+                    label.Foreground = new SolidColorBrush(App.Accent);
                 grid.Children[1].Visibility = Visibility.Visible;
             }
         }
@@ -64,7 +103,7 @@ namespace GUI
         {
             var grid = sender as Grid;
             if (grid != null)
-                grid.Background = new SolidColorBrush(AlphaAccent(25));
+                grid.Background = new SolidColorBrush(App.AlphaAccent(25));
         }
     }
 }

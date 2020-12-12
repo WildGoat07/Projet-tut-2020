@@ -45,13 +45,9 @@ namespace DAO
         /// <summary>
         /// Récupère toutes les année enregistrées
         /// </summary>
-        /// <param name="maxCount">Quantité maximum à récupérer</param>
-        /// <param name="page">
-        /// Les <paramref name="maxCount"/> * <paramref name="page"/> première valeurs seront évitées
-        /// </param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <returns>Toutes les années disponibles</returns>
-        Task<AnneeUniv[]> GetAllAsync(int maxCount, int page);
+        Task<AnneeUniv[]> GetAllAsync();
 
         /// <summary>
         /// Modifie une année universitaire
