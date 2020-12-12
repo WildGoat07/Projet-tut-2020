@@ -25,9 +25,13 @@ namespace GUI
             Title = "New Module";
         }
 
+        public event Action? OnClose;
+
         public UIElement? Content { get; private set; }
 
         public string Title { get; private set; }
+
+        public void CloseModule() => OnClose?.Invoke();
 
         public override string ToString() => Title;
     }

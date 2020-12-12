@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +25,7 @@ namespace GUI
         {
             InitializeComponent();
             _ = UpdateYearSelectionAsync();
+            LoadModule(null);//test
         }
 
         public void LoadModule(Module module)
@@ -32,10 +34,25 @@ namespace GUI
                 m.years = yearSelection;
             var item = new TabItem();
             var header = new StackPanel();
-            header.Children.Add(new Label { Content = module.Title });
-            header.Children.Add(new Image());
+            header.Children.Add(new Label { Content = module });
+            var image = new Image
+            {
+                Width = 8,
+                Height = 8,
+                Margin = new Thickness(4)
+            };
+            using (var stream = new MemoryStream(Properties.Resources.closeTab))
+                image.Source = App.LoadImage(stream);
+            var closeGrid = new Grid();
+            closeGrid.Children.Add(image);
+            closeGrid.MouseEnter += (sender, e) => closeGrid.Background = new SolidColorBrush(App.AlphaAccent(25));
+            closeGrid.MouseLeave += (sender, e) => closeGrid.Background = new SolidColorBrush(Colors.Transparent);
+            if (module != null) //remove after tests
+                module.OnClose += () => modules.Items.Remove(item);
+            closeGrid.MouseUp += (sender, e) => module?.CloseModule(); //change after tests
+            header.Children.Add(closeGrid);
             item.Header = header;
-            item.Content = module.Content;
+            item.Content = module?.Content;
             item.Tag = module;
             modules.Items.Add(item);
         }
