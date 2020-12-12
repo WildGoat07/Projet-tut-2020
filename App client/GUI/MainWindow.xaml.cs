@@ -24,5 +24,47 @@ namespace GUI
         {
             InitializeComponent();
         }
+
+        public static Color Accent { get; } = Color.FromRgb(39, 101, 189);
+
+        public static Color AlphaAccent(byte a) => Color.FromArgb(a, Accent.R, Accent.G, Accent.B);
+
+        private void SideButtonMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var grid = sender as Grid;
+            if (grid != null)
+                grid.Background = new SolidColorBrush(AlphaAccent(75));
+        }
+
+        private void SideButtonMouseEnter(object sender, MouseEventArgs e)
+        {
+            var grid = sender as Grid;
+            if (grid != null)
+            {
+                grid.Background = new SolidColorBrush(AlphaAccent(25));
+                if (grid.Children[0] is Label label)
+                    label.Foreground = new SolidColorBrush(Accent);
+                grid.Children[1].Visibility = Visibility.Visible;
+            }
+        }
+
+        private void SideButtonMouseLeave(object sender, MouseEventArgs e)
+        {
+            var grid = sender as Grid;
+            if (grid != null)
+            {
+                grid.Background = new SolidColorBrush(Colors.Transparent);
+                if (grid.Children[0] is Label label)
+                    label.Foreground = new SolidColorBrush(Colors.Black);
+                grid.Children[1].Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void SideButtonMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            var grid = sender as Grid;
+            if (grid != null)
+                grid.Background = new SolidColorBrush(AlphaAccent(25));
+        }
     }
 }

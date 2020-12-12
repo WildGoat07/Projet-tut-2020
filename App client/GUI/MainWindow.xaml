@@ -5,8 +5,62 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+        Title="" Height="700" Width="1200" Background="#FFF6F6F6">
+    <DockPanel>
+        <StackPanel MinWidth="120" Orientation="Vertical" Background="#FFF6F6F6">
+            <StackPanel.Effect>
+                <DropShadowEffect Opacity="0.35" Direction="0" ShadowDepth="2" BlurRadius="10" />
+            </StackPanel.Effect>
+            <!--side-->
+            <TextBlock HorizontalAlignment="Center" Margin="0,15,0,0" Text="logo" />
+            <Separator />
+            <Grid Name="compoButton" MouseEnter="SideButtonMouseEnter" MouseLeave="SideButtonMouseLeave" MouseDown="SideButtonMouseDown" MouseUp="SideButtonMouseUp">
+                <Label Content="Composantes" HorizontalContentAlignment="Right" Margin="0,0,15,0" />
+                <Rectangle Visibility="Hidden" HorizontalAlignment="Right" Width="4" Fill="#2765BD" />
+            </Grid>
+            <Grid Name="diplomeButton" MouseEnter="SideButtonMouseEnter" MouseLeave="SideButtonMouseLeave" MouseDown="SideButtonMouseDown" MouseUp="SideButtonMouseUp">
+                <Label Content="Diplômes" HorizontalContentAlignment="Right" Margin="0,0,15,0" />
+                <Rectangle Visibility="Hidden" HorizontalAlignment="Right" Width="4" Fill="#2765BD" />
+            </Grid>
+            <Grid Name="enseignantButton" MouseEnter="SideButtonMouseEnter" MouseLeave="SideButtonMouseLeave" MouseDown="SideButtonMouseDown" MouseUp="SideButtonMouseUp">
+                <Label Content="Enseignants" HorizontalContentAlignment="Right" Margin="0,0,15,0" />
+                <Rectangle Visibility="Hidden" HorizontalAlignment="Right" Width="4" Fill="#2765BD" />
+            </Grid>
+            <Grid Name="etapeButton" MouseEnter="SideButtonMouseEnter" MouseLeave="SideButtonMouseLeave" MouseDown="SideButtonMouseDown" MouseUp="SideButtonMouseUp">
+                <Label Content="Étapes" HorizontalContentAlignment="Right" Margin="0,0,15,0" />
+                <Rectangle Visibility="Hidden" HorizontalAlignment="Right" Width="4" Fill="#2765BD" />
+            </Grid>
+            <Grid Name="semButton" MouseEnter="SideButtonMouseEnter" MouseLeave="SideButtonMouseLeave" MouseDown="SideButtonMouseDown" MouseUp="SideButtonMouseUp">
+                <Label Content="Semestres" HorizontalContentAlignment="Right" Margin="0,0,15,0" />
+                <Rectangle Visibility="Hidden" HorizontalAlignment="Right" Width="4" Fill="#2765BD" />
+            </Grid>
+            <Grid Name="ueButton" MouseEnter="SideButtonMouseEnter" MouseLeave="SideButtonMouseLeave" MouseDown="SideButtonMouseDown" MouseUp="SideButtonMouseUp">
+                <Label Content="UE" HorizontalContentAlignment="Right" Margin="0,0,15,0" />
+                <Rectangle Visibility="Hidden" HorizontalAlignment="Right" Width="4" Fill="#2765BD" />
+            </Grid>
+            <Grid Name="ecButton" MouseEnter="SideButtonMouseEnter" MouseLeave="SideButtonMouseLeave" MouseDown="SideButtonMouseDown" MouseUp="SideButtonMouseUp">
+                <Label Content="EC" HorizontalContentAlignment="Right" Margin="0,0,15,0" />
+                <Rectangle Visibility="Hidden" HorizontalAlignment="Right" Width="4" Fill="#2765BD" />
+            </Grid>
+            <Grid Name="categButton" MouseEnter="SideButtonMouseEnter" MouseLeave="SideButtonMouseLeave" MouseDown="SideButtonMouseDown" MouseUp="SideButtonMouseUp">
+                <Label Content="Categories" HorizontalContentAlignment="Right" Margin="0,0,15,0" />
+                <Rectangle Visibility="Hidden" HorizontalAlignment="Right" Width="4" Fill="#2765BD" />
+            </Grid>
+            <Grid Name="enseignementButton" MouseEnter="SideButtonMouseEnter" MouseLeave="SideButtonMouseLeave" MouseDown="SideButtonMouseDown" MouseUp="SideButtonMouseUp">
+                <Label Content="Enseignements" HorizontalContentAlignment="Right" Margin="0,0,15,0" />
+                <Rectangle Visibility="Hidden" HorizontalAlignment="Right" Width="4" Fill="#2765BD" />
+            </Grid>
+            <Grid Name="serviceButton" MouseEnter="SideButtonMouseEnter" MouseLeave="SideButtonMouseLeave" MouseDown="SideButtonMouseDown" MouseUp="SideButtonMouseUp">
+                <Label Content="Services" HorizontalContentAlignment="Right" Margin="0,0,15,0" />
+                <Rectangle Visibility="Hidden" HorizontalAlignment="Right" Width="4" Fill="#2765BD" />
+            </Grid>
+            <Grid Name="horscompButton" MouseEnter="SideButtonMouseEnter" MouseLeave="SideButtonMouseLeave" MouseDown="SideButtonMouseDown" MouseUp="SideButtonMouseUp">
+                <Label Content="Hors composante" HorizontalContentAlignment="Right" Margin="0,0,15,0" />
+                <Rectangle Visibility="Hidden" HorizontalAlignment="Right" Width="4" Fill="#2765BD" />
+            </Grid>
+        </StackPanel>
+        <Grid>
+            <!--center-->
+        </Grid>
+    </DockPanel>
 </Window>
