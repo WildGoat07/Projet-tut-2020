@@ -34,7 +34,10 @@ foreach ($postObj->values as $values) {
 
 
     $updateReq = $db->prepare($strReq);
-    if ($updateReq->execute()) {
+    $statement = $updateReq->execute();
+    $error = $updateReq->errorInfo();
+
+    if ($error[0] == '00000') {
         $nbRows = $updateReq->rowCount();
         if ($nbRows != 0) {
             $resultStr = "SELECT `code_ue`, `libelle_ue`, `nature`, `ECTS`, `code_ue_pere`, `code_sem` FROM `ue` WHERE ";
@@ -59,8 +62,6 @@ foreach ($postObj->values as $values) {
             $returnedValues->errors[] = $obj;
         }
     } else {
-        $error = $updateReq->errorInfo();
-
         $obj = new stdClass();
         $obj->error_code = $error[0];
         $obj->error_desc = $error[2];

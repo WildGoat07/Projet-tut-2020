@@ -48,26 +48,35 @@ foreach ($postObj->values as $values) {
 
     $strReq .= ") VALUES $data )";
 
-    $requete=$db->prepare($strReq);
+    $createReq = $db->prepare($strReq);
+    $statement = $createReq->execute();
+    $error = $createReq->errorInfo();
     
-    if ( $requete->execute() ) {
-        $resultStr = "SELECT `code_ue`, `libelle_ue`, `nature`, `ECTS`, `code_ue_pere`, `code_sem` FROM `ue` WHERE ";
-        $resultStr .= "code_ue = $id_entered[$indexId]";
-        $indexId++;
+    if ( $error[0] == '00000' ) {
+        $nbRows = $updateReq->rowCount();
+        if ($nbRows != 0) {
+            $resultStr = "SELECT `code_ue`, `libelle_ue`, `nature`, `ECTS`, `code_ue_pere`, `code_sem` FROM `ue` WHERE ";
+            $resultStr .= "code_ue = $id_entered[$indexId]";
+            $indexId++;
 
-        $result=$db->query($resultStr);
-        $row=$result->fetch(PDO::FETCH_OBJ);
+            $result=$db->query($resultStr);
+            $row=$result->fetch(PDO::FETCH_OBJ);
 
-        $obj = new stdClass();
-        $obj->code_ue = $row->code_ue;
-        $obj->libelle_ue = $row->libelle_ue;
-        $obj->nature = $row->nature;
-        $obj->ECTS = $row->ECTS;
-        $obj->code_ue_pere = $row->code_ue_pere;
-        $obj->code_sem = $row->code_sem;
+            $obj = new stdClass();
+            $obj->code_ue = $row->code_ue;
+            $obj->libelle_ue = $row->libelle_ue;
+            $obj->nature = $row->nature;
+            $obj->ECTS = $row->ECTS;
+            $obj->code_ue_pere = $row->code_ue_pere;
+            $obj->code_sem = $row->code_sem;
 
-        array_push($returnedValues->values, $obj);
-        $returnedValues->success=true;
+            array_push($returnedValues->values, $obj);
+            $returnedValues->success=true;
+        } else {
+            $obj = new stdClass();
+            $obj->error_desc = "0 row affected";
+            $returnedValues->errors[] = $obj;
+        }
     }
     else {
         $error=$requete->errorInfo();
