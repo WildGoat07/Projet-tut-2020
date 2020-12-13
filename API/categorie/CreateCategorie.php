@@ -19,13 +19,11 @@ foreach ($postObj->values as $values) {
     $data = "(";
     
     $strReq .= " `no_cat` ";
-    /*$data .= "'$values->no_cat'";*/
+    $data .= "'$values->no_cat'";
     array_push($id_entered, $values->no_cat);
 
     $strReq .= " ,`categorie` ";
-    $data .= ",'$values->categorie'";
-    //array_push($id_entered, $values->categorie);
-    
+    $data .= ",'$values->categorie'"; 
 
     $strReq .= ") VALUES $data )";
 
