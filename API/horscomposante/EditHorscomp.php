@@ -53,7 +53,6 @@ foreach ($postObj->values as $values) {
 
     $updateReq=$db->prepare($strReq);
     if ( $updateReq->execute() ) {
-        echo 'ok'; 
         $nbRows=$updateReq->rowCount();
         if( $nbRows != 0) {
             $resultStr = "SELECT `id_ens`, `ìd_comp`, `annee`, `HCM`, `HEI`, `HTD`, `HTP`, `HTPL`, `HPRJ`, `HEqTD` FROM `horscomp` WHERE ";
@@ -74,20 +73,16 @@ foreach ($postObj->values as $values) {
             $obj->HPRJ = $row->HPRJ;
             $obj->HeqTD = $row->HEqTD;
 
-            var_dump($obj->id_ens);
-
             $returnedValues->values[] = $obj;
             $returnedValues->success=true;
         }
         else {
             $obj = new stdClass();
             $obj->error_desc = "0 row affected";
-            var_dump($obj->id_ens);
             $returnedValues->errors[] = $obj;
         }
     }
     else {
-        echo 'pas ok'; 
         $error=$updateReq->errorInfo();
 
         $obj = new stdClass();
