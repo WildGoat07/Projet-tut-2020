@@ -56,7 +56,7 @@ foreach ($postObj->values as $values) {
         $nbRows = $updateReq->rowCount();
         if ($nbRows != 0) {
             $resultStr = "SELECT `code_ue`, `libelle_ue`, `nature`, `ECTS`, `code_ue_pere`, `code_sem` FROM `ue` WHERE ";
-            $resultStr .= "code_ue = $id_entered[$indexId]";
+            $resultStr .= "`code_ue` = '$id_entered[$indexId]'";
             $indexId++;
 
             $result=$db->query($resultStr);

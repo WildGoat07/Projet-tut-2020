@@ -24,14 +24,20 @@ foreach ($postObj->values as $values) {
     $target = $values->target;
     $strReq .= " WHERE `no_cat` = '$target->no_cat' ";
     
+    var_dump($strReq);
 
+    $updateReq = $db->prepare($strReq);
+    $statement = $updateReq->execute();
+    $error = $updateReq->errorInfo();
 
-    $updateReq=$db->prepare($strReq);
-    if ( $updateReq->execute() ) {
+    if ( $error[0] == '00000' ) {
         $nbRows=$updateReq->rowCount();
         if( $nbRows != 0) {
-            $resultStr = "SELECT `no_cat, categorie` FROM `categories` WHERE ";
-            $resultStr .= "`no_cat` = '$data->no_cat'";
+            $resultStr = "SELECT `no_cat`, `categorie` FROM `categories` WHERE ";
+            if( isset($data->no_cat) ) 
+                $resultStr .= "`no_cat` = '$data->no_cat'";
+            else 
+                $resultStr .= "`no_cat` = '$target->no_cat'";
 
             $result=$db->query($resultStr);
             $row=$result->fetch(PDO::FETCH_OBJ);

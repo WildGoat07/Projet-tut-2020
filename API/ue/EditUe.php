@@ -41,7 +41,10 @@ foreach ($postObj->values as $values) {
         $nbRows = $updateReq->rowCount();
         if ($nbRows != 0) {
             $resultStr = "SELECT `code_ue`, `libelle_ue`, `nature`, `ECTS`, `code_ue_pere`, `code_sem` FROM `ue` WHERE ";
-            $resultStr .= "`code_ue` = '$data->code_ue'";
+            if( isset($data->code_ue) ) 
+                $resultStr .= "`code_ue` = '$data->code_ue'";
+            else 
+                $resultStr .= "`code_ue` = '$target->code_ue'";
 
             $result = $db->query($resultStr);
             $row = $result->fetch(PDO::FETCH_OBJ);

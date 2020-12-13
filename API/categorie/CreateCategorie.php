@@ -30,8 +30,8 @@ foreach ($postObj->values as $values) {
     $requete=$db->prepare($strReq);
     
     if ( $requete->execute() ) {
-        $resultStr = "SELECT `no_cat, categorie` FROM `categories` WHERE ";
-        $resultStr .= "no_cat = $id_entered[$indexId]";
+        $resultStr = "SELECT `no_cat`,`categorie` FROM `categories` WHERE ";
+        $resultStr .= "`no_cat` = '$id_entered[$indexId]'";
         $indexId++;
 
         $result=$db->query($resultStr);
