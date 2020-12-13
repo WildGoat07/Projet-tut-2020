@@ -32,7 +32,7 @@ namespace GUI
 
         public async Task LoadModuleAsync(Module module)
         {
-            var refreshTask = module?.RefreshAsync();
+            var refreshTask = module.RefreshAsync();
             if (module is DateDepedantModule m)
                 m.years = yearSelection;
             var item = new TabItem();
@@ -48,9 +48,8 @@ namespace GUI
             closeGrid.Children.Add(image);
             closeGrid.MouseEnter += (sender, e) => closeGrid.Background = new SolidColorBrush(App.AlphaAccent(25));
             closeGrid.MouseLeave += (sender, e) => closeGrid.Background = new SolidColorBrush(Colors.Transparent);
-            if (module is not null) //remove after tests
-                module.OnClose += () => modules.Items.Remove(item);
-            closeGrid.MouseUp += (sender, e) => module?.CloseModule(); //change after tests
+            module.OnClose += () => modules.Items.Remove(item);
+            closeGrid.MouseUp += (sender, e) => module.CloseModule();
             header.Children.Add(closeGrid);
             item.Header = header;
             item.Content = module?.Content;
