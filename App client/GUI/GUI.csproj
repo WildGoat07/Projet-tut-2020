@@ -39,10 +39,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="modules\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Resource Include="icons\AddFilter_16x.png" />
     <Resource Include="icons\Add_16x.png" />
     <Resource Include="icons\DeleteFilter_16x.png" />

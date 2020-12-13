@@ -38,8 +38,11 @@
             <MenuItem Header="test" />
         </Menu>
         <StackPanel DockPanel.Dock="Top" Margin="5" VerticalAlignment="Bottom" Orientation="Horizontal">
-            <Button Style="{DynamicResource imageButton}">
+            <Button Style="{DynamicResource imageButton}" Click="Button_Click">
                 <Image Stretch="None" Source="/icons/Refresh_16x.png" ToolTip="Actualise les données de l'onglet ouvert (F5)" />
+            </Button>
+            <Button Style="{DynamicResource imageButton}">
+                <Image Stretch="None" Source="/icons/Log_16x.png" ToolTip="Ouvre les logs de l'application" />
             </Button>
         </StackPanel>
         <StackPanel DockPanel.Dock="Left" MinWidth="120" Orientation="Vertical" Background="#FFF6F6F6">

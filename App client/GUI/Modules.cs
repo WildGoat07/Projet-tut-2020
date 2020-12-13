@@ -19,17 +19,11 @@ namespace GUI
 
     public abstract class Module
     {
-        protected Module()
-        {
-            Content = null;
-            Title = "New Module";
-        }
-
         public event Action? OnClose;
 
-        public UIElement? Content { get; private set; }
+        public abstract UIElement? Content { get; }
 
-        public string Title { get; private set; }
+        public abstract string Title { get; }
 
         public void CloseModule() => OnClose?.Invoke();
 

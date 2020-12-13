@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GUI.modules;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,7 +26,7 @@ namespace GUI
         {
             InitializeComponent();
             _ = UpdateYearSelectionAsync();
-            _ = LoadModuleAsync(null);//test
+            _ = LoadModuleAsync(new DummyModule());//test
         }
 
         public async Task LoadModuleAsync(Module module)
@@ -58,6 +59,13 @@ namespace GUI
                 await refreshTask;
         }
 
+        public async Task RefreshAsync()
+        {
+            var mod = (modules.SelectedItem as TabItem)?.Tag as Module;
+            if (mod is not null)
+                await mod.RefreshAsync();
+        }
+
         public async Task UpdateYearSelectionAsync()
         {
             var selection = yearSelection.SelectedItem;
@@ -68,6 +76,8 @@ namespace GUI
                     yearSelection.Items.Add(item.Annee);
             yearSelection.SelectedItem = selection ?? yearSelection.Items[0];
         }
+
+        private async void Button_Click(object sender, RoutedEventArgs e) => await RefreshAsync();
 
         private void modules_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -127,11 +137,7 @@ namespace GUI
         private async void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.F5)
-            {
-                var mod = (modules.SelectedItem as TabItem)?.Tag as Module;
-                if (mod is not null)
-                    await mod.RefreshAsync();
-            }
+                await RefreshAsync();
         }
     }
 }
