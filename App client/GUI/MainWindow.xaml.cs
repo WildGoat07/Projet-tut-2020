@@ -120,7 +120,7 @@ namespace GUI
         private void SideButtonMouseUp(object sender, MouseButtonEventArgs e)
         {
             var grid = sender as Grid;
-            if (grid != null)
+            if (grid is not null)
                 grid.Background = new SolidColorBrush(App.AlphaAccent(25));
         }
 
