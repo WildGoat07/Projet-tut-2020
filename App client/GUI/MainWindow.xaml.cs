@@ -27,6 +27,7 @@ namespace GUI
             InitializeComponent();
             _ = UpdateYearSelectionAsync();
             _ = LoadModuleAsync(new DummyModule());//test
+            _ = LoadModuleAsync(new DummyDateModule());//test
         }
 
         public async Task LoadModuleAsync(Module module)
@@ -35,7 +36,7 @@ namespace GUI
             if (module is DateDepedantModule m)
                 m.years = yearSelection;
             var item = new TabItem();
-            var header = new StackPanel();
+            var header = new StackPanel { Orientation = Orientation.Horizontal };
             header.Children.Add(new Label { Content = module });
             var image = new Image
             {
@@ -55,6 +56,7 @@ namespace GUI
             item.Content = module?.Content;
             item.Tag = module;
             modules.Items.Add(item);
+            modules.SelectedItem = item;
             if (refreshTask is not null)
                 await refreshTask;
         }
@@ -93,6 +95,11 @@ namespace GUI
                     else
                         yearSelection.Visibility = Visibility.Hidden;
                 }
+            }
+            else
+            {
+                yearSelection.Visibility = Visibility.Hidden;
+                moduleTitle.Content = "";
             }
         }
 
