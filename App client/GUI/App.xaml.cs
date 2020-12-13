@@ -19,6 +19,15 @@ namespace GUI
     {
         public static Color Accent { get; } = Color.FromRgb(39, 101, 189);
 
+        public static ImageSource CloseTab
+        {
+            get
+            {
+                using var stream = new MemoryStream(GUI.Properties.Resources.closeTab);
+                return LoadImage(stream);
+            }
+        }
+
         public static IDAOFactory Factory { get; } = null; //à mettre la DAO de l'API
 
         public static Color AlphaAccent(byte a) => Color.FromArgb(a, Accent.R, Accent.G, Accent.B);

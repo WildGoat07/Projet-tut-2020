@@ -25,11 +25,12 @@ namespace GUI
         {
             InitializeComponent();
             _ = UpdateYearSelectionAsync();
-            LoadModule(null);//test
+            _ = LoadModuleAsync(null);//test
         }
 
-        public void LoadModule(Module module)
+        public async Task LoadModuleAsync(Module module)
         {
+            var refreshTask = module?.RefreshAsync();
             if (module is DateDepedantModule m)
                 m.years = yearSelection;
             var item = new TabItem();
@@ -37,17 +38,15 @@ namespace GUI
             header.Children.Add(new Label { Content = module });
             var image = new Image
             {
-                Width = 8,
-                Height = 8,
-                Margin = new Thickness(4)
+                Stretch = Stretch.None,
+                Margin = new Thickness(2)
             };
-            using (var stream = new MemoryStream(Properties.Resources.closeTab))
-                image.Source = App.LoadImage(stream);
+            image.Source = App.CloseTab;
             var closeGrid = new Grid();
             closeGrid.Children.Add(image);
             closeGrid.MouseEnter += (sender, e) => closeGrid.Background = new SolidColorBrush(App.AlphaAccent(25));
             closeGrid.MouseLeave += (sender, e) => closeGrid.Background = new SolidColorBrush(Colors.Transparent);
-            if (module != null) //remove after tests
+            if (module is not null) //remove after tests
                 module.OnClose += () => modules.Items.Remove(item);
             closeGrid.MouseUp += (sender, e) => module?.CloseModule(); //change after tests
             header.Children.Add(closeGrid);
@@ -55,6 +54,8 @@ namespace GUI
             item.Content = module?.Content;
             item.Tag = module;
             modules.Items.Add(item);
+            if (refreshTask is not null)
+                await refreshTask;
         }
 
         public async Task UpdateYearSelectionAsync()
@@ -62,7 +63,7 @@ namespace GUI
             var selection = yearSelection.SelectedItem;
             yearSelection.Items.Clear();
             yearSelection.Items.Add("Toutes les années");
-            if (App.Factory != null)
+            if (App.Factory is not null)
                 foreach (var item in await App.Factory.AnneeUnivDAO.GetAllAsync())
                     yearSelection.Items.Add(item.Annee);
             yearSelection.SelectedItem = selection ?? yearSelection.Items[0];
@@ -71,10 +72,10 @@ namespace GUI
         private void modules_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var item = modules.SelectedItem as TabItem;
-            if (item != null)
+            if (item is not null)
             {
                 var module = item.Tag as Module;
-                if (module != null)
+                if (module is not null)
                 {
                     moduleTitle.Content = module.Title;
                     if (module is DateDepedantModule)
@@ -88,14 +89,14 @@ namespace GUI
         private void SideButtonMouseDown(object sender, MouseButtonEventArgs e)
         {
             var grid = sender as Grid;
-            if (grid != null)
+            if (grid is not null)
                 grid.Background = new SolidColorBrush(App.AlphaAccent(75));
         }
 
         private void SideButtonMouseEnter(object sender, MouseEventArgs e)
         {
             var grid = sender as Grid;
-            if (grid != null)
+            if (grid is not null)
             {
                 grid.Background = new SolidColorBrush(App.AlphaAccent(25));
                 if (grid.Children[0] is Label label)
@@ -107,7 +108,7 @@ namespace GUI
         private void SideButtonMouseLeave(object sender, MouseEventArgs e)
         {
             var grid = sender as Grid;
-            if (grid != null)
+            if (grid is not null)
             {
                 grid.Background = new SolidColorBrush(Colors.Transparent);
                 if (grid.Children[0] is Label label)
@@ -121,6 +122,16 @@ namespace GUI
             var grid = sender as Grid;
             if (grid != null)
                 grid.Background = new SolidColorBrush(App.AlphaAccent(25));
+        }
+
+        private async void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.F5)
+            {
+                var mod = (modules.SelectedItem as TabItem)?.Tag as Module;
+                if (mod is not null)
+                    await mod.RefreshAsync();
+            }
         }
     }
 }

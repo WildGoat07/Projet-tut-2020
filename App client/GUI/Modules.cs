@@ -33,6 +33,8 @@ namespace GUI
 
         public void CloseModule() => OnClose?.Invoke();
 
+        public abstract Task RefreshAsync();
+
         public override string ToString() => Title;
     }
 }

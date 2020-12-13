@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GUI"
         mc:Ignorable="d"
-        Title="" Height="700" Width="1200" Background="#FFF6F6F6">
+        Title="" Height="700" Width="1200" Background="#FFF6F6F6" PreviewKeyDown="Window_PreviewKeyDown">
     <Window.Resources>
         <Style x:Key="imageButton" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="Transparent" />
@@ -34,13 +34,13 @@
         </Style>
     </Window.Resources>
     <DockPanel>
-        <StackPanel DockPanel.Dock="Top">
-            <Menu VerticalAlignment="Top">
-                <MenuItem Header="test" />
-            </Menu>
-            <StackPanel Margin="5" VerticalAlignment="Bottom" Orientation="Horizontal">
-                <Button Content="test" Style="{DynamicResource imageButton}" />
-            </StackPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="test" />
+        </Menu>
+        <StackPanel DockPanel.Dock="Top" Margin="5" VerticalAlignment="Bottom" Orientation="Horizontal">
+            <Button Style="{DynamicResource imageButton}">
+                <Image Stretch="None" Source="/icons/Refresh_16x.png" ToolTip="Actualise les données de l'onglet ouvert (F5)" />
+            </Button>
         </StackPanel>
         <StackPanel DockPanel.Dock="Left" MinWidth="120" Orientation="Vertical" Background="#FFF6F6F6">
             <StackPanel.Effect>
