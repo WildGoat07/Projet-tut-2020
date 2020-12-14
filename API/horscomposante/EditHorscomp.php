@@ -18,18 +18,12 @@ foreach ($postObj->values as $values) {
 
     if( isset($data->id_ens) ) 
         $strReq .= "`id_ens` = '$data->id_ens'";
-        else 
-            $resultStr .= "`id_ens` = '$target->id_ens'";
 
     if( isset($data->id_comp) )
         $strReq .= "`id_comp` = '$data->id_comp'"; 
-        else 
-            $resultStr .= "`id_comp` = '$target->id_comp'";
 
     if( isset($data->annee) ) 
         $strReq .= "`annee` = '$data->annee'";
-        else 
-            $resultStr .= "`annee` = '$target->annee'";
 
     if( isset($data->HCM) )
         $strReq .= "`HCM` = '$data->HCM'"; 
@@ -59,13 +53,40 @@ foreach ($postObj->values as $values) {
     $updateReq=$db->prepare($strReq);
     $statement = $updateReq->execute();
     $error = $updateReq->errorInfo();
+
     if ($error[0] == '00000') { 
         $nbRows=$updateReq->rowCount();
         if( $nbRows != 0) {
-            $resultStr = "SELECT `id_ens`, `ìd_comp`, `annee`, `HCM`, `HEI`, `HTD`, `HTP`, `HTPL`, `HPRJ`, `HEqTD` FROM `horscomp` WHERE ";
-            $resultStr .= "`id_ens` = '$data->id_ens' AND `id_comp` = '$data->id_comp' AND `annee` = '$data->annee'";
+            $resultStr = "SELECT `id_ens`, `id_comp`, `annee`, `HCM`, `HEI`, `HTD`, `HTP`, `HTPL`, `HPRJ`, `HEqTD` FROM `horscomp` WHERE ";
+            
+            $firstValue=true;
+            if (!$firstValue)
+                $resultStr .= " AND ";
+            $firstValue = false;
+            if( isset($data->id_ens) )
+                $resultStr .= "(`id_ens` = '$data->id_ens')";
+            else 
+                $resultStr .= "(`id_ens` = '$target->id_ens')";
+                
+            if (!$firstValue)
+                $resultStr .= " AND ";
+            $firstValue = false;
+            if( isset($data->id_comp) )
+                $resultStr .= "(`id_comp` = '$data->id_comp')";
+            else 
+                $resultStr .= "(`id_comp` = '$target->id_comp')";
+
+            if (!$firstValue)
+                $resultStr .= " AND ";
+            $firstValue = false;
+            if( isset($data->annee) )
+                $resultStr .= "(`annee` = '$data->annee')";
+            else 
+                $resultStr .= "(`annee` = '$target->annee')";
 
             $result=$db->query($resultStr);
+            $error = $result->errorInfo();
+
             $row=$result->fetch(PDO::FETCH_OBJ);
 
             $obj = new stdClass();

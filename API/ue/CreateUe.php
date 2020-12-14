@@ -53,7 +53,7 @@ foreach ($postObj->values as $values) {
     $error = $createReq->errorInfo();
     
     if ( $error[0] == '00000' ) {
-        $nbRows = $updateReq->rowCount();
+        $nbRows = $createReq->rowCount();
         if ($nbRows != 0) {
             $resultStr = "SELECT `code_ue`, `libelle_ue`, `nature`, `ECTS`, `code_ue_pere`, `code_sem` FROM `ue` WHERE ";
             $resultStr .= "`code_ue` = '$id_entered[$indexId]'";
@@ -79,8 +79,6 @@ foreach ($postObj->values as $values) {
         }
     }
     else {
-        $error=$requete->errorInfo();
-
         $obj = new stdClass();
         $obj->error_code = $error[0]; //enregistrement code d'erreur
         $obj->error_desc = $error[2]; //enregistrement message d'erreru renvoyé

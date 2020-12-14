@@ -82,7 +82,7 @@ foreach ($postObj->values as $values) {
     $error = $createReq->errorInfo();
     
     if ( $error[0] == '00000' ) {
-        $nbRows = $createeReq->rowCount();
+        $nbRows = $createReq->rowCount();
         if ($nbRows != 0) {
             $resultStr = "SELECT `id_ens`, `id_comp`, `annee`, `HCM`, `HEI`, `HTD`, `HTP`, `HTPL`, `HPRJ`, `HEqTD` FROM `horscomp` WHERE ";
             $resultStr .= "`id_ens` = '$id_entered[$indexId]'";
@@ -111,8 +111,6 @@ foreach ($postObj->values as $values) {
             $returnedValues->errors[] = $obj;
         }
     } else {
-        $error = $requete->errorInfo();
-
         $obj = new stdClass();
         $obj->error_code = $error[0]; //enregistrement code d'erreur
         $obj->error_desc = $error[2]; //enregistrement message d'erreur renvoyé
