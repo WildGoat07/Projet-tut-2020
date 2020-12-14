@@ -77,30 +77,39 @@ foreach ($postObj->values as $values) {
 
     $strReq .= ") VALUES $data )";
 
-    $requete = $db->prepare($strReq);
+    $createReq = $db->prepare($strReq);
+    $statement = $createReq->execute();
+    $error = $createReq->errorInfo();
+    
+    if ( $error[0] == '00000' ) {
+        $nbRows = $createeReq->rowCount();
+        if ($nbRows != 0) {
+            $resultStr = "SELECT `id_ens`, `id_comp`, `annee`, `HCM`, `HEI`, `HTD`, `HTP`, `HTPL`, `HPRJ`, `HEqTD` FROM `horscomp` WHERE ";
+            $resultStr .= "`id_ens` = '$id_entered[$indexId]'";
+            $indexId++;
 
-    if ($requete->execute()) {
-        $resultStr = "SELECT `id_ens`, `id_comp`, `annee`, `HCM`, `HEI`, `HTD`, `HTP`, `HTPL`, `HPRJ`, `HEqTD` FROM `horscomp` WHERE ";
-        $resultStr .= "`id_ens` = '$id_entered[$indexId]'";
-        $indexId++;
+            $result = $db->query($resultStr);
+            $row = $result->fetch(PDO::FETCH_OBJ);
 
-        $result = $db->query($resultStr);
-        $row = $result->fetch(PDO::FETCH_OBJ);
+            $obj = new stdClass();
+            $obj->id_ens = $row->id_ens;
+            $obj->id_comp = $row->id_comp;
+            $obj->annee = $row->annee;
+            $obj->HCM = $row->HCM;
+            $obj->HEI = $row->HEI;
+            $obj->HTD = $row->HTD;
+            $obj->HTP = $row->HTP;
+            $obj->HTPL = $row->HTPL;
+            $obj->HPRJ = $row->HPRJ;
+            $obj->HEqTD = $row->HEqTD;
 
-        $obj = new stdClass();
-        $obj->id_ens = $row->id_ens;
-        $obj->id_comp = $row->id_comp;
-        $obj->annee = $row->annee;
-        $obj->HCM = $row->HCM;
-        $obj->HEI = $row->HEI;
-        $obj->HTD = $row->HTD;
-        $obj->HTP = $row->HTP;
-        $obj->HTPL = $row->HTPL;
-        $obj->HPRJ = $row->HPRJ;
-        $obj->HEqTD = $row->HEqTD;
-
-        array_push($returnedValues->values, $obj);
-        $returnedValues->success = true;
+            array_push($returnedValues->values, $obj);
+            $returnedValues->success = true;
+        }else {
+            $obj = new stdClass();
+            $obj->error_desc = "0 row affected";
+            $returnedValues->errors[] = $obj;
+        }
     } else {
         $error = $requete->errorInfo();
 
