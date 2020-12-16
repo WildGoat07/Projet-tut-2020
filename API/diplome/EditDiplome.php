@@ -9,35 +9,66 @@ $returnedValues = new stdClass;
 $returnedValues->values = [];
 $returnedValues->success = false;
 $returnedValues->errors = [];
-
+$firstValue = true;
 
 foreach ($postObj->values as $values) {
+
     $strReq = "UPDATE `diplome` SET ";
 
     $data = $values->data;
 
-    if (isset($data->code_diplome))
+    if (isset($data->code_diplome)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`code_diplome` = '$data->code_diplome'";
-    if (isset($data->libelle_diplome))
-        $strReq .= ",`libelle_diplome` = '$data->libelle_diplome'";
-    if (isset($data->vdi))
-        $strReq .= ",`vdi` = '$data->vdi'";
-    if (isset($data->libelle_vdi))
-        $strReq .= ",`libelle_vdi` = '$data->libelle_vdi'";
-    if (isset($data->annee_deb))
-        $strReq .= ",`annee_deb` = '$data->annee_deb'";
-    if (isset($data->annee_fin))
-        $strReq .= ",`annee_fin` = '$data->annee_fin'";
+    }
+    if (isset($data->libelle_diplome)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
+        $strReq .= "`libelle_diplome` = '$data->libelle_diplome'";
+    }
+    if (isset($data->vdi)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
+        $strReq .= "`vdi` = '$data->vdi'";
+    }
+    if (isset($data->libelle_vdi)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
+        $strReq .= "`libelle_vdi` = '$data->libelle_vdi'";
+    }
+    if (isset($data->annee_deb)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
+        $strReq .= "`annee_deb` = '$data->annee_deb'";
+    }
+    if (isset($data->annee_fin)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
+        $strReq .= "`annee_fin` = '$data->annee_fin'";
+    }
 
     $target = $values->target;
-    $strReq .= " WHERE `code_diplome` = '$target->code_diplome' ";
+    $strReq .= " WHERE `code_diplome` = '$target->code_diplome' AND `vdi` = '$target->vdi' ";
 
     $updateReq = $db->prepare($strReq);
-    if ($updateReq->execute()) {
+    $statement = $updateReq->execute();
+    $error = $updateReq->errorInfo();
+
+    if ($error[0] == '00000') {
         $nbRows = $updateReq->rowCount();
         if ($nbRows != 0) {
             $resultStr = "SELECT `code_diplome`, `libelle_diplome`, `vdi`, `libelle_vdi`, `annee_deb`, `annee_fin` FROM `diplome` WHERE ";
-            $resultStr .= "`code_diplome` = '$data->code_diplome'";
+            if (isset($data->code_diplome))
+                $resultStr .= "`code_diplome` = '$data->code_diplome'";
+            else
+                $resultStr .= "`code_diplome` = '$target->code_diplome'";
 
             $result = $db->query($resultStr);
             $row = $result->fetch(PDO::FETCH_OBJ);
@@ -58,8 +89,6 @@ foreach ($postObj->values as $values) {
             $returnedValues->errors[] = $obj;
         }
     } else {
-        $error = $updateReq->errorInfo();
-
         $obj = new stdClass();
         $obj->error_code = $error[0];
         $obj->error_desc = $error[2];

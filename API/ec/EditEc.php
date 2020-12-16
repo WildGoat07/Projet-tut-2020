@@ -9,54 +9,115 @@ $returnedValues = new stdClass;
 $returnedValues->values = [];
 $returnedValues->success = false;
 $returnedValues->errors = [];
-
+$firstValue = true;
 
 foreach ($postObj->values as $values) {
+
     $strReq = "UPDATE `ec` SET ";
 
     $data = $values->data;
 
-    if (isset($data->code_ec))
+    if (isset($data->code_ec)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`code_ec` = '$data->code_ec'";
-    if (isset($data->libelle_ec))
-        $strReq .= ",`libelle_ec` = '$data->libelle_ec'";
-    if (isset($data->nature))
-        $strReq .= ",`nature` = '$data->nature'";
-    if (isset($data->HCM))
-        $strReq .= ",`HCM` = '$data->HCM'";
-    if (isset($data->HEI))
-        $strReq .= ",`HEI` = '$data->HEI'";
-    if (isset($data->HTD))
-        $strReq .= ",`HTD` = '$data->HTD'";
-    if (isset($data->HTP))
-        $strReq .= ",`HTP` = '$data->HTP'";
-    if (isset($data->HTPL))
-        $strReq .= ",`HTPL` = '$data->HTPL'";
-    if (isset($data->HPRJ))
-        $strReq .= ",`HPRJ` = '$data->HPRJ'";
-    if (isset($data->NbEpr))
-        $strReq .= ",`NbEpr` = '$data->NbEpr'";
-    if (isset($data->CNU))
-        $strReq .= ",`CNU` = '$data->CNU'";
-    if (isset($data->no_cat))
-        $strReq .= ",`no_cat` = '$data->no_cat'";
-    if (isset($data->code_ec_pere))
-        $strReq .= ",`code_ec_pere` = '$data->code_ec_pere'";
-    if (isset($data->code_ue))
-        $strReq .= ",`code_ue` = '$data->code_ue'";
-
+    }
+    if (isset($data->libelle_ec)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
+        $strReq .= "`libelle_ec` = '$data->libelle_ec'";
+    }
+    if (isset($data->nature)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
+        $strReq .= "`nature` = '$data->nature'";
+    }
+    if (isset($data->HCM)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
+        $strReq .= "`HCM` = '$data->HCM'";
+    }
+    if (isset($data->HEI)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
+        $strReq .= "`HEI` = '$data->HEI'";
+    }
+    if (isset($data->HTD)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
+        $strReq .= "`HTD` = '$data->HTD'";
+    }
+    if (isset($data->HTP)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
+        $strReq .= "`HTP` = '$data->HTP'";
+    }
+    if (isset($data->HTPL)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
+        $strReq .= "`HTPL` = '$data->HTPL'";
+    }
+    if (isset($data->HPRJ)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
+        $strReq .= "`HPRJ` = '$data->HPRJ'";
+    }
+    if (isset($data->NbEpr)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
+        $strReq .= "`NbEpr` = '$data->NbEpr'";
+    }
+    if (isset($data->CNU)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
+        $strReq .= "`CNU` = '$data->CNU'";
+    }
+    if (isset($data->no_cat)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
+        $strReq .= "`no_cat` = '$data->no_cat'";
+    }
+    if (isset($data->code_ec_pere)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
+        $strReq .= "`code_ec_pere` = '$data->code_ec_pere'";
+    }
+    if (isset($data->code_ue)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
+        $strReq .= "`code_ue` = '$data->code_ue'";
+    }
 
     $target = $values->target;
     $strReq .= " WHERE `code_ec` = '$target->code_ec' ";
 
-
     $updateReq = $db->prepare($strReq);
-    if ($updateReq->execute()) {
+    $statement = $updateReq->execute();
+    $error = $updateReq->errorInfo();
+
+    if ($error[0] == '00000') {
         $nbRows = $updateReq->rowCount();
         if ($nbRows != 0) {
-            $resultStr = "SELECT `code_ec`, `libelle_ec`, `nature`, `HCM`, `HEI`, `HTD`, `HTP`, `HTPL`, `HPRJ`
-            , `NbEpr`, `CNU`, `no_cat`, `code_ec_pere`, `code_ue` FROM `ec` WHERE ";
-            $resultStr .= "`code_ec` = '$data->code_ec'";
+            $resultStr = "SELECT `code_ec`, `libelle_ec`, `nature`, `HCM`, `HEI`, `HTD`, `HTP`, `HTPL`, `HPRJ`, `NbEpr`,
+             `CNU`, `no_cat`, `code_ec_pere`, `code_ue` FROM `ec` WHERE ";
+            if (isset($data->code_ec))
+                $resultStr .= "`code_ec` = '$data->code_ec'";
+            else
+                $resultStr .= "`code_ec` = '$target->code_ec'";
 
             $result = $db->query($resultStr);
             $row = $result->fetch(PDO::FETCH_OBJ);
@@ -85,8 +146,6 @@ foreach ($postObj->values as $values) {
             $returnedValues->errors[] = $obj;
         }
     } else {
-        $error = $updateReq->errorInfo();
-
         $obj = new stdClass();
         $obj->error_code = $error[0];
         $obj->error_desc = $error[2];

@@ -33,11 +33,15 @@ foreach ($postObj->values as $values) {
     $strReq .= " ,`vet` ";
     $data .= ",'$values->vet'";
 
-    $strReq .= " ,`libelle_vet` ";
-    $data .= ",'$values->libelle_vet'";
+    if (isset($values->libelle_vet)) {
+        $strReq .= " ,`libelle_vet` ";
+        $data .= ",'$values->libelle_vet'";
+    }
 
-    $strReq .= " ,`id_comp` ";
-    $data .= ",'$values->id_comp'";
+    if (isset($values->id_comp)) {
+        $strReq .= " ,`id_comp` ";
+        $data .= ",'$values->id_comp'";
+    }
 
     if (isset($values->code_diplome)) {
         $strReq .= " ,`code_diplome` ";

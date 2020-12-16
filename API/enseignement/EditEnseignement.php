@@ -9,60 +9,124 @@ $returnedValues = new stdClass;
 $returnedValues->values = [];
 $returnedValues->success = false;
 $returnedValues->errors = [];
-
+$firstValue = true;
 
 foreach ($postObj->values as $values) {
     $strReq = "UPDATE `enseignement` SET ";
 
     $data = $values->data;
 
-    if (isset($data->code_ec))
+    if (isset($data->code_ec)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`code_ec` = '$data->code_ec'";
+    }
 
-    if (isset($data->annee))
+    if (isset($data->annee)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`annee` = '$data->annee'";
+    }
 
-    if (isset($data->eff_prev))
+    if (isset($data->eff_prev)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`eff_prev` = '$data->eff_prev'";
+    }
 
-    if (isset($data->eff_reel))
+    if (isset($data->eff_reel)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`eff_reel` = '$data->eff_reel'";
+    }
 
-    if (isset($data->GpCM))
+    if (isset($data->GpCM)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`GpCM` = '$data->GpCM'";
+    }
 
-    if (isset($data->GpEI))
+    if (isset($data->GpEI)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`GpEI` = '$data->GpEI'";
+    }
 
-    if (isset($data->GpTD))
+    if (isset($data->GpTD)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`GpTD` = '$data->GpTD'";
+    }
 
-    if (isset($data->GpTP))
+    if (isset($data->GpTP)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`GpTP` = '$data->GpTP'";
+    }
 
-    if (isset($data->GpTPL))
+    if (isset($data->GpTPL)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`GpTPL` = '$data->GpTPL'";
+    }
 
-    if (isset($data->GpPRJ))
+    if (isset($data->GpPRJ)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`GpPRJ` = '$data->GpPRJ'";
+    }
 
-    if (isset($data->GpCMSer))
+    if (isset($data->GpCMSer)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`GpCMSer` = '$data->GpCMSer'";
+    }
 
-    if (isset($data->GpEISer))
+    if (isset($data->GpEISer)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`GpEISer` = '$data->GpEISer'";
+    }
 
-    if (isset($data->GpTDSer))
+    if (isset($data->GpTDSer)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`GpTDSer` = '$data->GpTDSer'";
+    }
 
-    if (isset($data->GpTPSer))
+    if (isset($data->GpTPSer)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`GpTPSer` = '$data->GpTPSer'";
+    }
 
-    if (isset($data->GpTPLSer))
+    if (isset($data->GpTPLSer)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`GpTPLSer` = '$data->GpTPLSer'";
+    }
 
-    if (isset($data->GpPRJSer))
+    if (isset($data->GpPRJSer)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`GpPRJSer` = '$data->GpPRJSer'";
+    }
 
 
     $target = $values->target;
@@ -77,27 +141,12 @@ foreach ($postObj->values as $values) {
         if ($nbRows != 0) {
             $resultStr = "SELECT `code_ec`, `annee`, `eff_prev`, `eff_reel`, `GpCM`, `GpEI`, `GpTD`, `GpTP`, `GpTPL`, `GpPRJ`
             , `GpCMSer`, `GpEISer`, `GpTDSer`, `GpTPLSer`, `GpPRJSer` FROM `enseignement` WHERE ";
-
-            $firstValue = true;
-            if (!$firstValue)
-                $resultStr .= " AND ";
-            $firstValue = false;
             if (isset($data->code_ec))
-                $resultStr .= "(`code_ec` = '$data->code_ec')";
+                $resultStr .= "`code_ec` = '$data->code_ec'";
             else
-                $resultStr .= "(`code_ec` = '$target->code_ec')";
-
-            if (!$firstValue)
-                $resultStr .= " AND ";
-            $firstValue = false;
-            if (isset($data->annee))
-                $resultStr .= "(`annee` = '$data->annee')";
-            else
-                $resultStr .= "(`annee` = '$target->annee')";
+                $resultStr .= "`code_ec` = '$target->code_ec'";
 
             $result = $db->query($resultStr);
-            $error = $result->errorInfo();
-
             $row = $result->fetch(PDO::FETCH_OBJ);
 
             $obj = new stdClass();
@@ -125,10 +174,7 @@ foreach ($postObj->values as $values) {
             $returnedValues->errors[] = $obj;
         }
     } else {
-        $error = $updateReq->errorInfo();
-
         $obj = new stdClass();
-
         $obj->error_code = $error[0];
         $obj->error_desc = $error[2];
         $returnedValues->errors[] = $obj;
