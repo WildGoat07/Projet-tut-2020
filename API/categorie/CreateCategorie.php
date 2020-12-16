@@ -27,25 +27,33 @@ foreach ($postObj->values as $values) {
 
     $strReq .= ") VALUES $data )";
 
-    $requete=$db->prepare($strReq);
+    $createReq = $db->prepare($strReq);
+    $statement = $createReq->execute();
+    $error = $createReq->errorInfo();
     
-    if ( $requete->execute() ) {
-        $resultStr = "SELECT `no_cat`,`categorie` FROM `categories` WHERE ";
-        $resultStr .= "`no_cat` = '$id_entered[$indexId]'";
-        $indexId++;
+    if ( $error[0] == '00000' ) {
+        $nbRows = $createReq->rowCount();
+        if ($nbRows != 0) {
+            $resultStr = "SELECT `no_cat`,`categorie` FROM `categories` WHERE ";
+            $resultStr .= "`no_cat` = '$id_entered[$indexId]'";
+            $indexId++;
 
-        $result=$db->query($resultStr);
-        $row=$result->fetch(PDO::FETCH_OBJ);
+            $result=$db->query($resultStr);
+            $row=$result->fetch(PDO::FETCH_OBJ);
 
-        $obj = new stdClass();
-        $obj->categorie = $row->categorie;
+            $obj = new stdClass();
+            $obj->no_cat = $row->no_cat;
+            $obj->categorie = $row->categorie;
 
-        array_push($returnedValues->values, $obj);
-        $returnedValues->success=true;
-    }
+            array_push($returnedValues->values, $obj);
+            $returnedValues->success=true;
+        } else {
+            $obj = new stdClass();
+            $obj->error_desc = "0 row affected";
+            $returnedValues->errors[] = $obj;
+        }
+    }   
     else {
-        $error=$requete->errorInfo();
-
         $obj = new stdClass();
         $obj->error_code = $error[0]; //enregistrement code d'erreur
         $obj->error_desc = $error[2]; //enregistrement message d'erreur renvoyé

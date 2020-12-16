@@ -23,8 +23,6 @@ foreach ($postObj->values as $values) {
 
     $target = $values->target;
     $strReq .= " WHERE `no_cat` = '$target->no_cat' ";
-    
-    var_dump($strReq);
 
     $updateReq = $db->prepare($strReq);
     $statement = $updateReq->execute();
