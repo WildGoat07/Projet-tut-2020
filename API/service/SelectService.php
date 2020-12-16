@@ -3,7 +3,12 @@ require_once '../app/Database.php';
 
 header('Content-Type: application/json');
 
-$strReq = "SELECT `id_ens`, `code_ec`, `annee`, `NbGpCM`, `NbGpEI`, `NBGpTD`, `NbGbTP`, `NbGpTPL`, `NBGpPRJ`, `HEqTD` FROM `service`";
+$service = new stdClass();
+$service->values = [];
+$service->success = false;
+$service->errors = [];
+
+$strReq = "SELECT `id_ens`, `code_ec`, `annee`, `NbGpCM`, `NbGpEI`, `NBGpTD`, `NbGbTP`, `NbGpTPL`, `NBGpPRJ`, `HEqTD` FROM `service` ";
 $postObj = json_decode(file_get_contents('php://input'));
 if (isset($postObj->filters)) {
     $firstFilter = true;
@@ -198,47 +203,53 @@ if (isset($postObj->filters)) {
 }
 if (isset($postObj->order))
     if (isset($postObj->reverse_order) && $postObj->reverse_order)
-        $strReq .= " ORDER BY DESC `$postObj->order`";
+        $strReq .= " ORDER BY `$postObj->order` DESC ";
     else
         $strReq .= " ORDER BY `$postObj->order`";
 else if (isset($postObj->reverse_order) && $postObj->reverse_order)
-    $strReq .= " ORDER BY DESC `id_ens`";
+    $strReq .= " ORDER BY `id_ens` DESC ";
 else
     $strReq .= " ORDER BY `id_ens`";
 $strReq .= "LIMIT $postObj->quantity OFFSET $postObj->skip";
 
-$requete = $db->query($strReq);
+$requete = $db->prepare($strReq);
+$statement = $requete->execute();
+$error = $requete->errorInfo();
 
-$service = new stdClass();
-$service->values = [];
+if ($error[0]=='00000') {
+    foreach ($requete as $req) {
+        $obj = new stdClass();
+    
+        $obj->id_ens = utf8_encode($req['id_ens']);
+    
+        $obj->code_ec = utf8_encode($req['code_ec']);
+    
+        $obj->annee = utf8_encode($req['annee']);
+    
+        $obj->NbGpCM = utf8_encode($req['NbGpCM']);
+    
+        $obj->NbGpEI = utf8_encode($req['NbGpEI']);
+    
+        $obj->NbGpTD = utf8_encode($req['NBGpTD']);
+    
+        $obj->NbGpTP = utf8_encode($req['NbGpTP']);
+    
+        $obj->NbGpTPL = utf8_encode($req['NbGpTPL']);
+    
+        $obj->NBGpPRJ = utf8_encode($req['NBGpPRJ']);
+    
+        $obj->NbHEqTDGp = utf8_encode($req['HEqTD']);
+    
+        $service->values[] = $obj;
+    }
 
-foreach ($requete as $req) {
+    $service->success = true;
+}
+else {
     $obj = new stdClass();
-
-    $obj->id_ens = utf8_encode($req['id_ens']);
-
-    $obj->code_ec = utf8_encode($req['code_ec']);
-
-    $obj->annee = utf8_encode($req['annee']);
-
-    $obj->NbGpCM = utf8_encode($req['NbGpCM']);
-
-    $obj->NbGpEI = utf8_encode($req['NbGpEI']);
-
-    $obj->NbGpTD = utf8_encode($req['NBGpTD']);
-
-    $obj->NbGpTP = utf8_encode($req['NbGpTP']);
-
-    $obj->NbGpTPL = utf8_encode($req['NbGpTPL']);
-
-    $obj->NBGpPRJ = utf8_encode($req['NBGpPRJ']);
-
-    $obj->NbHEqTDGp = utf8_encode($req['HEqTD']);
-
-    $service->values[] = $obj;
+    $obj->error_code = $error[0];
+    $obj->error_desc = $error[2];
+    $ue->errors[] = $obj;
 }
 
-$service->success = true;
-
 echo json_encode($service);
-

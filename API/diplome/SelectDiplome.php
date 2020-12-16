@@ -3,6 +3,11 @@ require_once '../app/Database.php';
 
 header('Content-Type: application/json');
 
+$diplome = new stdClass();
+$diplome->values = [];
+$diplome->success = false;
+$diplome->errors = [];
+
 $strReq = "SELECT `code_diplome`, `libelle_diplome`, `vdi`, `libelle_vdi`, `annee_deb`, `annee_fin` FROM `diplome`";
 $postObj = json_decode(file_get_contents('php://input'));
 if (isset($postObj->filters)) {
@@ -120,38 +125,47 @@ if (isset($postObj->filters)) {
 
 if (isset($postObj->order))
     if (isset($postObj->reverse_order) && $postObj->reverse_order)
-        $strReq .= " ORDER BY DESC `$postObj->order`";
+        $strReq .= " ORDER BY `$postObj->order` DESC ";
     else
         $strReq .= " ORDER BY `$postObj->order`";
 else if (isset($postObj->reverse_order) && $postObj->reverse_order)
-    $strReq .= " ORDER BY DESC `code_diplome`";
+    $strReq .= " ORDER BY `code_diplome` DESC ";
 else
     $strReq .= " ORDER BY `code_diplome`";
 $strReq .= "LIMIT $postObj->quantity OFFSET $postObj->skip";
 
-$requete = $db->query($strReq);
+$requete = $db->prepare($strReq);
+$statement = $requete->execute();
+$error = $requete->errorInfo();
 
-$diplome = new stdClass();
-$diplome->values = [];
 
-foreach ($requete as $req) {
+if ($error[0]=='00000') {
+    foreach ($requete as $req) {
+        $obj = new stdClass();
+    
+        $obj->code_diplome = utf8_encode($req['code_diplome']);
+    
+        $obj->libelle_diplome = utf8_encode($req['libelle_diplome']);
+    
+        $obj->vdi = utf8_encode($req['vdi']);
+    
+        $obj->libelle_vdi = utf8_encode($req['libelle_vdi']);
+    
+        $obj->annee_deb = utf8_encode($req['annee_deb']);
+    
+        $obj->annee_fin = utf8_encode($req['annee_fin']);
+    
+        $diplome->values[] = $obj;
+    }
+
+    $diplome->success = true;
+}
+else {
     $obj = new stdClass();
-
-    $obj->code_diplome = utf8_encode($req['code_diplome']);
-
-    $obj->libelle_diplome = utf8_encode($req['libelle_diplome']);
-
-    $obj->vdi = utf8_encode($req['vdi']);
-
-    $obj->libelle_vdi = utf8_encode($req['libelle_vdi']);
-
-    $obj->annee_deb = utf8_encode($req['annee_deb']);
-
-    $obj->annee_fin = utf8_encode($req['annee_fin']);
-
-    $diplome->values[] = $obj;
+    $obj->error_code = $error[0];
+    $obj->error_desc = $error[2];
+    $diplome->errors[] = $obj;
 }
 
-$diplome->success = true;
 
 echo json_encode($diplome);

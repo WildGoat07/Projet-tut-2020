@@ -3,6 +3,11 @@ require_once '../app/Database.php';
 
 header('Content-Type: application/json');
 
+$enseignant = new stdClass();
+$enseignant->values = [];
+$enseignant->success = false;
+$enseignant->errors = [];
+
 $strReq = "SELECT `id_ens`, `nom`, `prenom`, `fonction`, `HOblig`, `HMax`, `CRCT`, `PES_PEDR`, `id_comp` FROM `enseignant`";
 $postObj = json_decode(file_get_contents('php://input'));
 
@@ -194,46 +199,53 @@ if (isset($postObj->filters)) {
 }
 if (isset($postObj->order))
     if (isset($postObj->reverse_order) && $postObj->reverse_order)
-        $strReq .= " ORDER BY DESC `$postObj->order`";
+        $strReq .= " ORDER BY `$postObj->order` DESC ";
     else
         $strReq .= " ORDER BY `$postObj->order`";
 else if (isset($postObj->reverse_order) && $postObj->reverse_order)
-    $strReq .= " ORDER BY DESC `id_ens`";
+    $strReq .= " ORDER BY `id_ens` DESC ";
 else
     $strReq .= " ORDER BY `id_ens`";
     
 $strReq .= "LIMIT $postObj->quantity OFFSET $postObj->skip";
 
-$requete = $db->query($strReq);
+$requete = $db->prepare($strReq);
+$statement = $requete->execute();
+$error = $requete->errorInfo();
 
-$enseignant = new stdClass();
-$enseignant->values = [];
-
-foreach ($requete as $req) {
+if ($error[0]=='00000') {
+    foreach ($requete as $req) {
+        $obj = new stdClass();
+    
+        $obj->id_ens = utf8_encode($req['id_ens']);
+    
+        $obj->nom = utf8_encode($req['nom']);
+    
+        $obj->prenom = utf8_encode($req['prenom']);
+    
+        $obj->fonction = utf8_encode($req['fonction']);
+    
+        $obj->HOblig = utf8_encode($req['HOblig']);
+    
+        $obj->HMax = utf8_encode($req['HMax']);
+    
+        $obj->CRCT = utf8_encode($req['CRCT']);
+    
+        $obj->PES_PEDR = utf8_encode($req['PES_PEDR']);
+    
+        $obj->id_comp = utf8_encode($req['id_comp']);
+    
+        $enseignant->values[] = $obj;
+    }
+    $enseignant->success = true;
+}
+else {
     $obj = new stdClass();
-
-    $obj->id_ens = utf8_encode($req['id_ens']);
-
-    $obj->nom = utf8_encode($req['nom']);
-
-    $obj->prenom = utf8_encode($req['prenom']);
-
-    $obj->fonction = utf8_encode($req['fonction']);
-
-    $obj->HOblig = utf8_encode($req['HOblig']);
-
-    $obj->HMax = utf8_encode($req['HMax']);
-
-    $obj->CRCT = utf8_encode($req['CRCT']);
-
-    $obj->PES_PEDR = utf8_encode($req['PES_PEDR']);
-
-    $obj->id_comp = utf8_encode($req['id_comp']);
-
-    $enseignant->values[] = $obj;
+    $obj->error_code = $error[0];
+    $obj->error_desc = $error[2];
+    $enseignant->errors[] = $obj;
 }
 
-$enseignant->success = true;
 
 echo json_encode($enseignant);
 

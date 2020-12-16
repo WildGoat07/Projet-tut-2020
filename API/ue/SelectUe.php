@@ -4,7 +4,12 @@ require_once '../app/Database.php';
 header('Content-Type: application/json');
 
 
-$strReq = "SELECT `code_ue`, `libelle_ue`, `nature`, `ECTS`, `code_ue_pere`, `code_sem` FROM `ue`";
+$ue = new stdClass();
+$ue->values = [];
+$ue->success = false;
+$ue->errors = [];
+
+$strReq = "SELECT `code_ue`, `libelle_ue`, `nature`, `ECTS`, `code_ue_pere`, `code_sem` FROM `ue` ";
 $postObj = json_decode(file_get_contents('php://input'));
 if (isset($postObj->filters)) {
     $firstFilter = true;
@@ -120,38 +125,45 @@ if (isset($postObj->filters)) {
 }
 if (isset($postObj->order))
     if (isset($postObj->reverse_order) && $postObj->reverse_order)
-        $strReq .= " ORDER BY DESC `$postObj->order`";
+        $strReq .= " ORDER BY `$postObj->order` DESC ";
     else
-        $strReq .= " ORDER BY `$postObj->order`";
+        $strReq .= " ORDER BY `$postObj->order` ";
 else if (isset($postObj->reverse_order) && $postObj->reverse_order)
-    $strReq .= " ORDER BY DESC `code_ue`";
+    $strReq .= " ORDER BY `code_ue` DESC ";
 else
-    $strReq .= " ORDER BY `code_ue`";
+    $strReq .= " ORDER BY `code_ue` ";
 $strReq .= "LIMIT $postObj->quantity OFFSET $postObj->skip";
 
-$requete = $db->query($strReq);
+$requete = $db->prepare($strReq);
+$statement = $requete->execute();
+$error = $requete->errorInfo();
 
-$ue = new stdClass();
-$ue->values = [];
-
-foreach ($requete as $req) {
-    $obj = new stdClass();
-
-    $obj->code_ue = utf8_encode($req['code_ue']);
-
-    $obj->libelle_ue = utf8_encode($req['libelle_ue']);
-
-    $obj->nature = utf8_encode($req['nature']);
-
-    $obj->ECTS = utf8_encode($req['ECTS']);
-
-    $obj->code_ue_pere = utf8_encode($req['code_ue_pere']);
-
-    $obj->code_sem = utf8_encode($req['code_sem']);
-
-    $ue->values[] = $obj;
+if ($error[0]=='00000') {
+    foreach ($requete as $req) {
+        $obj = new stdClass();
+    
+        $obj->code_ue = utf8_encode($req['code_ue']);
+    
+        $obj->libelle_ue = utf8_encode($req['libelle_ue']);
+    
+        $obj->nature = utf8_encode($req['nature']);
+    
+        $obj->ECTS = utf8_encode($req['ECTS']);
+    
+        $obj->code_ue_pere = utf8_encode($req['code_ue_pere']);
+    
+        $obj->code_sem = utf8_encode($req['code_sem']);
+    
+        $ue->values[] = $obj;
+    }
+    
+    $ue->success = true;
 }
-
-$ue->success = true;
+else {
+    $obj = new stdClass();
+    $obj->error_code = $error[0];
+    $obj->error_desc = $error[2];
+    $ue->errors[] = $obj;
+}
 
 echo json_encode($ue);

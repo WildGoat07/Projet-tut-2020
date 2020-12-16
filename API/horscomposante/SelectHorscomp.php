@@ -2,6 +2,11 @@
 require_once '../app/Database.php';
 
 header('Content-Type: application/json');
+$horscomp = new stdClass();
+$horscomp->values = [];
+$horscomp->success = false;
+$horscomp->errors = [];
+
 
 $strReq = "SELECT `id_ens`, `id_comp`, `annee`, `HCM`, `HEI`, `HTD`, `HTP`, `HTPL`, `HPRJ`, `HEqTD` FROM `horscomp`";
 $postObj = json_decode(file_get_contents('php://input'));
@@ -198,47 +203,57 @@ if (isset($postObj->filters)) {
 }
 if (isset($postObj->order))
     if (isset($postObj->reverse_order) && $postObj->reverse_order)
-        $strReq .= " ORDER BY DESC `$postObj->order`";
+        $strReq .= " ORDER BY `$postObj->order` DESC ";
     else
         $strReq .= " ORDER BY `$postObj->order`";
 else if (isset($postObj->reverse_order) && $postObj->reverse_order)
-    $strReq .= " ORDER BY DESC `id_ens`";
+    $strReq .= " ORDER BY `id_ens` DESC ";
 else
     $strReq .= " ORDER BY `id_ens`";
 $strReq .= "LIMIT $postObj->quantity OFFSET $postObj->skip";
 
 $requete = $db->query($strReq);
 
-$horscomp = new stdClass();
-$horscomp->values = [];
+$requete = $db->prepare($strReq);
+$statement = $requete->execute();
+$error = $requete->errorInfo();
 
-foreach ($requete as $req) {
-    $obj = new stdClass();
 
-    $obj->id_ens = utf8_encode($req['id_ens']);
+if ($error[0]=='00000') {
+    foreach ($requete as $req) {
+        $obj = new stdClass();
+    
+        $obj->id_ens = utf8_encode($req['id_ens']);
+    
+        $obj->id_comp = utf8_encode($req['id_comp']);
+    
+        $obj->annee = utf8_encode($req['annee']);
+    
+        $obj->HCM = utf8_encode($req['HCM']);
+    
+        $obj->HEI = utf8_encode($req['HEI']);
+    
+        $obj->HTD = utf8_encode($req['HTD']);
+    
+        $obj->HTP = utf8_encode($req['HTP']);
+    
+        $obj->HTPL = utf8_encode($req['HTPL']);
+    
+        $obj->HPRJ = utf8_encode($req['HPRJ']);
+    
+        $obj->HEqTD = utf8_encode($req['HEqTD']);
+    
+        $horscomp->values[] = $obj;
+    }
 
-    $obj->id_comp = utf8_encode($req['id_comp']);
-
-    $obj->annee = utf8_encode($req['annee']);
-
-    $obj->HCM = utf8_encode($req['HCM']);
-
-    $obj->HEI = utf8_encode($req['HEI']);
-
-    $obj->HTD = utf8_encode($req['HTD']);
-
-    $obj->HTP = utf8_encode($req['HTP']);
-
-    $obj->HTPL = utf8_encode($req['HTPL']);
-
-    $obj->HPRJ = utf8_encode($req['HPRJ']);
-
-    $obj->HEqTD = utf8_encode($req['HEqTD']);
-
-    $horscomp->values[] = $obj;
+    $ue->success = true;
 }
-
-$horscomp->success = true;
+else {
+    $obj = new stdClass();
+    $obj->error_code = $error[0];
+    $obj->error_desc = $error[2];
+    $horscomp->errors[] = $obj;
+}
 
 echo json_encode($horscomp);
 

@@ -10,28 +10,57 @@ $returnedValues->values = [];
 $returnedValues->success = false;
 $returnedValues->errors = [];
 
+$firstValue = true;
 
 foreach ($postObj->values as $values) {
     $strReq = "UPDATE `ue` SET ";
 
     $data = $values->data;
 
-    if (isset($data->code_ue))
+    if (isset($data->code_ue)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`code_ue` = '$data->code_ue'";
-    if (isset($data->libelle_ue))
-        $strReq .= ",`libelle_ue` = '$data->libelle_ue'";
-    if (isset($data->nature))
-        $strReq .= ",`nature` = '$data->nature'";
-    if (isset($data->ECTS))
-        $strReq .= ",`ECTS` = '$data->ECTS'";
-    if (isset($data->code_ue_pere))
-        $strReq .= ",`code_ue_pere` = '$data->code_ue_pere'";
-    if (isset($data->code_sem))
-        $strReq .= ",`code_sem` = '$data->code_sem'";
+    }
+        
+    if (isset($data->libelle_ue)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
+        $strReq .= "`libelle_ue` = '$data->libelle_ue'";
+    }
+       
+    if (isset($data->nature)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
+        $strReq .= "`nature` = '$data->nature'";
+    }
+
+    if (isset($data->ECTS)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
+        $strReq .= "`ECTS` = '$data->ECTS'";
+    }
+
+    if (isset($data->code_ue_pere)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
+        $strReq .= "`code_ue_pere` = '$data->code_ue_pere'";
+    }
+
+    if (isset($data->code_sem)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
+        $strReq .= "`code_sem` = '$data->code_sem'";
+    }
 
     $target = $values->target;
     $strReq .= " WHERE `code_ue` = '$target->code_ue' ";
-
 
     $updateReq = $db->prepare($strReq);
     $statement = $updateReq->execute();

@@ -3,6 +3,11 @@ require_once '../app/Database.php';
 
 header('Content-Type: application/json');
 
+$etape = new stdClass();
+$etape->values = [];
+$etape->success = false;
+$etape->errors = [];
+
 $strReq = "SELECT `code_etape`, `vet`, `libelle_vet`, `id_comp`, `code_diplome`, `vdi` FROM `etape`";
 $postObj = json_decode(file_get_contents('php://input'));
 if (isset($postObj->filters)) {
@@ -102,39 +107,49 @@ if (isset($postObj->filters)) {
 
 if (isset($postObj->order))
     if (isset($postObj->reverse_order) && $postObj->reverse_order)
-        $strReq .= " ORDER BY DESC `$postObj->order`";
+        $strReq .= " ORDER BY `$postObj->order` DESC ";
     else
         $strReq .= " ORDER BY `$postObj->order`";
 else if (isset($postObj->reverse_order) && $postObj->reverse_order)
-    $strReq .= " ORDER BY DESC `code_etape`";
+    $strReq .= " ORDER BY `code_etape` DESC ";
 else
     $strReq .= " ORDER BY `code_etape`";
 $strReq .= "LIMIT $postObj->quantity OFFSET $postObj->skip";
 
-$requete = $db->query($strReq);
 
-$etape = new stdClass();
-$etape->values = [];
+$requete = $db->prepare($strReq);
+$statement = $requete->execute();
+$error = $requete->errorInfo();
 
-foreach ($requete as $req) {
+
+if ($error[0]=='00000') {
+    foreach ($requete as $req) {
+        $obj = new stdClass();
+    
+        $obj->code_etape = utf8_encode($req['code_etape']);
+    
+        $obj->vet = utf8_encode($req['vet']);
+    
+        $obj->libelle_vet = utf8_encode($req['libelle_vet']);
+    
+        $obj->id_comp = utf8_encode($req['id_comp']);
+    
+        $obj->code_diplome = utf8_encode($req['code_diplome']);
+    
+        $obj->vdi = utf8_encode($req['vdi']);
+    
+        $etape->values[] = $obj;
+    }
+
+    $etape->success = true;
+}
+else {
     $obj = new stdClass();
-
-    $obj->code_etape = utf8_encode($req['code_etape']);
-
-    $obj->vet = utf8_encode($req['vet']);
-
-    $obj->libelle_vet = utf8_encode($req['libelle_vet']);
-
-    $obj->id_comp = utf8_encode($req['id_comp']);
-
-    $obj->code_diplome = utf8_encode($req['code_diplome']);
-
-    $obj->vdi = utf8_encode($req['vdi']);
-
-    $etape->values[] = $obj;
+    $obj->error_code = $error[0];
+    $obj->error_desc = $error[2];
+    $etape->errors[] = $obj;
 }
 
-$etape->success = true;
 
 echo json_encode($etape);
 

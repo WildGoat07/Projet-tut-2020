@@ -3,6 +3,11 @@ require_once '../app/Database.php';
 
 header('Content-Type: application/json');
 
+$enseignement = new stdClass();
+$enseignement->values = [];
+$enseignement->success = false;
+$enseignement->errors = [];
+
 $strReq = "SELECT `code_ec`, `annee`, `eff_prev`, `eff_reel`, `GpCM`, `GpEI`, `GpTD`, `GpTP`, `GpTPL`, `GpPRJ`
 , `GpCMSer`, `GpEISer`, `GpTDSer`, `GpTPLSer`, `GpPRJSer` FROM `enseignement`";
 $postObj = json_decode(file_get_contents('php://input'));
@@ -314,59 +319,65 @@ if (isset($postObj->filters)) {
 
 if (isset($postObj->order))
     if (isset($postObj->reverse_order) && $postObj->reverse_order)
-        $strReq .= " ORDER BY DESC `$postObj->order`";
+        $strReq .= " ORDER BY `$postObj->order` DESC ";
     else
         $strReq .= " ORDER BY `$postObj->order`";
 else if (isset($postObj->reverse_order) && $postObj->reverse_order)
-    $strReq .= " ORDER BY DESC `code_ec`";
+    $strReq .= " ORDER BY `code_ec` DESC ";
 else
     $strReq .= " ORDER BY `code_ec`";
 $strReq .= "LIMIT $postObj->quantity OFFSET $postObj->skip";
 
-$requete = $db->query($strReq);
+$requete = $db->prepare($strReq);
+$statement = $requete->execute();
+$error = $requete->errorInfo();
 
-$enseignement = new stdClass();
-$enseignement->values = [];
-
-foreach ($requete as $req) {
-    $obj = new stdClass();
-
-    $obj->code_ec = utf8_encode($req['code_ec']);
-
-    $obj->annee = utf8_encode($req['annee']);
-
-    $obj->eff_prev = utf8_encode($req['eff_prev']);
-
-    $obj->eff_reel = utf8_encode($req['eff_reel']);
-
-    $obj->GpCM = utf8_encode($req['GpCM']);
-
-    $obj->GpEI = utf8_encode($req['GpEI']);
-
-    $obj->GpTD = utf8_encode($req['GpTD']);
-
-    $obj->GpTP = utf8_encode($req['GpTP']);
-
-    $obj->GpTPL = utf8_encode($req['GpTPL']);
-
-    $obj->GpPRJ = utf8_encode($req['GpPRJ']);
-
-    $obj->GpCMSer = utf8_encode($req['GpCMSer']);
-
-    $obj->GpEISer = utf8_encode($req['GpEISer']);
-
-    $obj->GpTDSer = utf8_encode($req['GpTDSer']);
-
-    $obj->GpTPSer = utf8_encode($req['GpTPSer']);
-
-    $obj->GpTPLSer = utf8_encode($req['GpTPLSer']);
-
-    $obj->GpPRJer = utf8_encode($req['GpPRJSer']);
-
-    $enseignement->values[] = $obj;
+if ($error[0]=='00000') {
+    foreach ($requete as $req) {
+        $obj = new stdClass();
+    
+        $obj->code_ec = utf8_encode($req['code_ec']);
+    
+        $obj->annee = utf8_encode($req['annee']);
+    
+        $obj->eff_prev = utf8_encode($req['eff_prev']);
+    
+        $obj->eff_reel = utf8_encode($req['eff_reel']);
+    
+        $obj->GpCM = utf8_encode($req['GpCM']);
+    
+        $obj->GpEI = utf8_encode($req['GpEI']);
+    
+        $obj->GpTD = utf8_encode($req['GpTD']);
+    
+        $obj->GpTP = utf8_encode($req['GpTP']);
+    
+        $obj->GpTPL = utf8_encode($req['GpTPL']);
+    
+        $obj->GpPRJ = utf8_encode($req['GpPRJ']);
+    
+        $obj->GpCMSer = utf8_encode($req['GpCMSer']);
+    
+        $obj->GpEISer = utf8_encode($req['GpEISer']);
+    
+        $obj->GpTDSer = utf8_encode($req['GpTDSer']);
+    
+        $obj->GpTPSer = utf8_encode($req['GpTPSer']);
+    
+        $obj->GpTPLSer = utf8_encode($req['GpTPLSer']);
+    
+        $obj->GpPRJer = utf8_encode($req['GpPRJSer']);
+    
+        $enseignement->values[] = $obj;
+    }
+    $enseignement->success = true;
 }
-
-$enseignement->success = true;
+else {
+    $obj = new stdClass();
+    $obj->error_code = $error[0];
+    $obj->error_desc = $error[2];
+    $enseignement->errors[] = $obj;
+}
 
 echo json_encode($enseignement);
 
