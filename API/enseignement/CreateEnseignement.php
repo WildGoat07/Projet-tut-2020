@@ -52,95 +52,113 @@ foreach ($postObj->values as $values) {
         $strReq .= " ,`eff_reel` ";
         $data .= ",'$values->eff_reel'";
     }
+
     if (isset($values->GpCM)) {
         $strReq .= " ,`GpCM` ";
         $data .= ",'$values->GpCM'";
     }
+
     if (isset($values->GpEI)) {
         $strReq .= " ,`GpEI` ";
         $data .= ",'$values->GpEI'";
     }
+
     if (isset($values->GpTD)) {
         $strReq .= " ,`GpTD` ";
         $data .= ",'$values->GpTD'";
     }
+
     if (isset($values->GpTP)) {
         $strReq .= " ,`GpTP` ";
         $data .= ",'$values->GpTP'";
     }
+
     if (isset($values->GpTPL)) {
         $strReq .= " ,`GpTPL` ";
         $data .= ",'$values->GpTPL'";
     }
+
     if (isset($values->GpPRJ)) {
         $strReq .= " ,`GpPRJ` ";
         $data .= ",'$values->GpPRJ'";
     }
+
+
     if (isset($values->GpCMSer)) {
         $strReq .= " ,`GpCMSer` ";
         $data .= ",'$values->GpCMSer'";
     }
+
     if (isset($values->GpEISer)) {
         $strReq .= " ,`GpEISer` ";
         $data .= ",'$values->GpEISer'";
     }
+
     if (isset($values->GpTDSer)) {
         $strReq .= " ,`GpTDSer` ";
         $data .= ",'$values->GpTDSer'";
     }
+
     if (isset($values->GpTPSer)) {
         $strReq .= " ,`GpTPSer` ";
         $data .= ",'$values->GpTPSer'";
     }
+
     if (isset($values->GpTPLSer)) {
         $strReq .= " ,`GpTPLSer` ";
         $data .= ",'$values->GpTPLSer'";
     }
+
     if (isset($values->GpPRJSer)) {
         $strReq .= " ,`GpPRJSer` ";
         $data .= ",'$values->GpPRJSer'";
     }
 
-
     $strReq .= ") VALUES $data )";
 
-    $requete = $db->prepare($strReq);
+    $createReq = $db->prepare($strReq);
+    $statement = $createReq->execute();
+    $error = $createReq->errorInfo();
 
-    if ($requete->execute()) {
-        $resultStr = "SELECT `code_ec`, `annee`, `eff_prev`, `eff_reel`, `GpCM`, `GpEI`, `GpTD`, `GpTP`, `GpTPL`, `GpPRJ`
-        , `GpCMSer`, `GpEISer`, `GpTDSer`, `GpTPLSer`, `GpPRJSer` FROM `enseignement` WHERE ";
-        $resultStr .= "`code_ec` = '$id_entered[$indexId]'";
-        $indexId++;
+    if ($error[0] == '00000') {
+        $nbRows = $createReq->rowCount();
+        if ($nbRows != 0) {
+            $resultStr = "SELECT `code_ec`, `annee`, `eff_prev`, `eff_reel`, `GpCM`, `GpEI`, `GpTD`, `GpTP`, `GpTPL`, `GpPRJ`
+            , `GpCMSer`, `GpEISer`, `GpTDSer`, `GpTPLSer`, `GpPRJSer` FROM `enseignement` WHERE ";
+            $resultStr .= "`code_ec` = '$id_entered[$indexId]'";
+            $indexId++;
 
-        $result = $db->query($resultStr);
-        $row = $result->fetch(PDO::FETCH_OBJ);
+            $result = $db->query($resultStr);
+            $row = $result->fetch(PDO::FETCH_OBJ);
 
-        $obj = new stdClass();
-        $obj->code_ec = $row->code_ec;
-        $obj->annee = $row->annee;
-        $obj->eff_prev = $row->eff_prev;
-        $obj->eff_reel = $row->eff_reel;
-        $obj->GpCM = $row->GpCM;
-        $obj->GpEI = $row->GpEI;
-        $obj->GpTD = $row->GpTD;
-        $obj->GpTP = $row->GpTP;
-        $obj->GpTPL = $row->GpTPL;
-        $obj->GpPRJ = $row->GpPRJ;
-        $obj->GpCMSer = $row->GpCMSer;
-        $obj->GpEISer = $row->GpEISer;
-        $obj->GpTDSer = $row->GpTDSer;
-        $obj->GpTPLSer = $row->GpTPLSer;
-        $obj->GpPRJSer = $row->GpPRJSer;
+            $obj = new stdClass();
+            $obj->code_ec = $row->code_ec;
+            $obj->annee = $row->annee;
+            $obj->eff_prev = $row->eff_prev;
+            $obj->eff_reel = $row->eff_reel;
+            $obj->GpCM = $row->GpCM;
+            $obj->GpEI = $row->GpEI;
+            $obj->GpTD = $row->GpTD;
+            $obj->GpTP = $row->GpTP;
+            $obj->GpTPL = $row->GpTPL;
+            $obj->GpPRJ = $row->GpPRJ;
+            $obj->GpCMSer = $row->GpCMSer;
+            $obj->GpEISer = $row->GpEISer;
+            $obj->GpTDSer = $row->GpTDSer;
+            $obj->GpTPLSer = $row->GpTPLSer;
+            $obj->GpPRJSer = $row->GpPRJSer;
 
-
-        array_push($returnedValues->values, $obj);
-        $returnedValues->success = true;
+            array_push($returnedValues->values, $obj);
+            $returnedValues->success = true;
+        } else {
+            $obj = new stdClass();
+            $obj->error_desc = "0 row affected";
+            $returnedValues->errors[] = $obj;
+        }
     } else {
-        $error = $requete->errorInfo();
-
         $obj = new stdClass();
         $obj->error_code = $error[0]; //enregistrement code d'erreur
-        $obj->error_desc = $error[2]; //enregistrement message d'erreru renvoyé
+        $obj->error_desc = $error[2]; //enregistrement message d'erreur renvoyé
         array_push($returnedValues->errors, $obj);
     }
 }

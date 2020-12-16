@@ -10,7 +10,7 @@ $suppressedValues->success = false;
 $suppressedValues->rowsDeleted = 0;
 
 foreach ($postObj->values as $values) {
-    $strReq = "DELETE FROM `diplome` WHERE `code_diplome` = '$values->code_diplome' AND `vdi` = '$values->vdi'";
+    $strReq = "DELETE FROM `service` WHERE `id_ens` = '$values->id_ens' AND `code_ec` = '$values->code_ec' AND `annee` = '$values->annee'";
 
     $deleteReq = $db->prepare($strReq);
     $statement = $deleteReq->execute();
