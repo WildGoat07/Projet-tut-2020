@@ -12,9 +12,13 @@ $suppressedValues->rowsDeleted = 0;
 foreach ($postObj->values as $values) {
     $strReq = "DELETE FROM `composante` WHERE `id_comp`= '$values->id_comp'";
 
-    $requete=$db->query($strReq);
-    if($requete->rowCount() != 0)
-        $suppressedValues->rowsDeleted += 1;
+    $deleteReq = $db->prepare($strReq);
+    $statement = $deleteReq->execute();
+    $error = $deleteReq->errorInfo();
+
+    if( $error[0] == '00000' )
+        if($deleteReq->rowCount() != 0)
+            $suppressedValues->rowsDeleted += 1;
 }
 
 if($suppressedValues->rowsDeleted != 0)
