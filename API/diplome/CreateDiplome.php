@@ -51,32 +51,39 @@ foreach ($postObj->values as $values) {
 
     $strReq .= ") VALUES $data )";
 
-    $requete = $db->prepare($strReq);
+    $createReq = $db->prepare($strReq);
+    $statement = $createReq->execute();
+    $error = $createReq->errorInfo();
 
-    if ($requete->execute()) {
-        $resultStr = "SELECT `code_diplome`, `libelle_diplome`, `vdi`, `libelle_vdi`, `annee_deb`, `annee_fin` FROM `diplome` WHERE ";
-        $resultStr .= "`code_diplome` = '$id_entered[$indexId]'";
-        $indexId++;
+    if ($error[0] == '00000') {
+        $nbRows = $createReq->rowCount();
+        if ($nbRows != 0) {
+            $resultStr = "SELECT `code_diplome`, `libelle_diplome`, `vdi`, `libelle_vdi`, `annee_deb`, `annee_fin` FROM `diplome` WHERE ";
+            $resultStr .= "`code_diplome` = '$id_entered[$indexId]'";
+            $indexId++;
 
-        $result = $db->query($resultStr);
-        $row = $result->fetch(PDO::FETCH_OBJ);
+            $result = $db->query($resultStr);
+            $row = $result->fetch(PDO::FETCH_OBJ);
 
-        $obj = new stdClass();
-        $obj->code_diplome = $row->code_diplome;
-        $obj->libelle_diplome = $row->libelle_diplome;
-        $obj->vdi = $row->vdi;
-        $obj->libelle_vdi = $row->libelle_vdi;
-        $obj->annee_deb = $row->annee_deb;
-        $obj->annee_fin = $row->annee_fin;
+            $obj = new stdClass();
+            $obj->code_diplome = $row->code_diplome;
+            $obj->libelle_diplome = $row->libelle_diplome;
+            $obj->vdi = $row->vdi;
+            $obj->libelle_vdi = $row->libelle_vdi;
+            $obj->annee_deb = $row->annee_deb;
+            $obj->annee_fin = $row->annee_fin;
 
-        array_push($returnedValues->values, $obj);
-        $returnedValues->success = true;
+            array_push($returnedValues->values, $obj);
+            $returnedValues->success = true;
+        } else {
+            $obj = new stdClass();
+            $obj->error_desc = "0 row affected";
+            $returnedValues->errors[] = $obj;
+        }
     } else {
-        $error = $requete->errorInfo();
-
         $obj = new stdClass();
         $obj->error_code = $error[0]; //enregistrement code d'erreur
-        $obj->error_desc = $error[2]; //enregistrement message d'erreru renvoyé
+        $obj->error_desc = $error[2]; //enregistrement message d'erreur renvoyé
         array_push($returnedValues->errors, $obj);
     }
 }
