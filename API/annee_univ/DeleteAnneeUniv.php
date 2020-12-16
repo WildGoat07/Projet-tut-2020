@@ -12,8 +12,12 @@ $suppressedValues->rowsDeleted = 0;
 foreach ($postObj->values as $values) {
     $strReq = "DELETE FROM `annee_univ` WHERE `annee`= '$values->annee'";
 
-    $requete=$db->query($strReq);
-    if($requete->rowCount() != 0)
+    $deleteReq = $db->prepare($strReq);
+    $statement = $deleteReq->execute();
+    $error = $deleteReq->errorInfo();
+
+    if( $error[0] == '00000' )
+        if($deleteReq->rowCount() != 0)
         $suppressedValues->rowsDeleted += 1;
 }
 

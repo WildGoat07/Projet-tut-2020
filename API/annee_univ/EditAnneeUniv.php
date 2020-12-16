@@ -23,10 +23,13 @@ foreach ($postObj->values as $values) {
     $strReq .= " WHERE `annee` = '$target->annee' ";
 
 
-    $updateReq=$db->prepare($strReq);
-    if ( $updateReq->execute() ) {
-        $nbRows=$updateReq->rowCount();
-        if( $nbRows != 0) {
+    $updateReq = $db->prepare($strReq);
+    $statement = $updateReq->execute();
+    $error = $updateReq->errorInfo();
+
+    if ($error[0] == '00000') {
+        $nbRows = $updateReq->rowCount();
+        if ($nbRows != 0) {
             $resultStr = "SELECT `annee` FROM `annee_univ` WHERE ";
             $resultStr .= "`annee` = '$data->annee'";
 
@@ -46,8 +49,6 @@ foreach ($postObj->values as $values) {
         }
     }
     else {
-        $error=$updateReq->errorInfo();
-
         $obj = new stdClass();
         $obj->error_code = $error[0];
         $obj->error_desc = $error[2];

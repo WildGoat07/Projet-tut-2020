@@ -22,37 +22,34 @@ foreach ($postObj->values as $values) {
     $data .= "'$values->annee'";
     array_push($id_entered, $values->annee);
 
-    /*
-    $strReq .= " ,`libelle_ue` ";
-    $data .= ",'$values->libelle_ue'";
-
-    if (isset($values->nature)) {
-        $strReq .= " ,`nature` ";
-        $data .= ",'$values->nature'";
-    }
-    */
-
     $strReq .= ") VALUES $data )";
 
-    $requete=$db->prepare($strReq);
+    $createReq = $db->prepare($strReq);
+    $statement = $createReq->execute();
+    $error = $createReq->errorInfo();
     
-    if ( $requete->execute() ) {
-        $resultStr = "SELECT `annee` FROM `annee_univ` WHERE ";
-        $resultStr .= "annee = $id_entered[$indexId]";
-        $indexId++;
+    if ( $error[0] == '00000' ) {
+        $nbRows = $createReq->rowCount();
+        if ($nbRows != 0) {
+            $resultStr = "SELECT `annee` FROM `annee_univ` WHERE ";
+            $resultStr .= "annee = $id_entered[$indexId]";
+            $indexId++;
 
-        $result=$db->query($resultStr);
-        $row=$result->fetch(PDO::FETCH_OBJ);
+            $result=$db->query($resultStr);
+            $row=$result->fetch(PDO::FETCH_OBJ);
 
-        $obj = new stdClass();
-        $obj->annee = $row->annee;
+            $obj = new stdClass();
+            $obj->annee = $row->annee;
 
-        array_push($returnedValues->values, $obj);
-        $returnedValues->success=true;
+            array_push($returnedValues->values, $obj);
+            $returnedValues->success=true;
+        } else {
+            $obj = new stdClass();
+            $obj->error_desc = "0 row affected";
+            $returnedValues->errors[] = $obj;
+        }
     }
     else {
-        $error=$requete->errorInfo();
-
         $obj = new stdClass();
         $obj->error_code = $error[0]; //enregistrement code d'erreur
         $obj->error_desc = $error[2]; //enregistrement message d'erreru renvoyé

@@ -111,10 +111,7 @@ foreach ($postObj->values as $values) {
         }
     }
     else {
-        $error=$updateReq->errorInfo();
-
         $obj = new stdClass();
-        
         $obj->error_code = $error[0];
         $obj->error_desc = $error[2];
         $returnedValues->errors[] = $obj;
