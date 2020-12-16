@@ -10,11 +10,15 @@ $suppressedValues->success = false;
 $suppressedValues->rowsDeleted = 0;
 
 foreach ($postObj->values as $values) {
-    $strReq = "DELETE FROM `ec` WHERE `code_ec`= '$values->code_ec'";
+    $strReq = "DELETE FROM `ec` WHERE `code_ec` = '$values->code_ec'";
 
-    $requete = $db->query($strReq);
-    if ($requete->rowCount() != 0)
-        $suppressedValues->rowsDeleted += 1;
+    $deleteReq = $db->prepare($strReq);
+    $statement = $deleteReq->execute();
+    $error = $deleteReq->errorInfo();
+
+    if ($error[0] == '00000')
+        if ($deleteReq->rowCount() != 0)
+            $suppressedValues->rowsDeleted += 1;
 }
 
 if ($suppressedValues->rowsDeleted != 0)

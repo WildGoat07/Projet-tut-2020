@@ -51,32 +51,39 @@ foreach ($postObj->values as $values) {
 
     $strReq .= ") VALUES $data )";
 
-    $requete = $db->prepare($strReq);
+    $createReq = $db->prepare($strReq);
+    $statement = $createReq->execute();
+    $error = $createReq->errorInfo();
 
-    if ($requete->execute()) {
-        $resultStr = "SELECT `code_etape`, `vet`, `libelle_vet`, `id_comp`, `code_diplome`, `vdi` FROM `etape` WHERE ";
-        $resultStr .= "`code_etape` = '$id_entered[$indexId]'";
-        $indexId++;
+    if ($error[0] == '00000') {
+        $nbRows = $createReq->rowCount();
+        if ($nbRows != 0) {
+            $resultStr = "SELECT `code_etape`, `vet`, `libelle_vet`, `id_comp`, `code_diplome`, `vdi` FROM `etape` WHERE ";
+            $resultStr .= "`code_etape` = '$id_entered[$indexId]'";
+            $indexId++;
 
-        $result = $db->query($resultStr);
-        $row = $result->fetch(PDO::FETCH_OBJ);
+            $result = $db->query($resultStr);
+            $row = $result->fetch(PDO::FETCH_OBJ);
 
-        $obj = new stdClass();
-        $obj->code_etape = $row->code_etape;
-        $obj->vet = $row->vet;
-        $obj->libelle_vet = $row->libelle_vet;
-        $obj->id_comp = $row->id_comp;
-        $obj->code_diplome = $row->code_diplome;
-        $obj->vdi = $row->vdi;
+            $obj = new stdClass();
+            $obj->code_etape = $row->code_etape;
+            $obj->vet = $row->vet;
+            $obj->libelle_vet = $row->libelle_vet;
+            $obj->id_comp = $row->id_comp;
+            $obj->code_diplome = $row->code_diplome;
+            $obj->vdi = $row->vdi;
 
-        array_push($returnedValues->values, $obj);
-        $returnedValues->success = true;
+            array_push($returnedValues->values, $obj);
+            $returnedValues->success = true;
+        } else {
+            $obj = new stdClass();
+            $obj->error_desc = "0 row affected";
+            $returnedValues->errors[] = $obj;
+        }
     } else {
-        $error = $requete->errorInfo();
-
         $obj = new stdClass();
         $obj->error_code = $error[0]; //enregistrement code d'erreur
-        $obj->error_desc = $error[2]; //enregistrement message d'erreru renvoyé
+        $obj->error_desc = $error[2]; //enregistrement message d'erreur renvoyé
         array_push($returnedValues->errors, $obj);
     }
 }

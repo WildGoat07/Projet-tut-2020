@@ -94,41 +94,48 @@ foreach ($postObj->values as $values) {
 
     $strReq .= ") VALUES $data )";
 
-    $requete = $db->prepare($strReq);
+    $createReq = $db->prepare($strReq);
+    $statement = $createReq->execute();
+    $error = $createReq->errorInfo();
 
-    if ($requete->execute()) {
-        $resultStr = "SELECT `code_ec`, `libelle_ec`, `nature`, `HCM`, `HEI`, `HTD`, `HTP`, `HTPL`, `HPRJ`
-        , `NbEpr`, `CNU`, `no_cat`, `code_ec_pere`, `code_ue` FROM `ec` WHERE ";
-        $resultStr .= "`code_ec` = '$id_entered[$indexId]'";
-        $indexId++;
+    if ($error[0] == '00000') {
+        $nbRows = $createReq->rowCount();
+        if ($nbRows != 0) {
+            $resultStr = "SELECT `code_ec`, `libelle_ec`, `nature`, `HCM`, `HEI`, `HTD`, `HTP`, `HTPL`, `HPRJ`,
+             `NbEpr`, `CNU`, `no_cat`, `code_ec_pere`, `code_ue` FROM `ec` WHERE ";
+            $resultStr .= "`code_ec` = '$id_entered[$indexId]'";
+            $indexId++;
 
-        $result = $db->query($resultStr);
-        $row = $result->fetch(PDO::FETCH_OBJ);
+            $result = $db->query($resultStr);
+            $row = $result->fetch(PDO::FETCH_OBJ);
 
-        $obj = new stdClass();
-        $obj->code_ec = $row->code_ec;
-        $obj->libelle_ec = $row->libelle_ec;
-        $obj->nature = $row->nature;
-        $obj->HCM = $row->HCM;
-        $obj->HEI = $row->HEI;
-        $obj->HTD = $row->HTD;
-        $obj->HTP = $row->HTP;
-        $obj->HTPL = $row->HTPL;
-        $obj->HPRJ = $row->HPRJ;
-        $obj->NbEpr = $row->NbEpr;
-        $obj->CNU = $row->CNU;
-        $obj->no_cat = $row->no_cat;
-        $obj->code_ec_pere = $row->code_ec_pere;
-        $obj->code_ue = $row->code_ue;
+            $obj = new stdClass();
+            $obj->code_ec = $row->code_ec;
+            $obj->libelle_ec = $row->libelle_ec;
+            $obj->nature = $row->nature;
+            $obj->HCM = $row->HCM;
+            $obj->HEI = $row->HEI;
+            $obj->HTD = $row->HTD;
+            $obj->HTP = $row->HTP;
+            $obj->HTPL = $row->HTPL;
+            $obj->HPRJ = $row->HPRJ;
+            $obj->NbEpr = $row->NbEpr;
+            $obj->CNU = $row->CNU;
+            $obj->no_cat = $row->no_cat;
+            $obj->code_ec_pere = $row->code_ec_pere;
+            $obj->code_ue = $row->code_ue;
 
-        array_push($returnedValues->values, $obj);
-        $returnedValues->success = true;
+            array_push($returnedValues->values, $obj);
+            $returnedValues->success = true;
+        } else {
+            $obj = new stdClass();
+            $obj->error_desc = "0 row affected";
+            $returnedValues->errors[] = $obj;
+        }
     } else {
-        $error = $requete->errorInfo();
-
         $obj = new stdClass();
         $obj->error_code = $error[0]; //enregistrement code d'erreur
-        $obj->error_desc = $error[2]; //enregistrement message d'erreru renvoyé
+        $obj->error_desc = $error[2]; //enregistrement message d'erreur renvoyé
         array_push($returnedValues->errors, $obj);
     }
 }
