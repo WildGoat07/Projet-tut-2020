@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Mer 09 Décembre 2020 à 16:48
+-- Généré le :  Jeu 17 Décembre 2020 à 17:30
 -- Version du serveur :  5.7.11
 -- Version de PHP :  7.0.3
 
@@ -17,8 +17,188 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `azancoth1u_projettuts3`
+-- Base de données :  `projet_tut`
 --
+
+DELIMITER $$
+--
+-- Fonctions
+--
+CREATE DEFINER=`root`@`localhost` FUNCTION `compareStrings` (`cle` VARCHAR(100), `valeur` VARCHAR(100)) RETURNS TINYINT(1) BEGIN
+	DECLARE nCle varchar(100);
+    DECLARE i INTEGER(3);
+    DECLARE minSize INTEGER(3);
+    DECLARE seuil INTEGER(3); 
+    
+	SET cle = projet_tut.RemoveExtraChars(cle);
+    IF length(cle) = 0 THEN 
+		RETURN TRUE;
+	END IF;
+    
+    IF valeur is null THEN 
+		RETURN FALSE;
+	END IF;
+	SET valeur = projet_tut.RemoveExtraChars(valeur);
+    IF length(valeur) = 0 THEN 
+		RETURN FALSE;
+	END IF;
+    
+    SET seuil = CASE
+    WHEN length(cle) div 5<5 THEN length(cle) div 5
+    ELSE 5
+    END;
+    
+	SET nCle = '';
+    SET minSize = CASE 
+    WHEN length(cle) < length(valeur) THEN length(cle)
+    ELSE 
+		length(valeur)
+	END;
+    
+    SET i = 1;
+    WHILE i <= length(cle) DO
+		IF i > 1 THEN 
+			SET nCle = concat(nCle, '.*');
+		end if;
+        SET nCle = concat(nCle, SubString(cle, i, 1) );
+        SET i = i + 1;
+    END WHILE;
+    
+    IF valeur regexp nCle THEN
+		RETURN TRUE;
+	ELSE 
+		SET i = 1;
+        WHILE i <= length(valeur)-minSize+1 DO 
+			IF projet_tut.Levenshtein(cle, substring(valeur, i, minSize)) <= seuil THEN
+				RETURN TRUE;
+			END IF;
+            SET i = i+1;
+        END WHILE;
+        RETURN FALSE;
+	END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `Levenshtein` (`chaine1` VARCHAR(100), `chaine2` VARCHAR(100)) RETURNS INT(3) BEGIN
+    DECLARE liste text;
+    DECLARE i,j integer(3);
+    DECLARE lC1 integer(3);
+    DECLARE lC2 integer(3);
+    DECLARE cout integer(3);
+    DECLARE minVal, a, b, c integer(3);
+    
+    if chaine1 = chaine2 then 
+        return 0;
+    end if;
+    
+    SET i = 1;
+    SET j = 1;
+    SET lC1 = length(chaine1);
+    SET lC2 = length(chaine2);
+    SET liste = '';
+    
+    while i <= lC1+1 do
+		SET j=1;
+        while j <= lC2+1 do
+            set liste=concat(liste, char(0));
+            set j = j + 1;
+        end while;
+        set i = i + 1;
+    end while;
+    
+    set i = 1;
+    set j = 1;
+    
+    while i <= lC1+1 do
+        SET liste = insert(liste, i, 1, char(i-1));         
+        SET i = i + 1;
+    end while;
+    
+    while j <= lC1+1 do
+        SET liste = insert(liste, (j-1)*(lC2+1)+1 , 1, char(j-1)); 
+        SET j = j + 1;
+    end while;
+    
+    set i = 1;
+    set j = 1;
+    
+    while i <= lC1 do
+		SET j=1;
+        while j <= lC2 do
+            SET cout = CASE
+            WHEN ascii(substring(chaine1, i, 1)) = ascii(substring(chaine2, j, 1)) THEN 0
+            ELSE 
+                1
+            END;
+            
+            SET a = ascii(substring(liste, (i-1)*(lC2+1)+j+1, 1)) + 1;
+            SET b = ascii(substring(liste, i*(lC2+1)+j, 1)) + 1;
+            SET minVal = CASE
+                WHEN a < b THEN a
+                ELSE b
+            END;
+            
+            SET c = ascii(substring(liste, (i-1)*(lC2+1)+j, 1)) + cout;
+            SET minVal = CASE
+                WHEN minVal  < c THEN minVal 
+                ELSE c
+            END;
+            
+            SET liste = INSERT(liste, i*(lC2+1)+j+1, 1, char(minVal));
+            
+            set j = j + 1;
+        end while;
+        set i = i + 1;
+    end while;
+    
+    
+RETURN ascii(substring(liste, (lC1+1)*(lC2+1), 1));
+END$$
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `RemoveExtraChars` (`p_OriginalString` VARCHAR(100)) RETURNS VARCHAR(100) CHARSET utf8mb4 BEGIN
+		DECLARE i integer(3);
+        DECLARE OriginalString varchar(100);
+        DECLARE ModifiedString varchar(100);
+        DECLARE caractere varchar(1);
+        
+		SET i = 1;
+        SET OriginalString = lower(p_OriginalString);
+        SET ModifiedString  = '';
+   
+		WHILE i <= length(OriginalString) DO
+			SET caractere = SubString(OriginalString, i, 1);
+            SET caractere = CASE
+            WHEN caractere="â" THEN "a"
+            WHEN caractere="ä" THEN "a"
+            WHEN caractere="à" THEN "a"
+            WHEN caractere="ë" THEN "e"
+            WHEN caractere="ê" THEN "e"
+            WHEN caractere="é" THEN "e"
+            WHEN caractere="è" THEN "e"
+            WHEN caractere="ï" THEN "i"
+            WHEN caractere="î" THEN "i"
+            WHEN caractere="ì" THEN "i"
+            WHEN caractere="ö" THEN "o"
+			WHEN caractere="ô" THEN "o"
+            WHEN caractere="ü" THEN "u"
+            WHEN caractere="û" THEN "u"
+            WHEN caractere="ù" THEN "u"
+            WHEN caractere="ÿ" THEN "y"
+            WHEN caractere="ç" THEN "c"
+            WHEN caractere="œ" THEN "oe"
+            ELSE 
+				caractere
+            END;
+			if caractere regexp '[a-z0-9]'
+            then 
+				set ModifiedString = concat(ModifiedString, caractere);
+            end if; 
+            set i = i + 1;
+        END WHILE;
+        
+        return ModifiedString;
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
