@@ -1,5 +1,6 @@
 <?php
 require_once '../app/Database.php';
+require_once '../utilities.php';
 
 header('Content-Type: application/json');
 
@@ -31,24 +32,7 @@ if (isset($postObj->filters)) {
         }
         $strReq .= ')';
     }
-    if (isset($postObj->filters->libelle_diplome)) {
-        if (!$firstFilter)
-            $strReq .= " AND ";
-        $firstFilter = false;
-        $firstArrayFilter = true;
-        if (!$whereSet) {
-            $strReq .= " WHERE ";
-            $whereSet = true;
-        }
-        $strReq .= '(';
-        foreach ($postObj->filters->libelle_diplome as $libelle_dip) {
-            if (!$firstArrayFilter)
-                $strReq .= " OR ";
-            $strReq .= "`libelle_diplome` = \"$libelle_dip\"";
-            $firstArrayFilter = false;
-        }
-        $strReq .= ')';
-    }
+    
     if (isset($postObj->filters->vdi)) {
         if (!$firstFilter)
             $strReq .= " AND ";
@@ -121,6 +105,15 @@ if (isset($postObj->filters)) {
         }
         $strReq .= ')';
     }
+}
+
+if (isset($postObj->search)) {
+    $strReq .= $whereSet?" AND ":" WHERE ";
+
+    $search = cleanString($postObj->search);
+
+    $strReq .= " (compareStrings(\"$search\", `libelle_diplome`) OR compareStrings(\"$search\", `libelle_vdi`)) ";
+
 }
 
 if (isset($postObj->order))

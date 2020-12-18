@@ -1,5 +1,6 @@
 <?php
 require_once '../app/Database.php';
+require_once '../utilities.php';
 
 header('Content-Type: application/json');
 
@@ -8,47 +9,35 @@ $categories->values = [];
 $categories->success = false;
 $categories->errors = [];
 
-$strReq = "SELECT `no_cat`, `categorie` FROM `categories`";
+$strReq = "SELECT `no_cat`, `categorie` FROM `categories` ";
 $postObj = json_decode(file_get_contents('php://input'));
-if (isset($postObj->filters)) {
-    $firstFilter = true;
-    $whereSet = false;
+
+$whereSet = false;
+
+
+if (isset($postObj->filters))
     if (isset($postObj->filters->no_cat)) {
-        if (!$firstFilter)
-            $strReq .= " AND ";
-        $firstFilter = false;
-        $firstArrayFilter = true;
-        if (!$whereSet) {
-            $strReq .= " WHERE ";
-            $whereSet = true;
-        }
-        $strReq .= '(';
+        $whereSet = true;
+        $firstArrayFilter=true;
+        
+        $strReq .= ' WHERE ( ';
         foreach ($postObj->filters->no_cat as $no_cat) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            $strReq .= "`no_cat` = \"$no_cat\"";
+            
+            $strReq .= " `no_cat` = \"$no_cat\" ";
             $firstArrayFilter = false;
         }
         $strReq .= ')';
     }
-    if (isset($postObj->filters->categorie)) {
-        if (!$firstFilter)
-            $strReq .= " AND ";
-        $firstFilter = false;
-        $firstArrayFilter = true;
-        if (!$whereSet) {
-            $strReq .= " WHERE ";
-            $whereSet = true;
-        }
-        $strReq .= '(';
-        foreach ($postObj->filters->categorie as $categorie) {
-            if (!$firstArrayFilter)
-                $strReq .= " OR ";
-            $strReq .= "`categorie` = \"$categorie\"";
-            $firstArrayFilter = false;
-        }
-        $strReq .= ')';
-    }
+
+if (isset($postObj->search)) {
+    $strReq .= $whereSet?" AND ":" WHERE ";
+
+    $search = cleanString($postObj->search);
+
+    $strReq .= " compareStrings(\"$search\", `categorie`) ";
+
 }
 
 if (isset($postObj->order))
@@ -59,11 +48,10 @@ if (isset($postObj->order))
 else if (isset($postObj->reverse_order) && $postObj->reverse_order)
     $strReq .= " ORDER BY `no_cat` DESC ";
 else
-    $strReq .= " ORDER BY `no_cat`";
-$strReq .= "LIMIT $postObj->quantity OFFSET $postObj->skip";
+    $strReq .= " ORDER BY `no_cat` ";
+$strReq .= " LIMIT $postObj->quantity OFFSET $postObj->skip ";
 
-$requete = $db->prepare($strReq);
-$statement = $requete->execute();
+$requete = $db->query($strReq);
 $error = $requete->errorInfo();
 
 if ($error[0]=='00000') {

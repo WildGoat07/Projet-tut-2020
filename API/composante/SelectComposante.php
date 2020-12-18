@@ -1,5 +1,6 @@
 <?php
 require_once '../app/Database.php';
+require_once '../utilities.php';
 
 header('Content-Type: application/json');
 
@@ -10,63 +11,28 @@ $composante->errors = [];
 
 $strReq = "SELECT `id_comp`, `nom_comp`, `lieu_comp` FROM `composante`";
 $postObj = json_decode(file_get_contents('php://input'));
-if (isset($postObj->filters)) {
-    $firstFilter = true;
-    $whereSet = false;
+if (isset($postObj->filters))
     if (isset($postObj->filters->id_comp)) {
-        if (!$firstFilter)
-            $strReq .= " AND ";
-        $firstFilter = false;
-        $firstArrayFilter = true;
-        if (!$whereSet) {
-            $strReq .= " WHERE ";
-            $whereSet = true;
-        }
-        $strReq .= '(';
+        $whereSet = true;
+        $firstArrayFilter=true;
+        
+        $strReq .= ' WHERE ( ';
         foreach ($postObj->filters->id_comp as $id_comp) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            $strReq .= "`id_comp` = \"$id_comp\"";
+            
+            $strReq .= " `id_comp` = \"$id_comp\" ";
             $firstArrayFilter = false;
         }
         $strReq .= ')';
     }
-    if (isset($postObj->filters->nom_comp)) {
-        if (!$firstFilter)
-            $strReq .= " AND ";
-        $firstFilter = false;
-        $firstArrayFilter = true;
-        if (!$whereSet) {
-            $strReq .= " WHERE ";
-            $whereSet = true;
-        }
-        $strReq .= '(';
-        foreach ($postObj->filters->nom_comp as $nom_comp) {
-            if (!$firstArrayFilter)
-                $strReq .= " OR ";
-            $strReq .= "`nom_comp` = \"$nom_comp\"";
-            $firstArrayFilter = false;
-        }
-        $strReq .= ')';
-    }
-    if (isset($postObj->filters->lieu_comp)) {
-        if (!$firstFilter)
-            $strReq .= " AND ";
-        $firstFilter = false;
-        $firstArrayFilter = true;
-        if (!$whereSet) {
-            $strReq .= " WHERE ";
-            $whereSet = true;
-        }
-        $strReq .= '(';
-        foreach ($postObj->filters->lieu_comp as $lieu_comp) {
-            if (!$firstArrayFilter)
-                $strReq .= " OR ";
-            $strReq .= "`lieu_comp` = \"$lieu_comp\"";
-            $firstArrayFilter = false;
-        }
-        $strReq .= ')';
-    }
+
+if (isset($postObj->search)) {
+    $strReq .= $whereSet?" AND ":" WHERE ";
+
+    $search = cleanString($postObj->search);
+
+    $strReq .= " (compareStrings(\"$search\", `nom_comp`) OR compareStrings(\"$search\", `lieu_comp`))";
 }
 
 if (isset($postObj->order))
