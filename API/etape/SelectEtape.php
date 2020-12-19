@@ -105,6 +105,15 @@ if (isset($postObj->filters)) {
     }
 }
 
+if (isset($postObj->search)) {
+    $strReq .= $whereSet?" AND ":" WHERE ";
+
+    $search = cleanString($postObj->search);
+
+    $strReq .= " compareStrings(\"$search\", `libelle_vet`) ";
+
+}
+
 if (isset($postObj->order))
     if (isset($postObj->reverse_order) && $postObj->reverse_order)
         $strReq .= " ORDER BY `$postObj->order` DESC ";

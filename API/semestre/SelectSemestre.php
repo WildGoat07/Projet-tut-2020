@@ -31,24 +31,6 @@ if (isset($postObj->filters)) {
         }
         $strReq .= ')';
     }
-    if (isset($postObj->filters->libelle_sem)) {
-        if (!$firstFilter)
-            $strReq .= " AND ";
-        $firstFilter = false;
-        $firstArrayFilter = true;
-        if (!$whereSet) {
-            $strReq .= " WHERE ";
-            $whereSet = true;
-        }
-        $strReq .= '(';
-        foreach ($postObj->filters->libelle_sem as $libelle_sem) {
-            if (!$firstArrayFilter)
-                $strReq .= " OR ";
-            $strReq .= "`libelle_sem` = \"$libelle_sem\"";
-            $firstArrayFilter = false;
-        }
-        $strReq .= ')';
-    }
     if (isset($postObj->filters->no_sem)) {
         if (!$firstFilter)
             $strReq .= " AND ";
@@ -104,6 +86,16 @@ if (isset($postObj->filters)) {
         $strReq .= ')';
     }
 }
+
+if (isset($postObj->search)) {
+    $strReq .= $whereSet?" AND ":" WHERE ";
+
+    $search = cleanString($postObj->search);
+
+    $strReq .= " compareStrings(\"$search\", `libelle_sem`) ";
+
+}
+
 if (isset($postObj->order))
     if (isset($postObj->reverse_order) && $postObj->reverse_order)
         $strReq .= " ORDER BY `$postObj->order` DESC ";

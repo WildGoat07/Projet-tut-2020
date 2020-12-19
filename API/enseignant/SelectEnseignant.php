@@ -27,43 +27,7 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->id_ens as $id) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            $strReq .= "`id_ens` = \"$id\"";
-            $firstArrayFilter = false;
-        }
-        $strReq .= ')';
-    }
-    if (isset($postObj->filters->nom)) {
-        if (!$firstFilter)
-            $strReq .= " AND ";
-        $firstFilter = false;
-        $firstArrayFilter = true;
-        if (!$whereSet) {
-            $strReq .= " WHERE ";
-            $whereSet = true;
-        }
-        $strReq .= '(';
-        foreach ($postObj->filters->nom as $nom) {
-            if (!$firstArrayFilter)
-                $strReq .= " OR ";
-            $strReq .= "`nom` = \"$nom\"";
-            $firstArrayFilter = false;
-        }
-        $strReq .= ')';
-    }
-    if (isset($postObj->filters->prenom)) {
-        if (!$firstFilter)
-            $strReq .= " AND ";
-        $firstFilter = false;
-        $firstArrayFilter = true;
-        if (!$whereSet) {
-            $strReq .= " WHERE ";
-            $whereSet = true;
-        }
-        $strReq .= '(';
-        foreach ($postObj->filters->prenom as $prenom) {
-            if (!$firstArrayFilter)
-                $strReq .= " OR ";
-            $strReq .= "`prenom` = \"$prenom\"";
+            $strReq .= " `id_ens` = \"$id\" ";
             $firstArrayFilter = false;
         }
         $strReq .= ')';
@@ -81,7 +45,7 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->fonction as $fonction) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            $strReq .= "`fonction` = \"$fonction\"";
+            $strReq .= " `fonction` = \"$fonction\" ";
             $firstArrayFilter = false;
         }
         $strReq .= ')';
@@ -99,7 +63,7 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->CRCT as $CRCT) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            $strReq .= "`CRCT` = \"$CRCT\"";
+            $strReq .= " `CRCT` = \"$CRCT\" ";
             $firstArrayFilter = false;
         }
         $strReq .= ')';
@@ -117,7 +81,7 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->PES_PEDR as $PES_PEDR) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            $strReq .= "`PES_PEDR` = \"$PES_PEDR\"";
+            $strReq .= " `PES_PEDR` = \"$PES_PEDR\" ";
             $firstArrayFilter = false;
         }
         $strReq .= ')';
@@ -135,25 +99,7 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->id_comp as $id_comp) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            $strReq .= "`id_comp` = \"$id_comp\"";
-            $firstArrayFilter = false;
-        }
-        $strReq .= ')';
-    }
-    if (isset($postObj->filters->id_comp)) {
-        if (!$firstFilter)
-            $strReq .= " AND ";
-        $firstFilter = false;
-        $firstArrayFilter = true;
-        if (!$whereSet) {
-            $strReq .= " WHERE ";
-            $whereSet = true;
-        }
-        $strReq .= '(';
-        foreach ($postObj->filters->id_comp as $id_comp) {
-            if (!$firstArrayFilter)
-                $strReq .= " OR ";
-            $strReq .= "`id_comp` = \"$id_comp\"";
+            $strReq .= " `id_comp` = \"$id_comp\" ";
             $firstArrayFilter = false;
         }
         $strReq .= ')';
@@ -168,13 +114,13 @@ if (isset($postObj->filters)) {
         }
         $minSet = false;
         if (isset($postObj->filters->HOblig->min)) {
-            $strReq .= "`HOblig` >= " . $postObj->filters->HOblig->min;
+            $strReq .= " `HOblig` >= " . $postObj->filters->HOblig->min;
             $minSet = true;
         }
         if (isset($postObj->filters->HOblig->max)) {
             if ($minSet)
                 $strReq .= " AND ";
-            $strReq .= "`HOblig` <= " . $postObj->filters->HOblig->max;
+            $strReq .= " `HOblig` <= " . $postObj->filters->HOblig->max;
         }
     }
     if (isset($postObj->filters->HMax)) {
@@ -187,16 +133,26 @@ if (isset($postObj->filters)) {
         }
         $minSet = false;
         if (isset($postObj->filters->HMax->min)) {
-            $strReq .= "`HMax` >= " . $postObj->filters->HMax->min;
+            $strReq .= " `HMax` >= " . $postObj->filters->HMax->min;
             $minSet = true;
         }
         if (isset($postObj->filters->HMax->max)) {
             if ($minSet)
                 $strReq .= " AND ";
-            $strReq .= "`HMax` <= " . $postObj->filters->HMax->max;
+            $strReq .= " `HMax` <= " . $postObj->filters->HMax->max;
         }
     }
 }
+
+if (isset($postObj->search)) {
+    $strReq .= $whereSet?" AND ":" WHERE ";
+
+    $search = cleanString($postObj->search);
+
+    $strReq .= " (compareStrings(\"$search\", `nom`) OR compareStrings(\"$search\", `prenom`)) ";
+
+}
+
 if (isset($postObj->order))
     if (isset($postObj->reverse_order) && $postObj->reverse_order)
         $strReq .= " ORDER BY `$postObj->order` DESC ";
