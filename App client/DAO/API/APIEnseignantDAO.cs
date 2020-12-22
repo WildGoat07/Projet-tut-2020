@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -16,9 +17,20 @@ namespace DAO.API
 
         private HttpClient Client { get; }
 
-        public Task<Enseignant[]> CreateAsync(IEnumerable<Enseignant> values)
+        public async Task<Enseignant[]> CreateAsync(IEnumerable<Enseignant> values)
         {
-            throw new NotImplementedException();
+            var obj = new
+            {
+                values = values.ToArray()
+            };
+            var jsonObj = JsonConvert.SerializeObject(obj, Formatting.Indented);
+            var url = new Uri("enseignant/CreateEnseignant.php");
+            var response = await Client.PostAsync(url, new StringContent(jsonObj, Encoding.UTF8, "application/json"));
+            dynamic? status = JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync());
+            if (status != null)
+            {
+            }
+            else throw new DAOException(DAOException.ErrorCode.UNKNOWN);
         }
 
         public Task DeleteAsync(IEnumerable<Enseignant> values)

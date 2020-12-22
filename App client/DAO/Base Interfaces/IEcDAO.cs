@@ -88,12 +88,13 @@ namespace DAO
         /// <param name="TdHours">Min/max des heures de TD</param>
         /// <param name="TpHours">Min/max des heures de TP</param>
         /// <param name="TplHours">Min/max des heures de TPL</param>
+        /// <param name="NbEpr">Min/max du nombre d'épreuves</param>
         /// <param name="stepCount">Min/max du nombre d'épreuves</param>
         /// <param name="orderBy">Champ utilisé pour trier</param>
         /// <param name="reverseOrder">True si le tri doit être inversé</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <returns>Toutes les ec filtrées disponibles</returns>
-        Task<Ec[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, string? search = null, IEnumerable<int>? Cnu = null, IEnumerable<int>? owner = null, IEnumerable<char>? nature = null, IEnumerable<int>? ue = null, IEnumerable<int>? category = null, (int?, int?)? CmHours = null, (int?, int?)? EiHours = null, (int?, int?)? TdHours = null, (int?, int?)? TpHours = null, (int?, int?)? TplHours = null, (int?, int?)? PrjHours = null, (int?, int?)? stepCount = null);
+        Task<Ec[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, string? search = null, IEnumerable<int>? Cnu = null, IEnumerable<int>? owner = null, IEnumerable<char>? nature = null, IEnumerable<int>? ue = null, IEnumerable<int>? category = null, (int?, int?)? CmHours = null, (int?, int?)? EiHours = null, (int?, int?)? TdHours = null, (int?, int?)? TpHours = null, (int?, int?)? TplHours = null, (int?, int?)? PrjHours = null, (int?, int?)? NbEpr = null, (int?, int?)? stepCount = null);
 
         /// <summary>
         /// Modifie une ec
