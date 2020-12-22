@@ -51,24 +51,6 @@ if (isset($postObj->filters)) {
         }
         $strReq .= ')';
     }
-    if (isset($postObj->filters->libelle_vdi)) {
-        if (!$firstFilter)
-            $strReq .= " AND ";
-        $firstFilter = false;
-        $firstArrayFilter = true;
-        if (!$whereSet) {
-            $strReq .= " WHERE ";
-            $whereSet = true;
-        }
-        $strReq .= '(';
-        foreach ($postObj->filters->libelle_vdi as $libelle_vdi) {
-            if (!$firstArrayFilter)
-                $strReq .= " OR ";
-            $strReq .= "`libelle_vdi` = \"$libelle_vdi\"";
-            $firstArrayFilter = false;
-        }
-        $strReq .= ')';
-    }
     if (isset($postObj->filters->annee_deb)) {
         if (!$firstFilter)
             $strReq .= " AND ";
