@@ -51,7 +51,7 @@ namespace DAO
         /// </param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <returns>Toutes les catégories disponibles</returns>
-        Task<Categorie[]> GetAllAsync(int maxCount, int page);
+        async Task<Categorie[]> GetAllAsync(int maxCount, int page) => await GetFilteredAsync(maxCount, page);
 
         /// <summary>
         /// Récupère une catégorie
@@ -68,6 +68,20 @@ namespace DAO
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Les catégories correspondantes à l'id</returns>
         Task<Categorie[]> GetByIdAsync(IEnumerable<int> id);
+
+        /// <summary>
+        /// Récupère toutes les catégories selon des filtres
+        /// </summary>
+        /// <param name="maxCount">Quantité maximum à récupérer</param>
+        /// <param name="page">
+        /// Les <paramref name="maxCount"/> * <paramref name="page"/> première valeurs seront évitées
+        /// </param>
+        /// <param name="search">Mots-clés à rechercher</param>
+        /// <param name="orderBy">Champ utilisé pour trier</param>
+        /// <param name="reverseOrder">True si le tri doit être inversé</param>
+        /// <exception cref="DAOException">Une erreur est survenue</exception>
+        /// <returns>Toutes les catégories filtrées disponibles</returns>
+        Task<Categorie[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, string? search = null);
 
         /// <summary>
         /// Modifie une catégorie

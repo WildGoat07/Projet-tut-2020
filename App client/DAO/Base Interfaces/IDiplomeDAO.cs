@@ -76,13 +76,14 @@ namespace DAO
         /// <param name="page">
         /// Les <paramref name="maxCount"/> * <paramref name="page"/> première valeurs seront évitées
         /// </param>
+        /// <param name="search">Mots-clés à rechercher</param>
         /// <param name="begin">Années de départ du diplôme</param>
         /// <param name="end">Années de fin du diplôme</param>
         /// <param name="orderBy">Champ utilisé pour trier</param>
         /// <param name="reverseOrder">True si le tri doit être inversé</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <returns>Tous les diplômes filtrés disponibles</returns>
-        Task<Diplome[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, IEnumerable<int>? begin = null, IEnumerable<int>? end = null);
+        Task<Diplome[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, string? search = null, IEnumerable<int>? begin = null, IEnumerable<int>? end = null);
 
         /// <summary>
         /// Modifie un diplôme

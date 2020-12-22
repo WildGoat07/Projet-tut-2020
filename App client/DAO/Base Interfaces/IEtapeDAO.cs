@@ -76,6 +76,7 @@ namespace DAO
         /// <param name="page">
         /// Les <paramref name="maxCount"/> * <paramref name="page"/> première valeurs seront évitées
         /// </param>
+        /// <param name="search">Mots-clés à rechercher</param>
         /// <param name="comp">Composante des étapes</param>
         /// <param name="diplome">Diplôme des étapes</param>
         /// <param name="orderBy">Champ utilisé pour trier</param>
@@ -83,7 +84,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Toutes les étape filtrées disponibles</returns>
-        Task<Etape[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, IEnumerable<string>? comp = null, IEnumerable<(string, int)>? diplome = null);
+        Task<Etape[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, string? search = null, IEnumerable<string>? comp = null, IEnumerable<(string, int)>? diplome = null);
 
         /// <summary>
         /// Modifie une étape

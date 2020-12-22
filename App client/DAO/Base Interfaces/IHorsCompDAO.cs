@@ -76,6 +76,9 @@ namespace DAO
         /// <param name="page">
         /// Les <paramref name="maxCount"/> * <paramref name="page"/> première valeurs seront évitées
         /// </param>
+        /// <param name="year">Année concernée</param>
+        /// <param name="comp">Composante exterieure</param>
+        /// <param name="course">Enseignement concerné</param>
         /// <param name="CmHours">Min/max des heures de CM</param>
         /// <param name="EiHours">Min/max des heures de EI</param>
         /// <param name="equivalentHours">Min/max des heures équivalentes TD</param>

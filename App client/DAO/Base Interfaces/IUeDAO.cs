@@ -76,6 +76,7 @@ namespace DAO
         /// <param name="page">
         /// Les <paramref name="maxCount"/> * <paramref name="page"/> première valeurs seront évitées
         /// </param>
+        /// <param name="search">Mots-clés à rechercher</param>
         /// <param name="ECTS">ECTS des UE</param>
         /// <param name="nature">Nature des UE</param>
         /// <param name="parent">Parent des UE</param>
@@ -85,7 +86,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Toutes les ue filtrées disponibles</returns>
-        Task<Ue[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, IEnumerable<char>? nature = null, IEnumerable<int>? ECTS = null, IEnumerable<string>? parent = null, IEnumerable<Semestre>? semester = null);
+        Task<Ue[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, string? search = null, IEnumerable<char>? nature = null, IEnumerable<int>? ECTS = null, IEnumerable<string>? parent = null, IEnumerable<Semestre>? semester = null);
 
         /// <summary>
         /// Modifie une ue
