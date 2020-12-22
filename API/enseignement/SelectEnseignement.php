@@ -54,37 +54,39 @@ if (isset($postObj->filters)) {
         if (!$firstFilter)
             $strReq .= " AND ";
         $firstFilter = false;
-        $firstArrayFilter = true;
         if (!$whereSet) {
             $strReq .= " WHERE ";
             $whereSet = true;
         }
-        $strReq .= '(';
-        foreach ($postObj->filters->eff_prev as $eff_prev) {
-            if (!$firstArrayFilter)
-                $strReq .= " OR ";
-            $strReq .= "`eff_prev` = \"$eff_prev\"";
-            $firstArrayFilter = false;
+        $minSet = false;
+        if (isset($postObj->filters->eff_prev->min)) {
+            $strReq .= "`eff_prev` >= " . $postObj->filters->eff_prev->min;
+            $minSet = true;
         }
-        $strReq .= ')';
+        if (isset($postObj->filters->eff_prev->max)) {
+            if ($minSet)
+                $strReq .= " AND ";
+            $strReq .= "`eff_prev` <= " . $postObj->filters->eff_prev->max;
+        }
     }
     if (isset($postObj->filters->eff_reel)) {
         if (!$firstFilter)
             $strReq .= " AND ";
         $firstFilter = false;
-        $firstArrayFilter = true;
         if (!$whereSet) {
             $strReq .= " WHERE ";
             $whereSet = true;
         }
-        $strReq .= '(';
-        foreach ($postObj->filters->eff_reel as $eff_reel) {
-            if (!$firstArrayFilter)
-                $strReq .= " OR ";
-            $strReq .= "`eff_reel` = \"$eff_reel\"";
-            $firstArrayFilter = false;
+        $minSet = false;
+        if (isset($postObj->filters->eff_reel->min)) {
+            $strReq .= "`eff_reel` >= " . $postObj->filters->eff_reel->min;
+            $minSet = true;
         }
-        $strReq .= ')';
+        if (isset($postObj->filters->eff_reel->max)) {
+            if ($minSet)
+                $strReq .= " AND ";
+            $strReq .= "`eff_reel` <= " . $postObj->filters->eff_reel->max;
+        }
     }
     if (isset($postObj->filters->GpCM)) {
         if (!$firstFilter)
