@@ -10,20 +10,36 @@ namespace DAO.API
 {
     public class APIDAOFactory : IDAOFactory
     {
-        public IAnneeUnivDAO AnneeUnivDAO => throw new NotImplementedException();
-        public ICategorieDAO CategorieDAO => throw new NotImplementedException();
-        public IComposanteDAO ComposanteDAO => throw new NotImplementedException();
-        public IDiplomeDAO DiplomeDAO => throw new NotImplementedException();
-        public IEcDAO EcDAO => throw new NotImplementedException();
-        public IEnseignantDAO EnseignantDAO => throw new NotImplementedException();
-        public IEnseignementDAO EnseignementDAO => throw new NotImplementedException();
-        public IEtapeDAO EtapeDAO => throw new NotImplementedException();
-        public IHorsCompDAO HorsCompDAO => throw new NotImplementedException();
-        public ISemestreDAO SemestreDAO => throw new NotImplementedException();
-        public IServiceDAO ServiceDAO => throw new NotImplementedException();
-        public IUeDAO UeDAO => throw new NotImplementedException();
+        public APIDAOFactory(Uri baseUri)
+        {
+            Client = new HttpClient { BaseAddress = baseUri ?? new Uri("http://localhost") };
+            AnneeUnivDAO = new APIAnneeUnivDAO(Client);
+            CategorieDAO = new APICategorieDAO(Client);
+            ComposanteDAO = new APIComposanteDAO(Client);
+            DiplomeDAO = new APIDiplomeDAO(Client);
+            EcDAO = new APIEcDAO(Client);
+            EnseignantDAO = new APIEnseignantDAO(Client);
+            EnseignementDAO = new APIEnseignementDAO(Client);
+            EtapeDAO = new APIEtapeDAO(Client);
+            HorsCompDAO = new APIHorsCompDAO(Client);
+            SemestreDAO = new APISemestreDAO(Client);
+            ServiceDAO = new APIServiceDAO(Client);
+            UeDAO = new APIUeDAO(Client);
+        }
 
-        //! ne pas commit cette ligne, l'adapter à chacun
-        internal static HttpClient Client { get; } = new HttpClient { BaseAddress = new Uri("http://localhost") };
+        public IAnneeUnivDAO AnneeUnivDAO { get; }
+        public ICategorieDAO CategorieDAO { get; }
+        public IComposanteDAO ComposanteDAO { get; }
+        public IDiplomeDAO DiplomeDAO { get; }
+        public IEcDAO EcDAO { get; }
+        public IEnseignantDAO EnseignantDAO { get; }
+        public IEnseignementDAO EnseignementDAO { get; }
+        public IEtapeDAO EtapeDAO { get; }
+        public IHorsCompDAO HorsCompDAO { get; }
+        public ISemestreDAO SemestreDAO { get; }
+        public IServiceDAO ServiceDAO { get; }
+        public IUeDAO UeDAO { get; }
+
+        private HttpClient Client { get; }
     }
 }
