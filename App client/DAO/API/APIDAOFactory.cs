@@ -12,7 +12,7 @@ namespace DAO.API
     {
         public APIDAOFactory(Uri baseUri)
         {
-            Client = new HttpClient { BaseAddress = baseUri ?? new Uri("http://localhost") };
+            Client = new HttpClient { BaseAddress = baseUri ?? new Uri("http://localhost/") };
             AnneeUnivDAO = new APIAnneeUnivDAO(Client);
             CategorieDAO = new APICategorieDAO(Client);
             ComposanteDAO = new APIComposanteDAO(Client);

@@ -59,7 +59,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>La ec correspondante à l'id</returns>
-        async Task<Ec> GetByIdAsync(string code) => (await GetByIdAsync(new[] { code })).First();
+        async Task<Ec?> GetByIdAsync(string code) => (await GetByIdAsync(new[] { code })).FirstOrDefault();
 
         /// <summary>
         /// Récupère des ec
@@ -112,7 +112,6 @@ namespace DAO
         /// <param name="values">Valeurs des ec</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        /// <exception cref="ArgumentException">Les tableaux sont de taille différente</exception>
         /// <returns>Les ec modifiées</returns>
         Task<Ec[]> UpdateAsync(IEnumerable<(Ec, Ec)> values);
     }

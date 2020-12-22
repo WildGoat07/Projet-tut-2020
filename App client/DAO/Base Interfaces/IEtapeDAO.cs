@@ -59,7 +59,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>L'étape correspondante à l'id</returns>
-        async Task<Etape> GetByIdAsync(string code, int version) => (await GetByIdAsync(new[] { (code, version) })).First();
+        async Task<Etape?> GetByIdAsync(string code, int version) => (await GetByIdAsync(new[] { (code, version) })).FirstOrDefault();
 
         /// <summary>
         /// Récupère des étapes
@@ -82,7 +82,6 @@ namespace DAO
         /// <param name="orderBy">Champ utilisé pour trier</param>
         /// <param name="reverseOrder">True si le tri doit être inversé</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
-        /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Toutes les étape filtrées disponibles</returns>
         Task<Etape[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, string? search = null, IEnumerable<string>? comp = null, IEnumerable<(string, int)>? diplome = null);
 
@@ -102,7 +101,6 @@ namespace DAO
         /// <param name="values">Valeurs des étapes</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        /// <exception cref="ArgumentException">Les tableaux sont de taille différente</exception>
         /// <returns>Les étapes modifiées</returns>
         Task<Etape[]> UpdateAsync(IEnumerable<(Etape, Etape)> values);
     }

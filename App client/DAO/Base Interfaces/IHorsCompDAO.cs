@@ -59,7 +59,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>L'horsComp correspondante à l'id</returns>
-        async Task<HorsComp> GetByIdAsync(string code, int version) => (await GetByIdAsync(new[] { (code, version) })).First();
+        async Task<HorsComp?> GetByIdAsync(string code, int version) => (await GetByIdAsync(new[] { (code, version) })).FirstOrDefault();
 
         /// <summary>
         /// Récupère des horsComp
@@ -89,7 +89,6 @@ namespace DAO
         /// <param name="orderBy">Champ utilisé pour trier</param>
         /// <param name="reverseOrder">True si le tri doit être inversé</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
-        /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Toutes les horsComp filtrées disponibles</returns>
         Task<HorsComp[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, IEnumerable<string>? course = null, IEnumerable<string>? comp = null, IEnumerable<string>? year = null, (int?, int?)? CmHours = null, (int?, int?)? EiHours = null, (int?, int?)? TdHours = null, (int?, int?)? TpHours = null, (int?, int?)? TplHours = null, (int?, int?)? PrjHours = null, (float?, float?)? equivalentHours = null);
 
@@ -109,7 +108,6 @@ namespace DAO
         /// <param name="values">Valeurs des horsComp</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        /// <exception cref="ArgumentException">Les tableaux sont de taille différente</exception>
         /// <returns>Les horsComp modifiées</returns>
         Task<HorsComp[]> UpdateAsync(IEnumerable<(HorsComp, HorsComp)> values);
     }

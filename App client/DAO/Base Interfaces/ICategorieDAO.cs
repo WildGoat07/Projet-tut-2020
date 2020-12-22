@@ -59,7 +59,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>La catégorie correspondante à l'id</returns>
-        async Task<Categorie> GetByIdAsync(int id) => (await GetByIdAsync(new[] { id })).First();
+        async Task<Categorie?> GetByIdAsync(int id) => (await GetByIdAsync(new[] { id })).FirstOrDefault();
 
         /// <summary>
         /// Récupère des catégories
@@ -99,7 +99,6 @@ namespace DAO
         /// <param name="values">Valeurs des catégories</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        /// <exception cref="ArgumentException">Les tableaux sont de taille différente</exception>
         /// <returns>Les catégories modifiées</returns>
         Task<Categorie[]> UpdateAsync(IEnumerable<(Categorie, Categorie)> values);
     }

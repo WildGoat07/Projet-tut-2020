@@ -51,7 +51,7 @@ namespace DAO
         /// </param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <returns>Tous les enseignants</returns>
-        Task<Enseignant[]> GetAllAsync(int maxCount, int page);
+        async Task<Enseignant[]> GetAllAsync(int maxCount, int page) => await GetFilteredAsync(maxCount, page);
 
         /// <summary>
         /// Récupère un enseignant
@@ -59,7 +59,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>L'enseignant correspondant à l'id</returns>
-        async Task<Enseignant> GetByIdAsync(string id) => (await GetByIdAsync(new[] { id })).First();
+        async Task<Enseignant?> GetByIdAsync(string id) => (await GetByIdAsync(new[] { id })).FirstOrDefault();
 
         /// <summary>
         /// Récupère des enseignants
@@ -86,7 +86,6 @@ namespace DAO
         /// <param name="orderBy">Champ utilisé pour trier</param>
         /// <param name="reverseOrder">True si le tri doit être inversé</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
-        /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Tous les enseignants filtrés disponibles</returns>
         Task<Enseignant[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, string? search = null, IEnumerable<string>? function = null, IEnumerable<int>? comp = null, IEnumerable<char>? CRCT = null, IEnumerable<char>? PesPedr = null, (float?, float?)? forcedHours = null, (float?, float?)? maxHours = null);
 
@@ -106,7 +105,6 @@ namespace DAO
         /// <param name="values">Valeurs des enseignants</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        /// <exception cref="ArgumentException">Les tableaux sont de taille différente</exception>
         /// <returns>Les enseignants modifiés</returns>
         Task<Enseignant[]> UpdateAsync(IEnumerable<(Enseignant, Enseignant)> values);
     }

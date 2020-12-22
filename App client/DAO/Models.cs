@@ -8,126 +8,126 @@ namespace DAO
 {
     public record AnneeUniv
     (
-        string Annee
+        string annee
     );
     public record Categorie
     (
-        int Numero,
-        string Libelle
+        int no_cat,
+        string categorie
     );
     public record Composante
     (
-        string Id,
-        string Nom,
-        string? Lieu = null
+        string id_comp,
+        string nom_comp,
+        string? lieu_comp = null
     );
     public record Diplome
     (
-        string Code,
-        string LibelleDiplome,
-        int Version,
-        string LibelleVersion,
-        int? AnneeDebut = null,
-        int? AnneeFin = null
+        string code_diplome,
+        string libelle_diplome,
+        int vdi,
+        string libelle_vdi,
+        int? annee_deb = null,
+        int? annee_fin = null
     );
     public record Ec
     (
-        string Code,
-        string Libelle,
-        char? Nature = 'E',
-        int? HeuresCM = 0,
-        int? HeuresEI = 0,
-        int? HeuresTD = 0,
-        int? HeuresTP = 0,
-        int? HeuresTPL = 0,
-        int? HeuresPRJ = 0,
-        int? NombreEpreuves = 1,
+        string code_ec,
+        string libelle_ec,
+        char? nature = 'E',
+        int? HCM = 0,
+        int? HEI = 0,
+        int? HTD = 0,
+        int? HTP = 0,
+        int? HTPL = 0,
+        int? HPRJ = 0,
+        int? NbEpr = 1,
         int? CNU = 2700,
-        int? NumCategorie = null,
-        int? Pere = null,
-        int? Ue = null
+        int? no_cat = null,
+        int? code_ec_pere = null,
+        int? code_ue = null
     );
     public record Enseignant
     (
-        string Id,
-        string Nom,
-        string Prenom,
-        string? Fonction = null,
-        float? HeuresObligees = null,
-        float? HeuresMax = null,
+        string id_ens,
+        string nom,
+        string prenom,
+        string? fonction = null,
+        float? HOblig = null,
+        float? HMax = null,
         char? CRCT = 'N',
-        char? PesPedr = 'N',
-        string? Composante = null
+        char? PES_PEDR = 'N',
+        string? id_comp = null
     );
     public record Enseignement
     (
-        string CodeEc,
-        string Annee,
-        int? EffectifPrevu = null,
-        int? EffectifReel = null,
-        int? GroupesCM = 1,
-        int? GroupesEI = 0,
-        int? GroupesTD = 0,
-        int? GroupesTP = 0,
-        int? GroupesTPL = 0,
-        int? GroupesPRJ = 0,
-        int? GroupesCMServis = 0,
-        int? GroupesEIServis = 0,
-        int? GroupesTDServis = 0,
-        int? GroupesTPServis = 0,
-        int? GroupesTPLServis = 0,
-        int? GroupesPRJServis = 0
+        string code_ec,
+        string annee,
+        int? eff_prev = null,
+        int? eff_reel = null,
+        int? GpCM = 1,
+        int? GpEI = 0,
+        int? GpTD = 0,
+        int? GpTP = 0,
+        int? GpTPL = 0,
+        int? GpPRJ = 0,
+        int? GpCMSer = 0,
+        int? GpEISer = 0,
+        int? GpTDSer = 0,
+        int? GpTPSer = 0,
+        int? GpTPLSer = 0,
+        int? GpPRJSer = 0
     );
     public record Etape
     (
-        string Code,
-        int VersionEtape,
-        string Libelle,
-        string Composante,
-        string? Diplome = null,
-        int? VersionDiplome = null
+        string code_etape,
+        int vet,
+        string libelle_vet,
+        string id_comp,
+        string? code_diplome = null,
+        int? vdi = null
     );
     public record HorsComp
     (
-        string Enseignement,
-        string Composante,
-        string Annee,
-        int? HeuresCM = 0,
-        int? HeuresEI = 0,
-        int? HeuresTD = 0,
-        int? HeuresTP = 0,
-        int? HeuresTPL = 0,
-        int? HeuresPRJ = 0,
-        float? HeuresEquivalentTD = 0f
+        string id_ens,
+        string code_ec,
+        string annee,
+        int? HCM = 0,
+        int? HEI = 0,
+        int? HTD = 0,
+        int? HTP = 0,
+        int? HTPL = 0,
+        int? HPRJ = 0,
+        float? HEqTD = 0f
     );
     public record Semestre
     (
-        string Code,
-        string Libelle,
-        int? Numero = null,
-        string? Etape = null,
-        int? VersionEtape = null
+        string code_sem,
+        string libelle_sem,
+        int? no_sem = null,
+        string? code_etape = null,
+        int? vet = null
     );
     public record Service
     (
-        string Enseignant,
-        string Ec,
-        string Annee,
-        int? NombreGroupesCM = 0,
-        int? NombreGroupesEI = 0,
-        int? NombreGroupesTD = 0,
-        int? NombreGroupesTP = 0,
-        int? NombreGroupesTPL = 0,
-        int? NombreGroupesPRJ = 0,
-        float? HeuresEquivalentTD = 0f
+        string id_ens,
+        string code_ec,
+        string annee,
+        int? NbGpCM = 0,
+        int? NbGpEI = 0,
+        int? NBGpTD = 0,
+        int? NbGbTP = 0,
+        int? NbGpTPL = 0,
+        int? NBGpPRJ = 0,
+        float? HEqTD = 0f
     );
     public record Ue
     (
-        string Code,
-        string Libelle,
-        char? Nature = 'U',
+        string code_ue,
+        string libelle_ue,
+        char? nature = 'U',
         int? ECTS = 2700,
-        string? Pere = null,
-        string? Semestre = null
+        string? code_ue_pere = null,
+        string? code_sem = null
     );
 }

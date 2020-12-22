@@ -66,7 +66,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>La composante correspondante à l'id</returns>
-        async Task<Composante> GetByIdAsync(string id) => (await GetByIdAsync(new[] { id })).First();
+        async Task<Composante?> GetByIdAsync(string id) => (await GetByIdAsync(new[] { id })).FirstOrDefault();
 
         /// <summary>
         /// Récupère des composantes
@@ -88,7 +88,6 @@ namespace DAO
         /// <param name="orderBy">Champ utilisé pour trier</param>
         /// <param name="reverseOrder">True si le tri doit être inversé</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
-        /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Toutes les composantes disponibles</returns>
         Task<Composante[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, string? search = null, IEnumerable<string>? location = null);
 
@@ -114,7 +113,6 @@ namespace DAO
         /// <param name="values">Valeurs des composantes</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        /// <exception cref="ArgumentException">Les tableaux sont de taille différente</exception>
         /// <returns>Les composantes modifiées</returns>
         Task<Composante[]> UpdateAsync(IEnumerable<(Composante, Composante)> values);
     }

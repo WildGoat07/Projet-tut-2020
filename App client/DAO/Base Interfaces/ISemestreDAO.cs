@@ -59,7 +59,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Les semestres correspondants à l'id</returns>
-        async Task<Semestre> GetByIdAsync(string code) => (await GetByIdAsync(new[] { code })).First();
+        async Task<Semestre?> GetByIdAsync(string code) => (await GetByIdAsync(new[] { code })).FirstOrDefault();
 
         /// <summary>
         /// Récupère des semestres
@@ -101,7 +101,6 @@ namespace DAO
         /// <param name="values">Valeurs des semestres</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        /// <exception cref="ArgumentException">Les tableaux sont de taille différente</exception>
         /// <returns>Les semestres modifiés</returns>
         Task<Semestre[]> UpdateAsync(IEnumerable<(Semestre, Semestre)> values);
     }

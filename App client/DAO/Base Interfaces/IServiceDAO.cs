@@ -62,7 +62,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Le service correspondant à l'id</returns>
-        async Task<Service> GetByIdAsync(string teacher, string ec, string year) => (await GetByIdAsync(new[] { (teacher, ec, year) })).First();
+        async Task<Service?> GetByIdAsync(string teacher, string ec, string year) => (await GetByIdAsync(new[] { (teacher, ec, year) })).FirstOrDefault();
 
         /// <summary>
         /// Récupère des services
@@ -92,7 +92,6 @@ namespace DAO
         /// <param name="orderBy">Champ utilisé pour trier</param>
         /// <param name="reverseOrder">True si le tri doit être inversé</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
-        /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Tous les services filtrés disponibles</returns>
         Task<Service[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, IEnumerable<string>? teacher = null, IEnumerable<string>? ec = null, IEnumerable<string>? year = null, (int?, int?)? CmNumber = null, (int?, int?)? EiNumber = null, (int?, int?)? TdNumber = null, (int?, int?)? TpNumber = null, (int?, int?)? TplNumber = null, (int?, int?)? PrjNumber = null, (int?, int?)? equivalentHours = null);
 
@@ -112,7 +111,6 @@ namespace DAO
         /// <param name="values">Valeurs des services</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        /// <exception cref="ArgumentException">Les tableaux sont de taille différente</exception>
         /// <returns>Les services modifiés</returns>
         Task<Service[]> UpdateAsync(IEnumerable<(Service, Service)> values);
     }

@@ -67,7 +67,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Le diplôme correspondant à l'id</returns>
-        async Task<Diplome> GetByIdAsync(string code, int version) => (await GetByIdAsync(new[] { (code, version) })).First();
+        async Task<Diplome?> GetByIdAsync(string code, int version) => (await GetByIdAsync(new[] { (code, version) })).FirstOrDefault();
 
         /// <summary>
         /// Récupère tous les diplômes selon des filtres
@@ -101,7 +101,6 @@ namespace DAO
         /// <param name="values">Valeurs des diplômes</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        /// <exception cref="ArgumentException">Les tableaux sont de taille différente</exception>
         /// <returns>Les diplômes modifiés</returns>
         Task<Diplome[]> UpdateAsync(IEnumerable<(Diplome, Diplome)> values);
     }

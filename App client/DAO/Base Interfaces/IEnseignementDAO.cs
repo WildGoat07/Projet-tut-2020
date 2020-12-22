@@ -59,7 +59,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>L'enseignement correspondant à l'id</returns>
-        async Task<Enseignement> GetByIdAsync(string code) => (await GetByIdAsync(new[] { code })).First();
+        async Task<Enseignement?> GetByIdAsync(string code) => (await GetByIdAsync(new[] { code })).FirstOrDefault();
 
         /// <summary>
         /// Récupère un enseignement
@@ -114,7 +114,6 @@ namespace DAO
         /// <param name="values">Valeurs des enseignements</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        /// <exception cref="ArgumentException">Les tableaux sont de taille différente</exception>
         /// <returns>Les enseignements modifiés</returns>
         Task<Enseignement[]> UpdateAsync(IEnumerable<(Enseignement, Enseignement)> values);
     }
