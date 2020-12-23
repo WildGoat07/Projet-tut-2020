@@ -7,11 +7,12 @@ $postObj = json_decode(utf8_encode(file_get_contents('php://input')));
 
 $returnedValues = new stdClass;
 $returnedValues->values = [];
-$returnedValues->success = false;
+$returnedValues->success = true;
 $returnedValues->errors = [];
-$firstValue = true;
+
 
 foreach ($postObj->values as $values) {
+    $firstValue = true;
 
     $strReq = "UPDATE `diplome` SET ";
 
@@ -62,13 +63,17 @@ foreach ($postObj->values as $values) {
     $error = $updateReq->errorInfo();
 
     if ($error[0] == '00000') {
-        $nbRows = $updateReq->rowCount();
-        if ($nbRows != 0) {
+        if ($updateReq->rowCount() != 0) {
             $resultStr = "SELECT `code_diplome`, `libelle_diplome`, `vdi`, `libelle_vdi`, `annee_deb`, `annee_fin` FROM `diplome` WHERE ";
             if (isset($data->code_diplome))
-                $resultStr .= "`code_diplome` = '$data->code_diplome'";
+                $resultStr .= "`code_diplome`='$data->code_diplome'";
             else
-                $resultStr .= "`code_diplome` = '$target->code_diplome'";
+                $resultStr .= "`code_diplome`='$target->code_diplome'";
+
+            if (isset($data->vdi))
+                $resultStr .= "AND `vdi`='$data->vdi'";
+            else
+                $resultStr .= "AND `vdi`='$target->vdi'";
 
             $result = $db->query($resultStr);
             $row = $result->fetch(PDO::FETCH_OBJ);
@@ -82,13 +87,19 @@ foreach ($postObj->values as $values) {
             $obj->annee_fin = $row->annee_fin;
 
             $returnedValues->values[] = $obj;
-            $returnedValues->success = true;
-        } else {
+        } 
+        else {
+            $returnedValues->success=false;
+        
             $obj = new stdClass();
-            $obj->error_desc = "0 row affected";
+            $obj->error_code = '66666'; //enregistrement code d'erreur
+            $obj->error_desc = '0 rows affected'; //enregistrement message d'erreru renvoyé
             $returnedValues->errors[] = $obj;
         }
-    } else {
+    } 
+    else {
+        $returnedValues->success=false;
+
         $obj = new stdClass();
         $obj->error_code = $error[0];
         $obj->error_desc = $error[2];
