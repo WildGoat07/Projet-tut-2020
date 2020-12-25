@@ -7,11 +7,11 @@ $postObj = json_decode(utf8_encode(file_get_contents('php://input')));
 
 $returnedValues = new stdClass;
 $returnedValues->values = [];
-$returnedValues->success = false;
+$returnedValues->success = true;
 $returnedValues->errors = [];
-$firstValue = true;
 
 foreach ($postObj->values as $values) {
+    $firstValue = true;
 
     $strReq = "UPDATE `etape` SET ";
 
@@ -62,13 +62,18 @@ foreach ($postObj->values as $values) {
     $error = $updateReq->errorInfo();
 
     if ($error[0] == '00000') {
-        $nbRows = $updateReq->rowCount();
-        if ($nbRows != 0) {
+        if ($updateReq->rowCount() != 0) {
+
             $resultStr = "SELECT `code_etape`, `vet`, `libelle_vet`, `id_comp`, `code_diplome`, `vdi` FROM `etape` WHERE ";
             if (isset($data->code_etape))
                 $resultStr .= "`code_etape` = '$data->code_etape'";
             else
                 $resultStr .= "`code_etape` = '$target->code_etape'";
+
+            if (isset($data->vet))
+                $resultStr .= " AND `vet` = '$data->vet'";
+            else
+                $resultStr .= " AND `vet` = '$target->vet'";
 
             $result = $db->query($resultStr);
             $row = $result->fetch(PDO::FETCH_OBJ);
@@ -82,13 +87,19 @@ foreach ($postObj->values as $values) {
             $obj->vdi = $row->vdi;
 
             $returnedValues->values[] = $obj;
-            $returnedValues->success = true;
-        } else {
+        } 
+        else {
+            $returnedValues->success=false;
+        
             $obj = new stdClass();
-            $obj->error_desc = "0 row affected";
+            $obj->error_code = '66666'; //enregistrement code d'erreur
+            $obj->error_desc = '0 rows affected'; //enregistrement message d'erreru renvoyé
             $returnedValues->errors[] = $obj;
         }
-    } else {
+    } 
+    else {
+        $returnedValues->success=false;
+
         $obj = new stdClass();
         $obj->error_code = $error[0];
         $obj->error_desc = $error[2];

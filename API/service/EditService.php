@@ -7,59 +7,100 @@ $postObj = json_decode(utf8_encode(file_get_contents('php://input')));
 
 $returnedValues = new stdClass;
 $returnedValues->values = [];
-$returnedValues->success = false;
+$returnedValues->success = true;
 $returnedValues->errors = [];
 
 
 foreach ($postObj->values as $values) {
+    $firstValue = true;
+
     $strReq = "UPDATE `service` SET ";
 
     $data = $values->data;
 
-    if (isset($data->id_ens))
+    if (isset($data->id_ens)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`id_ens` = '$data->id_ens'";
+    }
 
-    if (isset($data->code_ec))
+    if (isset($data->code_ec)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`code_ec` = '$data->code_ec'";
+    }
 
-    if (isset($data->annee))
+    if (isset($data->annee)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`annee` = '$data->annee'";
+    }
 
-    if (isset($data->NbGpCM))
+    if (isset($data->NbGpCM)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`NbGpCM` = '$data->NbGpCM'";
+    }
 
-    if (isset($data->NbGpEI))
+    if (isset($data->NbGpEI)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`NbGpEI` = '$data->NbGpEI'";
+    }
 
-    if (isset($data->NBGpTD))
+    if (isset($data->NBGpTD)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`NBGpTD` = '$data->NBGpTD'";
+    }
 
-    if (isset($data->NbGpTP))
+    if (isset($data->NbGpTP)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`NbGpTP` = '$data->NbGpTP'";
+    }
 
-    if (isset($data->NbGpTPL))
+    if (isset($data->NbGpTPL)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`NbGpTPL` = '$data->NbGpTPL'";
+    }
 
-    if (isset($data->NBGpPRJ))
+    if (isset($data->NBGpPRJ)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`NBGpPRJ` = '$data->NBGpPRJ'";
+    }
 
-    if (isset($data->HEqTD))
+    if (isset($data->HEqTD)) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`HEqTD` = '$data->HEqTD'";
+    }
 
 
     $target = $values->target;
-    $strReq .= " WHERE `id_ens` = '$target->id_ens' AND `code_ec` = '$target->code_ec' AND `annee`= '$target->annee' ";
+    $strReq .= " WHERE `id_ens`='$target->id_ens' AND `code_ec`='$target->code_ec' AND `annee`='$target->annee' ";
 
     $updateReq = $db->prepare($strReq);
     $statement = $updateReq->execute();
     $error = $updateReq->errorInfo();
 
     if ($error[0] == '00000') {
-        $nbRows = $updateReq->rowCount();
-        if ($nbRows != 0) {
+        if ($updateReq->rowCount() != 0) {
             $resultStr = "SELECT `id_ens`, `code_ec`, `annee`, `NbGpCM`, `NbGpEI`, `NBGpTD`, `NbGbTP`, `NbGpTPL`, `NBGpPRJ`, `HEqTD` FROM `service` WHERE ";
 
-            $firstValue = true;
+            $firstValue=true;
             if (!$firstValue)
                 $resultStr .= " AND ";
             $firstValue = false;
@@ -102,17 +143,20 @@ foreach ($postObj->values as $values) {
             $obj->HeqTD = $row->HEqTD;
 
             $returnedValues->values[] = $obj;
-            $returnedValues->success = true;
-        } else {
+        } 
+        else {
+            $returnedValues->success=false;
+        
             $obj = new stdClass();
-            $obj->error_desc = "0 row affected";
+            $obj->error_code = '66666'; //enregistrement code d'erreur
+            $obj->error_desc = '0 rows affected'; //enregistrement message d'erreru renvoyé
             $returnedValues->errors[] = $obj;
         }
-    } else {
-        $error = $updateReq->errorInfo();
+    }
+    else {
+        $returnedValues->success=false;
 
         $obj = new stdClass();
-
         $obj->error_code = $error[0];
         $obj->error_desc = $error[2];
         $returnedValues->errors[] = $obj;

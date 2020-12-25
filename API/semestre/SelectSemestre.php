@@ -5,14 +5,16 @@ header('Content-Type: application/json');
 
 $semestre = new stdClass();
 $semestre->values = [];
-$semestre->success = false;
+$semestre->success = true;
 $semestre->errors = [];
 
 $strReq = "SELECT `code_sem`, `libelle_sem`, `no_sem`, `code_etape`, `vet` FROM `semestre`";
 $postObj = json_decode(file_get_contents('php://input'));
+
+$whereSet = false;
+
 if (isset($postObj->filters)) {
     $firstFilter = true;
-    $whereSet = false;
     if (isset($postObj->filters->code_sem)) {
         if (!$firstFilter)
             $strReq .= " AND ";
@@ -111,27 +113,28 @@ $requete = $db->prepare($strReq);
 $statement = $requete->execute();
 $error = $requete->errorInfo();
 
-
 if ($error[0]=='00000') {
-    foreach ($requete as $req) {
-        $obj = new stdClass();
-    
-        $obj->code_sem = utf8_encode($req['code_sem']);
-    
-        $obj->libelle_sem = utf8_encode($req['libelle_sem']);
-    
-        $obj->no_sem = utf8_encode($req['no_sem']);
-    
-        $obj->code_etape = utf8_encode($req['code_etape']);
-    
-        $obj->vet = utf8_encode($req['vet']);
-    
-        $semestre->values[] = $obj;
+    if ($requete->rowCount() != 0)) {
+        foreach ($requete as $req) {
+            $obj = new stdClass();
+        
+            $obj->code_sem = utf8_encode($req['code_sem']);
+        
+            $obj->libelle_sem = utf8_encode($req['libelle_sem']);
+        
+            $obj->no_sem = utf8_encode($req['no_sem']);
+        
+            $obj->code_etape = utf8_encode($req['code_etape']);
+        
+            $obj->vet = utf8_encode($req['vet']);
+        
+            $semestre->values[] = $obj;
+        }
     }
-
-    $semestre->success = true;
 }
 else {
+    $semestre->success = false;
+
     $obj = new stdClass();
     $obj->error_code = $error[0];
     $obj->error_desc = $error[2];
@@ -139,4 +142,3 @@ else {
 }
 
 echo json_encode($semestre);
-

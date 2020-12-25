@@ -5,14 +5,16 @@ header('Content-Type: application/json');
 
 $service = new stdClass();
 $service->values = [];
-$service->success = false;
+$service->success = true;
 $service->errors = [];
 
 $strReq = "SELECT `id_ens`, `code_ec`, `annee`, `NbGpCM`, `NbGpEI`, `NBGpTD`, `NbGbTP`, `NbGpTPL`, `NBGpPRJ`, `HEqTD` FROM `service` ";
 $postObj = json_decode(file_get_contents('php://input'));
+
+$whereSet = false;
+
 if (isset($postObj->filters)) {
     $firstFilter = true;
-    $whereSet = false;
     if (isset($postObj->filters->id_ens)) {
         if (!$firstFilter)
             $strReq .= " AND ";
@@ -207,9 +209,9 @@ if (isset($postObj->order))
     else
         $strReq .= " ORDER BY `$postObj->order`";
 else if (isset($postObj->reverse_order) && $postObj->reverse_order)
-    $strReq .= " ORDER BY `id_ens` DESC ";
+    $strReq .= " ORDER BY `id_ens` DESC, `code_ec` DESC, `annee` DESC ";
 else
-    $strReq .= " ORDER BY `id_ens`";
+    $strReq .= " ORDER BY `id_ens`, `code_ec`, `annee`";
 $strReq .= "LIMIT $postObj->quantity OFFSET $postObj->skip";
 
 $requete = $db->prepare($strReq);
@@ -217,35 +219,37 @@ $statement = $requete->execute();
 $error = $requete->errorInfo();
 
 if ($error[0]=='00000') {
-    foreach ($requete as $req) {
-        $obj = new stdClass();
-    
-        $obj->id_ens = utf8_encode($req['id_ens']);
-    
-        $obj->code_ec = utf8_encode($req['code_ec']);
-    
-        $obj->annee = utf8_encode($req['annee']);
-    
-        $obj->NbGpCM = utf8_encode($req['NbGpCM']);
-    
-        $obj->NbGpEI = utf8_encode($req['NbGpEI']);
-    
-        $obj->NbGpTD = utf8_encode($req['NBGpTD']);
-    
-        $obj->NbGpTP = utf8_encode($req['NbGpTP']);
-    
-        $obj->NbGpTPL = utf8_encode($req['NbGpTPL']);
-    
-        $obj->NBGpPRJ = utf8_encode($req['NBGpPRJ']);
-    
-        $obj->NbHEqTDGp = utf8_encode($req['HEqTD']);
-    
-        $service->values[] = $obj;
+    if ($requete->rowCount() != 0)) {
+        foreach ($requete as $req) {
+            $obj = new stdClass();
+        
+            $obj->id_ens = utf8_encode($req['id_ens']);
+        
+            $obj->code_ec = utf8_encode($req['code_ec']);
+        
+            $obj->annee = utf8_encode($req['annee']);
+        
+            $obj->NbGpCM = utf8_encode($req['NbGpCM']);
+        
+            $obj->NbGpEI = utf8_encode($req['NbGpEI']);
+        
+            $obj->NbGpTD = utf8_encode($req['NBGpTD']);
+        
+            $obj->NbGpTP = utf8_encode($req['NbGpTP']);
+        
+            $obj->NbGpTPL = utf8_encode($req['NbGpTPL']);
+        
+            $obj->NBGpPRJ = utf8_encode($req['NBGpPRJ']);
+        
+            $obj->NbHEqTDGp = utf8_encode($req['HEqTD']);
+        
+            $service->values[] = $obj;
+        }
     }
-
-    $service->success = true;
 }
 else {
+    $ue->success = false;
+
     $obj = new stdClass();
     $obj->error_code = $error[0];
     $obj->error_desc = $error[2];
