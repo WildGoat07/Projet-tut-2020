@@ -215,7 +215,10 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->no_cat as $no_cat) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            $strReq .= "`no_cat` = \"$no_cat\"";
+            if( trim($no_cat) === "" )
+                $strReq .= "`no_cat` IS NULL";
+            else
+                $strReq .= "`no_cat` = \"$no_cat\"";
             $firstArrayFilter = false;
         }
         $strReq .= ')';
@@ -233,7 +236,10 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->code_ec_pere as $code_ec_pere) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            $strReq .= "`code_ec_pere` = \"$code_ec_pere\"";
+            if( trim($code_ec_pere) === "" )
+                $strReq .= "`code_ec_pere` IS NULL";
+            else
+                $strReq .= "`code_ec_pere` = \"$code_ec_pere\"";
             $firstArrayFilter = false;
         }
         $strReq .= ')';
@@ -251,7 +257,10 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->code_ue as $code_ue) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            $strReq .= "`code_ue` = \"$code_ue\"";
+            if( trim($code_ue) === "" )
+                $strReq .= "`code_ue` IS NULL";
+            else
+                $strReq .= "`code_ue` = \"$code_ue\"";
             $firstArrayFilter = false;
         }
         $strReq .= ')';

@@ -61,15 +61,19 @@ if (isset($postObj->filters)) {
             $strReq .= " WHERE ";
             $whereSet = true;
         }
-        $minSet = false;
-        if (isset($postObj->filters->eff_prev->min)) {
-            $strReq .= "`eff_prev` >= " . $postObj->filters->eff_prev->min;
-            $minSet = true;
-        }
-        if (isset($postObj->filters->eff_prev->max)) {
-            if ($minSet)
-                $strReq .= " AND ";
-            $strReq .= "`eff_prev` <= " . $postObj->filters->eff_prev->max;
+        if( trim($eff_prev) === "" )
+            $strReq .= "`eff_prev` IS NULL";
+        else {
+            $minSet = false;
+            if (isset($postObj->filters->eff_prev->min)) {
+                $strReq .= "`eff_prev` >= " . $postObj->filters->eff_prev->min;
+                $minSet = true;
+            }
+            if (isset($postObj->filters->eff_prev->max)) {
+                if ($minSet)
+                    $strReq .= " AND ";
+                $strReq .= "`eff_prev` <= " . $postObj->filters->eff_prev->max;
+            }
         }
     }
     if (isset($postObj->filters->eff_reel)) {
@@ -80,15 +84,19 @@ if (isset($postObj->filters)) {
             $strReq .= " WHERE ";
             $whereSet = true;
         }
-        $minSet = false;
-        if (isset($postObj->filters->eff_reel->min)) {
-            $strReq .= "`eff_reel` >= " . $postObj->filters->eff_reel->min;
-            $minSet = true;
-        }
-        if (isset($postObj->filters->eff_reel->max)) {
-            if ($minSet)
-                $strReq .= " AND ";
-            $strReq .= "`eff_reel` <= " . $postObj->filters->eff_reel->max;
+        if( trim($eff_reel) === "" )
+            $strReq .= "`eff_reel` IS NULL";
+        else {
+            $minSet = false;
+            if (isset($postObj->filters->eff_reel->min)) {
+                $strReq .= "`eff_reel` >= " . $postObj->filters->eff_reel->min;
+                $minSet = true;
+            }
+            if (isset($postObj->filters->eff_reel->max)) {
+                if ($minSet)
+                    $strReq .= " AND ";
+                $strReq .= "`eff_reel` <= " . $postObj->filters->eff_reel->max;
+            }
         }
     }
     if (isset($postObj->filters->GpCM)) {

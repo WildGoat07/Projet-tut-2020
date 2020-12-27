@@ -138,7 +138,8 @@ foreach ($postObj->values as $values) {
             $obj->code_ue = $row->code_ue;
 
             $returnedValues->values[] = $obj;
-        } else {
+        } 
+        else {
             $returnedValues->success=false;
         
             $obj = new stdClass();
@@ -146,7 +147,8 @@ foreach ($postObj->values as $values) {
             $obj->error_desc = '0 rows affected'; //enregistrement message d'erreru renvoyé
             $returnedValues->errors[] = $obj;
         }
-    } else {
+    } 
+    else {
         $returnedValues->success=false;
 
         $obj = new stdClass();

@@ -82,7 +82,10 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->code_ue_pere as $code_ue_pere) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            $strReq .= "`code_ue_pere` = \"$code_ue_pere\"";
+            if( trim($code_ue_pere) === "" )
+                $strReq .= "`code_ue_pere` IS NULL";
+            else
+                $strReq .= "`code_ue_pere` = \"$code_ue_pere\"";
             $firstArrayFilter = false;
         }
         $strReq .= ')';
@@ -100,7 +103,10 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->code_sem as $code_sem) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            $strReq .= "`code_sem` = \"$code_sem\"";
+            if( trim($code_sem) === "" )
+                $strReq .= "`code_sem` IS NULL";
+            else
+                $strReq .= "`code_sem` = \"$code_sem\"";
             $firstArrayFilter = false;
         }
         $strReq .= ')';

@@ -72,7 +72,7 @@ foreach ($postObj->values as $values) {
     if ($error[0] == '00000') {
         if ($createReq->rowCount() != 0) {
             $resultStr = "SELECT `id_ens`, `code_ec`, `annee`, `NbGpCM`, `NbGpEI`, `NBGpTD`, `NbGbTP`, `NbGpTPL`, `NBGpPRJ`, `HEqTD` FROM `service` WHERE ";
-            $resultStr .= "`id_ens` = '$id_entered[$indexId]'";
+            $resultStr .= "`id_ens` = '$id_entered_ens' AND `code_ec`='$id_entered_code_ec' AND `annee`='$id_entered_annee'";
 
             $result = $db->query($resultStr);
             $row = $result->fetch(PDO::FETCH_OBJ);

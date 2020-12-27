@@ -82,7 +82,10 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->code_diplome as $code_diplome) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            $strReq .= "`code_diplome` = \"$code_diplome\"";
+            if( trim($code_diplome) === "" )
+                $strReq .= "`code_diplome` IS NULL";
+            else
+                $strReq .= "`code_diplome` = \"$code_diplome\"";
             $firstArrayFilter = false;
         }
         $strReq .= ')';
@@ -100,7 +103,10 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->vdi as $vdi) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            $strReq .= "`vdi` = \"$vdi\"";
+            if( trim($vdi) === "" )
+                $strReq .= "`vdi` IS NULL";
+            else
+                $strReq .= "`vdi` = \"$vdi\"";
             $firstArrayFilter = false;
         }
         $strReq .= ')';

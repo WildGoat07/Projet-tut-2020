@@ -46,7 +46,10 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->no_sem as $no_sem) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            $strReq .= "`no_sem` = \"$no_sem\"";
+            if( trim($no_sem) === "" )
+                $strReq .= "`no_sem` IS NULL";
+            else
+                $strReq .= "`no_sem` = \"$no_sem\"";
             $firstArrayFilter = false;
         }
         $strReq .= ')';
@@ -64,7 +67,10 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->code_etape as $code_etape) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            $strReq .= "`code_etape` = \"$code_etape\"";
+            if( trim($code_etape) === "" )
+                $strReq .= "`code_etape` IS NULL";
+            else
+                $strReq .= "`code_etape` = \"$code_etape\"";
             $firstArrayFilter = false;
         }
         $strReq .= ')';
@@ -82,7 +88,10 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->vet as $vet) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            $strReq .= "`vet` = \"$vet\"";
+            if( trim($vet) === "" )
+                $strReq .= "`vet` IS NULL";
+            else    
+                $strReq .= "`vet` = \"$vet\"";
             $firstArrayFilter = false;
         }
         $strReq .= ')';

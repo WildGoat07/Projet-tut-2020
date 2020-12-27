@@ -47,7 +47,10 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->fonction as $fonction) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            $strReq .= " `fonction` = \"$fonction\" ";
+            if( trim($fonction) === "" )
+                $strReq .= "`fonction` IS NULL";
+            else
+                $strReq .= " `fonction` = \"$fonction\" ";
             $firstArrayFilter = false;
         }
         $strReq .= ')';
@@ -101,7 +104,10 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->id_comp as $id_comp) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            $strReq .= " `id_comp` = \"$id_comp\" ";
+            if( trim($id_comp) === "" )
+                $strReq .= "`id_comp` IS NULL";
+            else
+                $strReq .= " `id_comp` = \"$id_comp\" ";
             $firstArrayFilter = false;
         }
         $strReq .= ')';
@@ -114,15 +120,19 @@ if (isset($postObj->filters)) {
             $strReq .= " WHERE ";
             $whereSet = true;
         }
-        $minSet = false;
-        if (isset($postObj->filters->HOblig->min)) {
-            $strReq .= " `HOblig` >= " . $postObj->filters->HOblig->min;
-            $minSet = true;
-        }
-        if (isset($postObj->filters->HOblig->max)) {
-            if ($minSet)
-                $strReq .= " AND ";
-            $strReq .= " `HOblig` <= " . $postObj->filters->HOblig->max;
+        if( trim($HOblig) === "" )
+            $strReq .= "`HOblig` IS NULL";
+        else {
+            $minSet = false;
+            if (isset($postObj->filters->HOblig->min)) {
+                $strReq .= " `HOblig` >= " . $postObj->filters->HOblig->min;
+                $minSet = true;
+            }
+            if (isset($postObj->filters->HOblig->max)) {
+                if ($minSet)
+                    $strReq .= " AND ";
+                $strReq .= " `HOblig` <= " . $postObj->filters->HOblig->max;
+            }
         }
     }
     if (isset($postObj->filters->HMax)) {
@@ -133,15 +143,19 @@ if (isset($postObj->filters)) {
             $strReq .= " WHERE ";
             $whereSet = true;
         }
-        $minSet = false;
-        if (isset($postObj->filters->HMax->min)) {
-            $strReq .= " `HMax` >= " . $postObj->filters->HMax->min;
-            $minSet = true;
-        }
-        if (isset($postObj->filters->HMax->max)) {
-            if ($minSet)
-                $strReq .= " AND ";
-            $strReq .= " `HMax` <= " . $postObj->filters->HMax->max;
+        if( trim($HMax) === "" )
+            $strReq .= "`HMax` IS NULL";
+        else {
+            $minSet = false;
+            if (isset($postObj->filters->HMax->min)) {
+                $strReq .= " `HMax` >= " . $postObj->filters->HMax->min;
+                $minSet = true;
+            }
+            if (isset($postObj->filters->HMax->max)) {
+                if ($minSet)
+                    $strReq .= " AND ";
+                $strReq .= " `HMax` <= " . $postObj->filters->HMax->max;
+            }
         }
     }
 }

@@ -66,7 +66,7 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->annee_deb as $annee_deb) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            if( $annee_deb === "" )
+            if( trim($annee_deb) === "" )
                 $strReq .= "`annee_deb` IS NULL";
             else
                 $strReq .= "`annee_deb` = \"$annee_deb\"";
@@ -87,7 +87,7 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->annee_fin as $annee_fin) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            if( $annee_fin === "" )
+            if( trim($annee_fin) === "" )
                 $strReq .= "`annee_fin` IS NULL";
             else
                 $strReq .= "`annee_fin` = \"$annee_fin\"";
@@ -115,8 +115,6 @@ else if (isset($postObj->reverse_order) && $postObj->reverse_order)
 else
     $strReq .= " ORDER BY `code_diplome` ";
 $strReq .= " LIMIT $postObj->quantity OFFSET $postObj->skip";
-
-var_dump($strReq);
 
 $requete = $db->prepare($strReq);
 $statement = $requete->execute();

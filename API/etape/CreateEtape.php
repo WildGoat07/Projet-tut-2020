@@ -53,7 +53,8 @@ foreach ($postObj->values as $values) {
     if ($error[0] == '00000') {
         if ($createReq->rowCount() != 0) {
             $resultStr = "SELECT `code_etape`, `vet`, `libelle_vet`, `id_comp`, `code_diplome`, `vdi` FROM `etape` WHERE ";
-            $resultStr .= "`code_etape`='$id_entered_code_etape' AND `vet`='id_entered_vet'";
+            $resultStr .= "`code_etape`='$id_entered_code_etape' AND `vet`='$id_entered_vet'";
+
 
             $result = $db->query($resultStr);
             $row = $result->fetch(PDO::FETCH_OBJ);

@@ -71,9 +71,9 @@ foreach ($postObj->values as $values) {
                 $resultStr .= "`code_diplome`='$target->code_diplome'";
 
             if (isset($data->vdi))
-                $resultStr .= "AND `vdi`='$data->vdi'";
+                $resultStr .= " AND `vdi`='$data->vdi'";
             else
-                $resultStr .= "AND `vdi`='$target->vdi'";
+                $resultStr .= " AND `vdi`='$target->vdi'";
 
             $result = $db->query($resultStr);
             $row = $result->fetch(PDO::FETCH_OBJ);
