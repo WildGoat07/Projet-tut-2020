@@ -19,43 +19,165 @@ namespace DAO.API
 
         public async Task<Enseignant[]> CreateAsync(IEnumerable<Enseignant> values)
         {
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
             var obj = new
             {
                 values = values.ToArray()
             };
-            var jsonObj = JsonConvert.SerializeObject(obj, Formatting.Indented);
-            var url = new Uri("enseignant/CreateEnseignant.php");
+            var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);
+            var url = new Uri("enseignant/CreateEnseignant.php", UriKind.Relative);
             var response = await Client.PostAsync(url, new StringContent(jsonObj, Encoding.UTF8, "application/json"));
-            dynamic? status = JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync());
-            if (status != null)
+            var status = JsonConvert.DeserializeObject<Response<Enseignant>>(await response.Content.ReadAsStringAsync());
+            if (status.success)
+                return status.values;
+            else
             {
+                var err = status.errors.First();
+                throw new DAOException(err.error_desc, err.error_code switch
+                {
+                    "23000" => DAOException.ErrorCode.EXISTING_ENTRY,
+                    _ => DAOException.ErrorCode.UNKNOWN
+                });
             }
-            else throw new DAOException(DAOException.ErrorCode.UNKNOWN);
         }
 
-        public Task DeleteAsync(IEnumerable<Enseignant> values)
+        public async Task DeleteAsync(IEnumerable<Enseignant> values)
         {
-            throw new NotImplementedException();
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+            var obj = new
+            {
+                values = (from value in values
+                          select new
+                          {
+                              value.id_ens
+                          }).ToArray()
+            };
+            var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);
+            var url = new Uri("enseignant/DeleteEnseignant.php", UriKind.Relative);
+            var response = await Client.PostAsync(url, new StringContent(jsonObj, Encoding.UTF8, "application/json"));
+            var status = JsonConvert.DeserializeObject<Response<Enseignant>>(await response.Content.ReadAsStringAsync());
+            if (!status.success)
+            {
+                var err = status.errors.First();
+                throw new DAOException(err.error_desc, err.error_code switch
+                {
+                    "66666" => DAOException.ErrorCode.MISSING_ENTRY,
+                    "23000" => DAOException.ErrorCode.ENTRY_LINKED,
+                    _ => DAOException.ErrorCode.UNKNOWN
+                });
+            }
         }
 
-        public Task<Enseignant[]> GetAllAsync(int maxCount, int page)
+        public async Task<Enseignant[]> GetByIdAsync(IEnumerable<string> id)
         {
-            throw new NotImplementedException();
+            if (id == null)
+                throw new ArgumentNullException(nameof(id));
+            var obj = new Dictionary<string, object>();
+            var filters = new Dictionary<string, object>();
+            obj.Add("filters", filters);
+            obj.Add("quantity", id.Count());
+            obj.Add("skip", 0);
+            filters.Add("id_ens", id.ToArray());
+            var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);
+            var url = new Uri("enseignant/SelectEnseignant.php", UriKind.Relative);
+            var response = await Client.PostAsync(url, new StringContent(jsonObj, Encoding.UTF8, "application/json"));
+            var status = JsonConvert.DeserializeObject<Response<Enseignant>>(await response.Content.ReadAsStringAsync());
+            if (status.success)
+                return status.values;
+            else
+            {
+                var err = status.errors.First();
+                throw new DAOException(err.error_desc, DAOException.ErrorCode.UNKNOWN);
+            }
         }
 
-        public Task<Enseignant[]> GetByIdAsync(IEnumerable<string> id)
+        public async Task<Enseignant[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, string? search = null, IEnumerable<string>? function = null, IEnumerable<int>? comp = null, IEnumerable<char>? CRCT = null, IEnumerable<char>? PesPedr = null, (float?, float?)? forcedHours = null, (float?, float?)? maxHours = null)
         {
-            throw new NotImplementedException();
+            var obj = new Dictionary<string, object>();
+            var filters = new Dictionary<string, object>();
+            obj.Add("filters", filters);
+            obj.Add("quantity", maxCount);
+            obj.Add("skip", maxCount * page);
+            if (orderBy != null)
+                obj.Add("order", orderBy);
+            obj.Add("reverse_order", reverseOrder);
+            if (search != null)
+                obj.Add("search", search);
+            if (function != null)
+                filters.Add("fonction", function.ToArray());
+            if (comp != null)
+                filters.Add("id_comp", comp.ToArray());
+            if (CRCT != null)
+                filters.Add("CRCT", CRCT.ToArray());
+            if (PesPedr != null)
+                filters.Add("PES_PEDR", PesPedr.ToArray());
+            if (forcedHours != null)
+            {
+                object? range = forcedHours.Value.Item1.HasValue && forcedHours.Value.Item2.HasValue ?
+                    new { min = forcedHours.Value.Item1.Value, max = forcedHours.Value.Item2.Value } :
+                    forcedHours.Value.Item1.HasValue ? new { min = forcedHours.Value.Item1.Value } :
+                    forcedHours.Value.Item2.HasValue ?
+                    new { min = forcedHours.Value.Item2.Value } : null;
+                if (range != null)
+                    filters.Add("HOblig", range);
+            }
+            if (maxHours != null)
+            {
+                object? range = maxHours.Value.Item1.HasValue && maxHours.Value.Item2.HasValue ?
+                    new { min = maxHours.Value.Item1.Value, max = maxHours.Value.Item2.Value } :
+                    maxHours.Value.Item1.HasValue ? new { min = maxHours.Value.Item1.Value } :
+                    maxHours.Value.Item2.HasValue ?
+                    new { min = maxHours.Value.Item2.Value } : null;
+                if (range != null)
+                    filters.Add("HMax", range);
+            }
+            var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);
+            var url = new Uri("enseignant/SelectEnseignant.php", UriKind.Relative);
+            var response = await Client.PostAsync(url, new StringContent(jsonObj, Encoding.UTF8, "application/json"));
+            var status = JsonConvert.DeserializeObject<Response<Enseignant>>(await response.Content.ReadAsStringAsync());
+            if (status.success)
+                return status.values;
+            else
+            {
+                var err = status.errors.First();
+                throw new DAOException(err.error_desc, DAOException.ErrorCode.UNKNOWN);
+            }
         }
 
-        public Task<Enseignant[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, string? search = null, IEnumerable<string>? function = null, IEnumerable<int>? comp = null, IEnumerable<char>? CRCT = null, IEnumerable<char>? PesPedr = null, (float?, float?)? forcedHours = null, (float?, float?)? maxHours = null)
+        public async Task<Enseignant[]> UpdateAsync(IEnumerable<(Enseignant, Enseignant)> values)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<Enseignant[]> UpdateAsync(IEnumerable<(Enseignant, Enseignant)> values)
-        {
-            throw new NotImplementedException();
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+            var obj = new
+            {
+                values = (from value in values
+                          select new
+                          {
+                              target = new
+                              {
+                                  value.Item1.id_ens
+                              },
+                              data = value.Item2
+                          }).ToArray()
+            };
+            var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);
+            var url = new Uri("enseignant/EditEnseignant.php", UriKind.Relative);
+            var response = await Client.PostAsync(url, new StringContent(jsonObj, Encoding.UTF8, "application/json"));
+            var status = JsonConvert.DeserializeObject<Response<Enseignant>>(await response.Content.ReadAsStringAsync());
+            if (status.success)
+                return (from value in values select value.Item2).ToArray();
+            else
+            {
+                var err = status.errors.First();
+                throw new DAOException(err.error_desc, err.error_code switch
+                {
+                    "66666" => DAOException.ErrorCode.MISSING_ENTRY,
+                    "23000" => DAOException.ErrorCode.ENTRY_LINKED,
+                    _ => DAOException.ErrorCode.UNKNOWN
+                });
+            }
         }
     }
 }
