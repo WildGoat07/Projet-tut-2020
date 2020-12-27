@@ -6,57 +6,88 @@ header('Content-Type: application/json');
 $postObj = json_decode(utf8_encode(file_get_contents('php://input')));
 
 $returnedValues = new stdClass;
-    $returnedValues->values = [];
-    $returnedValues->success=false;
-    $returnedValues->errors=[];
+$returnedValues->values = [];
+$returnedValues->success = true;
+$returnedValues->errors = [];
 
 
 foreach ($postObj->values as $values) {
+    $firstValue = true;
+
     $strReq = "UPDATE `horscomp` SET ";
 
     $data = $values->data;
 
-    if( isset($data->id_ens) ) 
+    if( isset($data->id_ens) ) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`id_ens` = '$data->id_ens'";
-
-    if( isset($data->id_comp) )
+    }
+    if( isset($data->id_comp) ) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`id_comp` = '$data->id_comp'"; 
-
-    if( isset($data->annee) ) 
+    }
+    if( isset($data->annee) ) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`annee` = '$data->annee'";
-
-    if( isset($data->HCM) )
+    }
+    if( isset($data->HCM) ) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`HCM` = '$data->HCM'"; 
-
-    if( isset($data->HEI) ) 
+    }
+    if( isset($data->HEI) ) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`HEI` = '$data->HEI'";
-
-    if( isset($data->HTD) ) 
+    }
+    if( isset($data->HTD) ) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`HTD` = '$data->HTD'";
-
-    if( isset($data->HTP) ) 
+    }
+    if( isset($data->HTP) )  {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`HTP` = '$data->HTP'";
-
-    if( isset($data->HTPL) ) 
+    }
+    if( isset($data->HTPL) )  {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`HTPL` = '$data->HTPL'";
-
-    if( isset($data->HPRJ) ) 
+    }
+    if( isset($data->HPRJ) ) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`HPRJ` = '$data->HPRJ'";
-
-    if( isset($data->HEqTD) ) 
+    }
+    if( isset($data->HEqTD) ) {
+        if (!$firstValue)
+            $strReq .= ",";
+        $firstValue = false;
         $strReq .= "`HEqTD` = '$data->HEqTD'";   
-    
+    }
 
     $target = $values->target;
-    $strReq .= " WHERE `id_ens` = '$target->id_ens' AND `id_comp` = '$target->id_comp' AND `annee`= '$target->annee' ";
+    $strReq .= " WHERE `id_ens`='$target->id_ens' AND `id_comp`='$target->id_comp' AND `annee`='$target->annee' ";
 
-    $updateReq=$db->prepare($strReq);
+    $updateReq = $db->prepare($strReq);
     $statement = $updateReq->execute();
     $error = $updateReq->errorInfo();
 
     if ($error[0] == '00000') { 
-        $nbRows=$updateReq->rowCount();
-        if( $nbRows != 0) {
+        if ($updateReq->rowCount() != 0) {
             $resultStr = "SELECT `id_ens`, `id_comp`, `annee`, `HCM`, `HEI`, `HTD`, `HTP`, `HTPL`, `HPRJ`, `HEqTD` FROM `horscomp` WHERE ";
             
             $firstValue=true;
@@ -84,10 +115,8 @@ foreach ($postObj->values as $values) {
             else 
                 $resultStr .= "(`annee` = '$target->annee')";
 
-            $result=$db->query($resultStr);
-            $error = $result->errorInfo();
-
-            $row=$result->fetch(PDO::FETCH_OBJ);
+            $result = $db->query($resultStr);
+            $row = $result->fetch(PDO::FETCH_OBJ);
 
             $obj = new stdClass();
             $obj->id_ens = $row->id_ens;
@@ -102,15 +131,19 @@ foreach ($postObj->values as $values) {
             $obj->HeqTD = $row->HEqTD;
 
             $returnedValues->values[] = $obj;
-            $returnedValues->success=true;
         }
         else {
+            $returnedValues->success=false;
+        
             $obj = new stdClass();
-            $obj->error_desc = "0 row affected";
+            $obj->error_code = '66666'; //enregistrement code d'erreur
+            $obj->error_desc = '0 rows affected'; //enregistrement message d'erreru renvoyé
             $returnedValues->errors[] = $obj;
         }
     }
     else {
+        $returnedValues->success=false;
+
         $obj = new stdClass();
         $obj->error_code = $error[0];
         $obj->error_desc = $error[2];

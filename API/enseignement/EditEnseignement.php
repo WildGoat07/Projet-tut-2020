@@ -7,11 +7,12 @@ $postObj = json_decode(utf8_encode(file_get_contents('php://input')));
 
 $returnedValues = new stdClass;
 $returnedValues->values = [];
-$returnedValues->success = false;
+$returnedValues->success = true;
 $returnedValues->errors = [];
-$firstValue = true;
 
 foreach ($postObj->values as $values) {
+    $firstValue = true;
+
     $strReq = "UPDATE `enseignement` SET ";
 
     $data = $values->data;
@@ -128,7 +129,6 @@ foreach ($postObj->values as $values) {
         $strReq .= "`GpPRJSer` = '$data->GpPRJSer'";
     }
 
-
     $target = $values->target;
     $strReq .= " WHERE `code_ec` = '$target->code_ec' AND `annee`= '$target->annee' ";
 
@@ -137,14 +137,18 @@ foreach ($postObj->values as $values) {
     $error = $updateReq->errorInfo();
 
     if ($error[0] == '00000') {
-        $nbRows = $updateReq->rowCount();
-        if ($nbRows != 0) {
+        if ($updateReq->rowCount() != 0) {
             $resultStr = "SELECT `code_ec`, `annee`, `eff_prev`, `eff_reel`, `GpCM`, `GpEI`, `GpTD`, `GpTP`, `GpTPL`, `GpPRJ`
             , `GpCMSer`, `GpEISer`, `GpTDSer`, `GpTPLSer`, `GpPRJSer` FROM `enseignement` WHERE ";
             if (isset($data->code_ec))
                 $resultStr .= "`code_ec` = '$data->code_ec'";
             else
                 $resultStr .= "`code_ec` = '$target->code_ec'";
+
+            if (isset($data->annee))
+                $resultStr .= " AND `annee` = '$data->annee'";
+            else
+                $resultStr .= " AND `annee` = '$target->annee'";
 
             $result = $db->query($resultStr);
             $row = $result->fetch(PDO::FETCH_OBJ);
@@ -167,13 +171,19 @@ foreach ($postObj->values as $values) {
             $obj->GpPRJSer = $row->GpPRJSer;
 
             $returnedValues->values[] = $obj;
-            $returnedValues->success = true;
-        } else {
+        } 
+        else {
+            $returnedValues->success=false;
+        
             $obj = new stdClass();
-            $obj->error_desc = "0 row affected";
+            $obj->error_code = '66666'; //enregistrement code d'erreur
+            $obj->error_desc = '0 rows affected'; //enregistrement message d'erreru renvoyé
             $returnedValues->errors[] = $obj;
         }
-    } else {
+    } 
+    else {
+        $returnedValues->success=false;
+
         $obj = new stdClass();
         $obj->error_code = $error[0];
         $obj->error_desc = $error[2];

@@ -7,12 +7,13 @@ $postObj = json_decode(utf8_encode(file_get_contents('php://input')));
 
 $returnedValues = new stdClass;
 $returnedValues->values = [];
-$returnedValues->success = false;
+$returnedValues->success = true;
 $returnedValues->errors = [];
 
-$firstValue = true;
 
 foreach ($postObj->values as $values) {
+    $firstValue = true;
+
     $strReq = "UPDATE `ue` SET ";
 
     $data = $values->data;
@@ -67,8 +68,7 @@ foreach ($postObj->values as $values) {
     $error = $updateReq->errorInfo();
 
     if ($error[0] == '00000') {
-        $nbRows = $updateReq->rowCount();
-        if ($nbRows != 0) {
+        if ($updateReq->rowCount() != 0) {
             $resultStr = "SELECT `code_ue`, `libelle_ue`, `nature`, `ECTS`, `code_ue_pere`, `code_sem` FROM `ue` WHERE ";
             if( isset($data->code_ue) ) 
                 $resultStr .= "`code_ue` = '$data->code_ue'";
@@ -87,13 +87,19 @@ foreach ($postObj->values as $values) {
             $obj->code_sem = $row->code_sem;
 
             $returnedValues->values[] = $obj;
-            $returnedValues->success = true;
-        } else {
+        } 
+        else {
+            $returnedValues->success=false;
+        
             $obj = new stdClass();
-            $obj->error_desc = "0 row affected";
+            $obj->error_code = '66666'; //enregistrement code d'erreur
+            $obj->error_desc = '0 rows affected'; //enregistrement message d'erreru renvoyé
             $returnedValues->errors[] = $obj;
         }
-    } else {
+    }
+    else {
+        $returnedValues->success=false;
+
         $obj = new stdClass();
         $obj->error_code = $error[0];
         $obj->error_desc = $error[2];

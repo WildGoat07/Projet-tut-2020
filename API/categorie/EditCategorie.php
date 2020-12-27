@@ -6,9 +6,9 @@ header('Content-Type: application/json');
 $postObj = json_decode(utf8_encode(file_get_contents('php://input')));
 
 $returnedValues = new stdClass;
-    $returnedValues->values = [];
-    $returnedValues->success=false;
-    $returnedValues->errors=[];
+$returnedValues->values = [];
+$returnedValues->success=true;
+$returnedValues->errors=[];
 
 
 foreach ($postObj->values as $values) {
@@ -16,11 +16,18 @@ foreach ($postObj->values as $values) {
 
     $data = $values->data;
 
-    if( isset($data->no_cat) ) 
-        $strReq .= "`no_cat` = '$data->no_cat'";
-    if( isset($data->categorie) ) 
-        $strReq .= "`categorie` = '$data->categorie'";
+    $firstData = true;
 
+    if( isset($data->no_cat) ) {
+        $strReq .= " `no_cat` = '$data->no_cat' ";
+        $firstData = false;
+    }
+    if( isset($data->categorie) ) {
+        if( !$firstData )
+            $strReq .= " , ";
+        $strReq .= " `categorie` = '$data->categorie' ";
+    }
+        
     $target = $values->target;
     $strReq .= " WHERE `no_cat` = '$target->no_cat' ";
 
@@ -29,8 +36,7 @@ foreach ($postObj->values as $values) {
     $error = $updateReq->errorInfo();
 
     if ( $error[0] == '00000' ) {
-        $nbRows=$updateReq->rowCount();
-        if( $nbRows != 0) {
+        if( $updateReq->rowCount() != 0) {
             $resultStr = "SELECT `no_cat`, `categorie` FROM `categories` WHERE ";
             if( isset($data->no_cat) ) 
                 $resultStr .= "`no_cat` = '$data->no_cat'";
@@ -45,16 +51,18 @@ foreach ($postObj->values as $values) {
             $obj->categorie = $row->categorie;
 
             $returnedValues->values[] = $obj;
-            $returnedValues->success=true;
         }
         else {
+            $returnedValues->success=false;
+        
             $obj = new stdClass();
-            $obj->error_desc = "0 row affected";
+            $obj->error_code = '66666'; //enregistrement code d'erreur
+            $obj->error_desc = '0 rows affected'; //enregistrement message d'erreru renvoyé
             $returnedValues->errors[] = $obj;
         }
     }
     else {
-        $error=$updateReq->errorInfo();
+        $returnedValues->success=false;
 
         $obj = new stdClass();
         $obj->error_code = $error[0];

@@ -5,29 +5,20 @@ header('Content-Type: application/json');
 
 $postObj = json_decode(utf8_encode(file_get_contents('php://input')));
 
-$id_entered = [];
-$indexId = 0;
-
-$presence = new stdClass();
-$presence->code_sem = false;
-$presence->libelle_sem = false;
-$presence->no_sem = false;
-$presence->code_etape = false;
-$presence->vet = false;
-
 $returnedValues = new stdClass;
 $returnedValues->values = [];
-$returnedValues->success = false;
+$returnedValues->success = true;
 $returnedValues->errors = [];
 
 
 foreach ($postObj->values as $values) {
+    $id_entered_code_sem = $values->code_sem;
+
     $strReq = "INSERT INTO `semestre` (";
     $data = "(";
 
     $strReq .= " `code_sem` ";
     $data .= "'$values->code_sem'";
-    array_push($id_entered, $values->code_sem);
 
     $strReq .= " ,`libelle_sem` ";
     $data .= ",'$values->libelle_sem'";
@@ -54,11 +45,9 @@ foreach ($postObj->values as $values) {
     $error = $createReq->errorInfo();
 
     if ($error[0] == '00000') {
-        $nbRows = $createReq->rowCount();
-        if ($nbRows != 0) {
+        if ($createReq->rowCount() != 0) {
             $resultStr = "SELECT `code_sem`, `libelle_sem`, `no_sem`, `code_etape`, `vet` FROM `semestre` WHERE ";
-            $resultStr .= "`code_sem` = '$id_entered[$indexId]'";
-            $indexId++;
+            $resultStr .= "`code_sem` = '$id_entered_code_sem'";
 
             $result = $db->query($resultStr);
             $row = $result->fetch(PDO::FETCH_OBJ);
@@ -69,19 +58,25 @@ foreach ($postObj->values as $values) {
             $obj->no_sem = $row->no_sem;
             $obj->code_etape = $row->code_etape;
             $obj->vet = $row->vet;
+            $returnedValues->values[] = $obj;
 
-            array_push($returnedValues->values, $obj);
-            $returnedValues->success = true;
-        } else {
+        } 
+        else {
+            $returnedValues->success=false;
+            
             $obj = new stdClass();
-            $obj->error_desc = "0 row affected";
+            $obj->error_code = '66666'; //enregistrement code d'erreur
+            $obj->error_desc = '0 rows affected'; //enregistrement message d'erreru renvoyé
             $returnedValues->errors[] = $obj;
         }
-    } else {
+    } 
+    else {
+        $returnedValues->success=false;
+
         $obj = new stdClass();
         $obj->error_code = $error[0]; //enregistrement code d'erreur
         $obj->error_desc = $error[2]; //enregistrement message d'erreur renvoyé
-        array_push($returnedValues->errors, $obj);
+        $returnedValues->errors[] = $obj;
     }
 }
 

@@ -3,17 +3,18 @@ require_once '../app/Database.php';
 
 header('Content-Type: application/json');
 
-
 $ue = new stdClass();
 $ue->values = [];
-$ue->success = false;
+$ue->success = true;
 $ue->errors = [];
 
 $strReq = "SELECT `code_ue`, `libelle_ue`, `nature`, `ECTS`, `code_ue_pere`, `code_sem` FROM `ue` ";
 $postObj = json_decode(file_get_contents('php://input'));
+
+$whereSet = false;
+
 if (isset($postObj->filters)) {
     $firstFilter = true;
-    $whereSet = false;
     if (isset($postObj->filters->code_ue)) {
         if (!$firstFilter)
             $strReq .= " AND ";
@@ -81,7 +82,10 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->code_ue_pere as $code_ue_pere) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            $strReq .= "`code_ue_pere` = \"$code_ue_pere\"";
+            if( trim($code_ue_pere) === "" )
+                $strReq .= "`code_ue_pere` IS NULL";
+            else
+                $strReq .= "`code_ue_pere` = \"$code_ue_pere\"";
             $firstArrayFilter = false;
         }
         $strReq .= ')';
@@ -99,7 +103,10 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->code_sem as $code_sem) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            $strReq .= "`code_sem` = \"$code_sem\"";
+            if( trim($code_sem) === "" )
+                $strReq .= "`code_sem` IS NULL";
+            else
+                $strReq .= "`code_sem` = \"$code_sem\"";
             $firstArrayFilter = false;
         }
         $strReq .= ')';
@@ -131,27 +138,28 @@ $statement = $requete->execute();
 $error = $requete->errorInfo();
 
 if ($error[0]=='00000') {
-    foreach ($requete as $req) {
-        $obj = new stdClass();
-    
-        $obj->code_ue = utf8_encode($req['code_ue']);
-    
-        $obj->libelle_ue = utf8_encode($req['libelle_ue']);
-    
-        $obj->nature = utf8_encode($req['nature']);
-    
-        $obj->ECTS = utf8_encode($req['ECTS']);
-    
-        $obj->code_ue_pere = utf8_encode($req['code_ue_pere']);
-    
-        $obj->code_sem = utf8_encode($req['code_sem']);
-    
-        $ue->values[] = $obj;
+    if ($requete->rowCount() != 0)) {
+        foreach ($requete as $req) {
+            $obj = new stdClass();
+        
+            $obj->code_ue = utf8_encode($req['code_ue']);
+        
+            $obj->libelle_ue = utf8_encode($req['libelle_ue']);
+        
+            $obj->nature = utf8_encode($req['nature']);
+        
+            $obj->ECTS = utf8_encode($req['ECTS']);
+        
+            $obj->code_ue_pere = utf8_encode($req['code_ue_pere']);
+        
+            $obj->code_sem = utf8_encode($req['code_sem']);
+        
+            $ue->values[] = $obj;
+        }
     }
-    
-    $ue->success = true;
 }
 else {
+    $ue->success = false;
     $obj = new stdClass();
     $obj->error_code = $error[0];
     $obj->error_desc = $error[2];

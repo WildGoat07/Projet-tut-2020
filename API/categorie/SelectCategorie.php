@@ -6,14 +6,13 @@ header('Content-Type: application/json');
 
 $categories = new stdClass();
 $categories->values = [];
-$categories->success = false;
+$categories->success = true;
 $categories->errors = [];
 
 $strReq = "SELECT `no_cat`, `categorie` FROM `categories` ";
 $postObj = json_decode(file_get_contents('php://input'));
 
 $whereSet = false;
-
 
 if (isset($postObj->filters))
     if (isset($postObj->filters->no_cat)) {
@@ -37,7 +36,6 @@ if (isset($postObj->search)) {
     $search = cleanString($postObj->search);
 
     $strReq .= " compareStrings(\"$search\", `categorie`) ";
-
 }
 
 if (isset($postObj->order))
@@ -51,28 +49,29 @@ else
     $strReq .= " ORDER BY `no_cat` ";
 $strReq .= " LIMIT $postObj->quantity OFFSET $postObj->skip ";
 
-$requete = $db->query($strReq);
+$requete = $db->prepare($strReq);
+$statement = $requete->execute();
 $error = $requete->errorInfo();
 
 if ($error[0]=='00000') {
-    foreach ($requete as $req) {
-        $obj = new stdClass();
-    
-        $obj->no_cat = utf8_encode($req['no_cat']);
-    
-        $obj->categorie = utf8_encode($req['categorie']);
-    
-        $categories->values[] = $obj;
+    if ($requete->rowCount() != 0) {
+        foreach ($requete as $req) {
+            $obj = new stdClass();
+        
+            $obj->no_cat = utf8_encode($req['no_cat']);
+            $obj->categorie = utf8_encode($req['categorie']);
+        
+            $categories->values[] = $obj;
+        }
     }
-
-    $categories->success = true;
 }
 else {
+    $categories->success = false;
+
     $obj = new stdClass();
     $obj->error_code = $error[0];
     $obj->error_desc = $error[2];
     $categories->errors[] = $obj;
 }
-
 
 echo json_encode($categories);

@@ -5,40 +5,21 @@ header('Content-Type: application/json');
 
 $postObj = json_decode(utf8_encode(file_get_contents('php://input')));
 
-$id_entered = [];
-$indexId = 0;
-
-$presence = new stdClass();
-$presence->code_ec = false;
-$presence->annee = false;
-$presence->eff_prev = false;
-$presence->eff_reel = false;
-$presence->GpCM = false;
-$presence->GpEI = false;
-$presence->GpTD = false;
-$presence->GpTP = false;
-$presence->GpTPL = false;
-$presence->GpPRJ = false;
-$presence->GpCMSer = false;
-$presence->GpEISer = false;
-$presence->GpTDSer = false;
-$presence->GpTPSer = false;
-$presence->GpTPLSer = false;
-$presence->GpPRJSer = false;
-
 $returnedValues = new stdClass;
 $returnedValues->values = [];
-$returnedValues->success = false;
+$returnedValues->success = true;
 $returnedValues->errors = [];
 
 
 foreach ($postObj->values as $values) {
+    $id_entered_code_ec = $values->code_ec;
+    $id_entered_annee = $values->annee;
+
     $strReq = "INSERT INTO `enseignement` (";
     $data = "(";
 
     $strReq .= " `code_ec` ";
     $data .= "'$values->code_ec'";
-    array_push($id_entered, $values->code_ec);
 
     $strReq .= " ,`annee` ";
     $data .= ",'$values->annee'";
@@ -83,7 +64,6 @@ foreach ($postObj->values as $values) {
         $data .= ",'$values->GpPRJ'";
     }
 
-
     if (isset($values->GpCMSer)) {
         $strReq .= " ,`GpCMSer` ";
         $data .= ",'$values->GpCMSer'";
@@ -121,12 +101,10 @@ foreach ($postObj->values as $values) {
     $error = $createReq->errorInfo();
 
     if ($error[0] == '00000') {
-        $nbRows = $createReq->rowCount();
-        if ($nbRows != 0) {
+        if ($createReq->rowCount() != 0) {
             $resultStr = "SELECT `code_ec`, `annee`, `eff_prev`, `eff_reel`, `GpCM`, `GpEI`, `GpTD`, `GpTP`, `GpTPL`, `GpPRJ`
             , `GpCMSer`, `GpEISer`, `GpTDSer`, `GpTPLSer`, `GpPRJSer` FROM `enseignement` WHERE ";
-            $resultStr .= "`code_ec` = '$id_entered[$indexId]'";
-            $indexId++;
+            $resultStr .= "`code_ec`='$id_entered_code_ec' AND `annee`='$id_entered_annee'";
 
             $result = $db->query($resultStr);
             $row = $result->fetch(PDO::FETCH_OBJ);
@@ -148,18 +126,24 @@ foreach ($postObj->values as $values) {
             $obj->GpTPLSer = $row->GpTPLSer;
             $obj->GpPRJSer = $row->GpPRJSer;
 
-            array_push($returnedValues->values, $obj);
-            $returnedValues->success = true;
-        } else {
+            $returnedValues->values[] = $obj;
+        }
+        else {
+            $returnedValues->success=false;
+            
             $obj = new stdClass();
-            $obj->error_desc = "0 row affected";
+            $obj->error_code = '66666'; //enregistrement code d'erreur
+            $obj->error_desc = '0 rows affected'; //enregistrement message d'erreru renvoyé
             $returnedValues->errors[] = $obj;
         }
-    } else {
+    }
+    else {
+        $returnedValues->success=false;
+
         $obj = new stdClass();
         $obj->error_code = $error[0]; //enregistrement code d'erreur
         $obj->error_desc = $error[2]; //enregistrement message d'erreur renvoyé
-        array_push($returnedValues->errors, $obj);
+        $returnedValues->errors[] = $obj;
     }
 }
 

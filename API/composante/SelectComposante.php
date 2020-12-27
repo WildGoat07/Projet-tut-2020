@@ -6,11 +6,14 @@ header('Content-Type: application/json');
 
 $composante = new stdClass();
 $composante->values = [];
-$composante->success = false;
+$composante->success = true;
 $composante->errors = [];
 
 $strReq = "SELECT `id_comp`, `nom_comp`, `lieu_comp` FROM `composante`";
 $postObj = json_decode(file_get_contents('php://input'));
+
+$whereSet = false;
+
 if (isset($postObj->filters))
     if (isset($postObj->filters->id_comp)) {
         $whereSet = true;
@@ -50,28 +53,28 @@ $requete = $db->prepare($strReq);
 $statement = $requete->execute();
 $error = $requete->errorInfo();
 
-
 if ($error[0]=='00000') {
-    foreach ($requete as $req) {
-        $obj = new stdClass();
-    
-        $obj->id_comp = utf8_encode($req['id_comp']);
-    
-        $obj->nom_comp = utf8_encode($req['nom_comp']);
-    
-        $obj->lieu_comp = utf8_encode($req['lieu_comp']);
-    
-        $composante->values[] = $obj;
+    if ($requete->rowCount() != 0) {
+        foreach ($requete as $req) {
+            $obj = new stdClass();
+        
+            $obj->id_comp = utf8_encode($req['id_comp']);
+        
+            $obj->nom_comp = utf8_encode($req['nom_comp']);
+        
+            $obj->lieu_comp = utf8_encode($req['lieu_comp']);
+        
+            $composante->values[] = $obj;
+        }
     }
-
-    $composante->success = true;
 }
 else {
+    $composante->success = false;
+
     $obj = new stdClass();
     $obj->error_code = $error[0];
     $obj->error_desc = $error[2];
     $composante->errors[] = $obj;
 }
-
 
 echo json_encode($composante);

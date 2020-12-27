@@ -5,24 +5,20 @@ header('Content-Type: application/json');
 
 $comp_courante = new stdClass();
 $comp_courante->values = [];
-$comp_courante->success = false;
+$comp_courante->success = true;
 $comp_courante->errors = [];
 
 $strReq = "SELECT `id_comp` FROM `comp_courante`";
 $postObj = json_decode(file_get_contents('php://input'));
+
+$whereSet = false;
+
 if (isset($postObj->filters)) {
-    $firstFilter = true;
-    $whereSet = false;
     if (isset($postObj->filters->id_comp)) {
-        if (!$firstFilter)
-            $strReq .= " AND ";
-        $firstFilter = false;
-        $firstArrayFilter = true;
-        if (!$whereSet) {
-            $strReq .= " WHERE ";
-            $whereSet = true;
-        }
-        $strReq .= '(';
+        $whereSet = true;
+        $firstFilter = true;
+
+        $strReq .= " WHERE ( ";
         foreach ($postObj->filters->id_comp as $id_comp) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
@@ -49,22 +45,23 @@ $statement = $requete->execute();
 $error = $requete->errorInfo();
 
 if ($error[0]=='00000') {
-    foreach ($requete as $req) {
-        $obj = new stdClass();
-    
-        $obj->id_comp = utf8_encode($req['id_comp']);
-    
-        $comp_courante->values[] = $obj;
+    if ($requete->rowCount() != 0) {
+        foreach ($requete as $req) {
+            $obj = new stdClass();
+        
+            $obj->id_comp = utf8_encode($req['id_comp']);
+        
+            $comp_courante->values[] = $obj;
+        }
     }
-
-    $comp_courante->success = true;
 }
 else {
+    $comp_courante->success = false;
+
     $obj = new stdClass();
     $obj->error_code = $error[0];
     $obj->error_desc = $error[2];
     $comp_courante->errors[] = $obj;
 }
-
 
 echo json_encode($comp_courante);
