@@ -12,6 +12,13 @@ using System.Windows.Media.Imaging;
 
 namespace GUI
 {
+    public enum LogLevel
+    {
+        INFO,
+        ERROR,
+        WARNING
+    }
+
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
@@ -29,6 +36,7 @@ namespace GUI
         }
 
         public static IDAOFactory Factory { get; } = null; //à mettre la DAO de l'API
+        private static TextWriter Logger { get; } = new StreamWriter(new FileStream("latest.log", FileMode.Append, FileAccess.Write, FileShare.Read));
 
         public static Color AlphaAccent(byte a) => Color.FromArgb(a, Accent.R, Accent.G, Accent.B);
 
@@ -42,5 +50,7 @@ namespace GUI
             img.Freeze();
             return img;
         }
+
+        public static void Log(object o, LogLevel level = LogLevel.INFO) => Logger.WriteLine($"{DateTime.Now:G} - [{level}] {o}");
     }
 }
