@@ -35,8 +35,8 @@ namespace GUI
             }
         }
 
-        public static IDAOFactory Factory { get; } = null; //à mettre la DAO de l'API
-        private static TextWriter Logger { get; } = new StreamWriter(new FileStream("latest.log", FileMode.Append, FileAccess.Write, FileShare.Read));
+        public static IDAOFactory Factory { get; } = new DAO.API.APIDAOFactory(new Uri("http://localhost/Projet-tut-2020/API/"));
+        private static TextWriter Logger { get; } = new StreamWriter(new FileStream("latest.log", FileMode.Append, FileAccess.Write, FileShare.Read)) { AutoFlush = true };
 
         public static Color AlphaAccent(byte a) => Color.FromArgb(a, Accent.R, Accent.G, Accent.B);
 

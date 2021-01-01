@@ -26,7 +26,7 @@ namespace GUI
         {
             InitializeComponent();
             _ = UpdateYearSelectionAsync();
-            _ = LoadModuleAsync(new DummyModule());//test
+            _ = LoadModuleAsync(new AllEnseignantsModule());//test
             _ = LoadModuleAsync(new DummyDateModule());//test
         }
 
@@ -65,6 +65,7 @@ namespace GUI
             var mod = (modules.SelectedItem as TabItem)?.Tag as Module;
             if (mod is not null)
                 await mod.RefreshAsync();
+            await UpdateYearSelectionAsync();
         }
 
         public async Task UpdateYearSelectionAsync()
@@ -72,10 +73,15 @@ namespace GUI
             var selection = yearSelection.SelectedItem;
             yearSelection.Items.Clear();
             yearSelection.Items.Add("Toutes les années");
-            if (App.Factory is not null)
-                foreach (var item in await App.Factory.AnneeUnivDAO.GetAllAsync())
-                    yearSelection.Items.Add(item.Annee);
-            yearSelection.SelectedItem = selection ?? yearSelection.Items[0];
+            //! AnneeUniv doit d'abord être terminé
+            /*
+            foreach (var item in await App.Factory.AnneeUnivDAO.GetAllAsync())
+                yearSelection.Items.Add(item.annee);
+            */
+            if (selection != null)
+                yearSelection.SelectedItem = selection;
+            else
+                yearSelection.SelectedIndex = 0;
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e) => await RefreshAsync();

@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="GUI.modules.AllEnseignants"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:GUI.modules"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <DataGrid x:Name="data" Grid.Column="0" AlternatingRowBackground="#FFD6D6D6">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Nom" Binding="{Binding surname}" />
+                <DataGridTextColumn Header="Prénom" Binding="{Binding name}" />
+                <DataGridTextColumn Header="Fonction" Binding="{Binding function}" />
+                <DataGridTemplateColumn Header="Composante">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="{Binding compo}" Style="{DynamicResource LinkButton}" Click="compo_Click" Tag="{Binding obj}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>
