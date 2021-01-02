@@ -69,5 +69,15 @@ namespace GUI.Properties {
                 return ((byte[])(obj));
             }
         }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Byte[].
+        /// </summary>
+        internal static byte[] DeleteFilter {
+            get {
+                object obj = ResourceManager.GetObject("DeleteFilter", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

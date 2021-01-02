@@ -10,13 +10,13 @@
   <ItemGroup>
     <None Remove="icons\AddFilter_16x.png" />
     <None Remove="icons\Add_16x.png" />
-    <None Remove="icons\DeleteFilter_16x.png" />
     <None Remove="icons\End_16x.png" />
     <None Remove="icons\Log_16x.png" />
     <None Remove="icons\Next_16x.png" />
     <None Remove="icons\Previous_16x.png" />
     <None Remove="icons\Refresh_16x.png" />
     <None Remove="icons\Remove_color_16x.png" />
+    <None Remove="icons\Search_16x.png" />
     <None Remove="icons\StartPause_16x.png" />
   </ItemGroup>
 
@@ -42,13 +42,13 @@
   <ItemGroup>
     <Resource Include="icons\AddFilter_16x.png" />
     <Resource Include="icons\Add_16x.png" />
-    <Resource Include="icons\DeleteFilter_16x.png" />
     <Resource Include="icons\End_16x.png" />
     <Resource Include="icons\Log_16x.png" />
     <Resource Include="icons\Next_16x.png" />
     <Resource Include="icons\Previous_16x.png" />
     <Resource Include="icons\Refresh_16x.png" />
     <Resource Include="icons\Remove_color_16x.png" />
+    <Resource Include="icons\Search_16x.png" />
     <Resource Include="icons\StartPause_16x.png" />
   </ItemGroup>
 

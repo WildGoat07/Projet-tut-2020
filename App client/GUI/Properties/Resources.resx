@@ -121,4 +121,7 @@
   <data name="closeTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\icons\closeTab;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="DeleteFilter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\DeleteFilter_16x;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

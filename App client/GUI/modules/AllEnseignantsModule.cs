@@ -10,14 +10,16 @@ namespace GUI.modules
 {
     internal class AllEnseignantsModule : Module
     {
-        public override AllEnseignants Content { get; } = new AllEnseignants();
+        public AllEnseignantsModule() => Content = new AllEnseignants(this);
+
+        public override AllEnseignants Content { get; }
 
         public override string Title => "Enseignants";
 
         public override async Task RefreshAsync()
         {
             Content.data.Items.Clear();
-            foreach (var item in await App.Factory.EnseignantDAO.GetFilteredAsync(50, Content.page))
+            foreach (var item in await App.Factory.EnseignantDAO.GetFilteredAsync(50, Content.Page))
                 Content.data.Items.Add(new
                 {
                     name = item.prenom,

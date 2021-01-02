@@ -35,6 +35,15 @@ namespace GUI
             }
         }
 
+        public static ImageSource DeleteFilter
+        {
+            get
+            {
+                using var stream = new MemoryStream(GUI.Properties.Resources.DeleteFilter);
+                return LoadImage(stream);
+            }
+        }
+
         public static IDAOFactory Factory { get; } = new DAO.API.APIDAOFactory(new Uri("http://localhost/Projet-tut-2020/API/"));
         private static TextWriter Logger { get; } = new StreamWriter(new FileStream("latest.log", FileMode.Append, FileAccess.Write, FileShare.Read)) { AutoFlush = true };
 
