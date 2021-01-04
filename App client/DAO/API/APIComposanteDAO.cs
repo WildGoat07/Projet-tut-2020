@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -16,9 +17,29 @@ namespace DAO.API
 
         private HttpClient Client { get; }
 
-        public Task<Composante[]> CreateAsync(IEnumerable<Composante> values)
+        public async Task<Composante[]> CreateAsync(IEnumerable<Composante> values)
         {
-            throw new NotImplementedException();
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+            var obj = new
+            {
+                values = values.ToArray()
+            };
+            var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);
+            var url = new Uri("composante/CreateComposante.php", UriKind.Relative);
+            var response = await Client.PostAsync(url, new StringContent(jsonObj, Encoding.UTF8, "application/json"));
+            var status = JsonConvert.DeserializeObject<Response<Composante>>(await response.Content.ReadAsStringAsync());
+            if (status.success)
+                return status.values;
+            else
+            {
+                var err = status.errors.First();
+                throw new DAOException(err.error_desc, err.error_code switch
+                {
+                    "23000" => DAOException.ErrorCode.EXISTING_ENTRY,
+                    _ => DAOException.ErrorCode.UNKNOWN
+                });
+            }
         }
 
         public Task<Composante> CurrentAsync()
