@@ -85,7 +85,7 @@ namespace DAO.API
             var response = await Client.PostAsync(url, new StringContent(jsonObj, Encoding.UTF8, "application/json"));
             var status = JsonConvert.DeserializeObject<Response<Semestre>>(await response.Content.ReadAsStringAsync());
             if (status.success)
-                return status.values;
+                return status.values.Length == id.Count() ? status.values : throw new DAOException("An entry is missing", DAOException.ErrorCode.MISSING_ENTRY);
             else
             {
                 var err = status.errors.First();
@@ -112,7 +112,7 @@ namespace DAO.API
                 filters.Add("code_etape", (from s in step select s.Item1).ToArray());
                 filters.Add("vet", (from s in step select s.Item2).ToArray());
             }
-       
+
             var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);
             var url = new Uri("semestre/SelectSemestre.php", UriKind.Relative);
             var response = await Client.PostAsync(url, new StringContent(jsonObj, Encoding.UTF8, "application/json"));

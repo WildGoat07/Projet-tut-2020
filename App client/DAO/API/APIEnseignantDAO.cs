@@ -30,7 +30,7 @@ namespace DAO.API
             var response = await Client.PostAsync(url, new StringContent(jsonObj, Encoding.UTF8, "application/json"));
             var status = JsonConvert.DeserializeObject<Response<Enseignant>>(await response.Content.ReadAsStringAsync());
             if (status.success)
-                return status.values.Length == obj.values.Length ? status.values : throw new DAOException("An entry is missing", DAOException.ErrorCode.MISSING_ENTRY);
+                return status.values;
             else
             {
                 var err = status.errors.First();
@@ -85,7 +85,7 @@ namespace DAO.API
             var response = await Client.PostAsync(url, new StringContent(jsonObj, Encoding.UTF8, "application/json"));
             var status = JsonConvert.DeserializeObject<Response<Enseignant>>(await response.Content.ReadAsStringAsync());
             if (status.success)
-                return status.values;
+                return status.values.Length == id.Count() ? status.values : throw new DAOException("An entry is missing", DAOException.ErrorCode.MISSING_ENTRY);
             else
             {
                 var err = status.errors.First();
