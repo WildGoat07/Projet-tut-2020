@@ -59,7 +59,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>La catégorie correspondante à l'id</returns>
-        async Task<Categorie?> GetByIdAsync(int id) => (await GetByIdAsync(new[] { id })).FirstOrDefault();
+        async Task<Categorie> GetByIdAsync(int id) => (await GetByIdAsync(new[] { id })).First();
 
         /// <summary>
         /// Récupère des catégories

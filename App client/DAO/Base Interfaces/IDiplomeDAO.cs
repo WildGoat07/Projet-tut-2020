@@ -67,7 +67,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Le diplôme correspondant à l'id</returns>
-        async Task<Diplome?> GetByIdAsync(string code, int version) => (await GetByIdAsync(new[] { (code, version) })).FirstOrDefault();
+        async Task<Diplome> GetByIdAsync(string code, int version) => (await GetByIdAsync(new[] { (code, version) })).First();
 
         /// <summary>
         /// Récupère tous les diplômes selon des filtres
