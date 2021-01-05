@@ -59,7 +59,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Les semestres correspondants à l'id</returns>
-        async Task<Semestre?> GetByIdAsync(string code) => (await GetByIdAsync(new[] { code })).FirstOrDefault();
+        async Task<Semestre> GetByIdAsync(string code) => (await GetByIdAsync(new[] { code })).First();
 
         /// <summary>
         /// Récupère des semestres

@@ -62,7 +62,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Le service correspondant à l'id</returns>
-        async Task<Service?> GetByIdAsync(string teacher, string ec, string year) => (await GetByIdAsync(new[] { (teacher, ec, year) })).FirstOrDefault();
+        async Task<Service> GetByIdAsync(string teacher, string ec, string year) => (await GetByIdAsync(new[] { (teacher, ec, year) })).First();
 
         /// <summary>
         /// Récupère des services

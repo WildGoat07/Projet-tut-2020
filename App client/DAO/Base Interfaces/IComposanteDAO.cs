@@ -66,7 +66,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>La composante correspondante à l'id</returns>
-        async Task<Composante?> GetByIdAsync(string id) => (await GetByIdAsync(new[] { id })).FirstOrDefault();
+        async Task<Composante> GetByIdAsync(string id) => (await GetByIdAsync(new[] { id })).First();
 
         /// <summary>
         /// Récupère des composantes

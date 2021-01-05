@@ -59,7 +59,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>L'horsComp correspondante à l'id</returns>
-        async Task<HorsComp?> GetByIdAsync(string code, int version) => (await GetByIdAsync(new[] { (code, version) })).FirstOrDefault();
+        async Task<HorsComp> GetByIdAsync(string code, int version) => (await GetByIdAsync(new[] { (code, version) })).First();
 
         /// <summary>
         /// Récupère des horsComp
