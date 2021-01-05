@@ -1,5 +1,6 @@
 <?php
 require_once '../app/Database.php';
+require_once '../utilities.php';
 
 header('Content-Type: application/json');
 
@@ -138,7 +139,7 @@ $statement = $requete->execute();
 $error = $requete->errorInfo();
 
 if ($error[0]=='00000') {
-    if ($requete->rowCount() != 0)) {
+    if ($requete->rowCount() != 0) {
         foreach ($requete as $req) {
             $obj = new stdClass();
         
