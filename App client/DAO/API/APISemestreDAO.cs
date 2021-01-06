@@ -85,7 +85,7 @@ namespace DAO.API
             var response = await Client.PostAsync(url, new StringContent(jsonObj, Encoding.UTF8, "application/json"));
             var status = JsonConvert.DeserializeObject<Response<Semestre>>(await response.Content.ReadAsStringAsync());
             if (status.success)
-                return status.values.Length == id.Count() ? status.values : throw new DAOException("An entry is missing", DAOException.ErrorCode.MISSING_ENTRY);
+                return status.values.Length == code.Count() ? status.values : throw new DAOException("An entry is missing", DAOException.ErrorCode.MISSING_ENTRY);
             else
             {
                 var err = status.errors.First();
