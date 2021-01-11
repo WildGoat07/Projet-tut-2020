@@ -21,6 +21,8 @@ namespace GUI
     {
         public event Action? OnClose;
 
+        public abstract bool Closeable { get; }
+
         public abstract UIElement Content { get; }
 
         public abstract string Title { get; }

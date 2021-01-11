@@ -20,6 +20,7 @@ namespace GUI.modules
             label.Content = "date";
         }
 
+        public override bool Closeable => false;
         public override UIElement Content => label;
         public AnneeUniv? CurrDate { get; private set; }
         public string LabelString { get => (string)label.Content; set => label.Content = value; }
@@ -45,7 +46,9 @@ namespace GUI.modules
             label.Content = "label";
         }
 
+        public override bool Closeable => true;
         public override UIElement Content => label;
+
         public string LabelString { get => (string)label.Content; set => label.Content = value; }
         public override string Title { get; }
 
