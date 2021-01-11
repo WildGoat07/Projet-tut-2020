@@ -26,8 +26,8 @@ namespace GUI
         {
             InitializeComponent();
             _ = UpdateYearSelectionAsync();
-            _ = LoadModuleAsync(new AllEnseignantsModule());//test
             _ = LoadModuleAsync(new DummyDateModule());//test
+            _ = LoadModuleAsync(new DummyModule());//test
         }
 
         public async Task LoadModuleAsync(Module module)
@@ -36,21 +36,28 @@ namespace GUI
             if (module is DateDepedantModule m)
                 m.years = yearSelection;
             var item = new TabItem();
-            var header = new StackPanel { Orientation = Orientation.Horizontal };
-            header.Children.Add(new Label { Content = module });
-            var image = new Image
+            object header;
+            if (module.Closeable)
             {
-                Stretch = Stretch.None,
-                Margin = new Thickness(2)
-            };
-            image.Source = App.CloseTab;
-            var closeGrid = new Grid();
-            closeGrid.Children.Add(image);
-            closeGrid.MouseEnter += (sender, e) => closeGrid.Background = new SolidColorBrush(App.AlphaAccent(25));
-            closeGrid.MouseLeave += (sender, e) => closeGrid.Background = new SolidColorBrush(Colors.Transparent);
-            module.OnClose += () => modules.Items.Remove(item);
-            closeGrid.MouseUp += (sender, e) => module.CloseModule();
-            header.Children.Add(closeGrid);
+                var closeHeader = new StackPanel { Orientation = Orientation.Horizontal };
+                header = closeHeader;
+                closeHeader.Children.Add(new Label { Content = module });
+                var image = new Image
+                {
+                    Stretch = Stretch.None,
+                    Margin = new Thickness(2)
+                };
+                image.Source = App.CloseTab;
+                var closeGrid = new Grid();
+                closeGrid.Children.Add(image);
+                closeGrid.MouseEnter += (sender, e) => closeGrid.Background = new SolidColorBrush(App.AlphaAccent(25));
+                closeGrid.MouseLeave += (sender, e) => closeGrid.Background = new SolidColorBrush(Colors.Transparent);
+                module.OnClose += () => modules.Items.Remove(item);
+                closeGrid.MouseUp += (sender, e) => module.CloseModule();
+                closeHeader.Children.Add(closeGrid);
+            }
+            else
+                header = module;
             item.Header = header;
             item.Content = module?.Content;
             item.Tag = module;
@@ -72,16 +79,12 @@ namespace GUI
         {
             var selection = yearSelection.SelectedItem;
             yearSelection.Items.Clear();
-            yearSelection.Items.Add("Toutes les années");
             //! AnneeUniv doit d'abord être terminé
             /*
             foreach (var item in await App.Factory.AnneeUnivDAO.GetAllAsync())
                 yearSelection.Items.Add(item.annee);
             */
-            if (selection != null)
-                yearSelection.SelectedItem = selection;
-            else
-                yearSelection.SelectedIndex = 0;
+            yearSelection.SelectedItem = selection;
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e) => await RefreshAsync();
