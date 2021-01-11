@@ -30,6 +30,8 @@ namespace GUI
             _ = LoadModuleAsync(new DummyModule());//test
         }
 
+        public Module? CurrentModule => (modules.SelectedItem as TabItem)?.Tag as Module;
+
         public async Task LoadModuleAsync(Module module)
         {
             var refreshTask = module.RefreshAsync();
@@ -153,6 +155,12 @@ namespace GUI
         {
             if (e.Key == Key.F5)
                 await RefreshAsync();
+            if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control && e.Key == Key.W)
+            {
+                var module = CurrentModule;
+                if (module?.Closeable ?? false)
+                    module.CloseModule();
+            }
         }
     }
 }
