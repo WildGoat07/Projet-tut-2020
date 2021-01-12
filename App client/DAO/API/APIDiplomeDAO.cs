@@ -79,7 +79,8 @@ namespace DAO.API
             obj.Add("filters", filters);
             obj.Add("quantity", code.Count());
             obj.Add("skip", 0);
-            filters.Add("code_diplome", code.ToArray());
+            filters.Add("code_diplome", (from c in code select c.Item1).ToArray());
+            filters.Add("vdi", (from c in code select c.Item1).ToArray());
             var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);
             var url = new Uri("diplome/SelectDiplome.php", UriKind.Relative);
             var response = await Client.PostAsync(url, new StringContent(jsonObj, Encoding.UTF8, "application/json"));
