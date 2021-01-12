@@ -712,10 +712,10 @@ CREATE TABLE `service` (
   `annee` varchar(9) NOT NULL,
   `NbGpCM` int(2) DEFAULT '0',
   `NbGpEI` int(2) DEFAULT '0',
-  `NBGpTD` int(2) DEFAULT '0',
+  `NbGpTD` int(2) DEFAULT '0',
   `NbGpTP` int(2) DEFAULT '0',
   `NbGpTPL` int(2) DEFAULT '0',
-  `NBGpPRJ` int(2) DEFAULT '0',
+  `NbGpPRJ` int(2) DEFAULT '0',
   `HEqTD` decimal(5,2) DEFAULT '0.00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
