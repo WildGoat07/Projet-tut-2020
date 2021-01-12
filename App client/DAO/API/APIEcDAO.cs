@@ -52,7 +52,7 @@ namespace DAO.API
                           select value.code_ec).ToArray()
             };
             var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);
-            var url = new Uri("semestre/DeleteSemestre.php", UriKind.Relative);
+            var url = new Uri("semestre/DeleteEc.php", UriKind.Relative);
             var response = await Client.PostAsync(url, new StringContent(jsonObj, Encoding.UTF8, "application/json"));
             var status = JsonConvert.DeserializeObject<DeleteResponse>(await response.Content.ReadAsStringAsync());
             if (!status.success)
@@ -78,7 +78,7 @@ namespace DAO.API
             obj.Add("skip", 0);
             filters.Add("no_cat", code.ToArray());
             var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);
-            var url = new Uri("categorie/SelectCategorie.php", UriKind.Relative);
+            var url = new Uri("categorie/SelectEc.php", UriKind.Relative);
             var response = await Client.PostAsync(url, new StringContent(jsonObj, Encoding.UTF8, "application/json"));
             var status = JsonConvert.DeserializeObject<Response<Ec>>(await response.Content.ReadAsStringAsync());
             if (status.success)
@@ -184,7 +184,7 @@ namespace DAO.API
             }
 
             var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);
-            var url = new Uri("categorie/SelectCategorie.php", UriKind.Relative);
+            var url = new Uri("categorie/SelectEc.php", UriKind.Relative);
             var response = await Client.PostAsync(url, new StringContent(jsonObj, Encoding.UTF8, "application/json"));
             var status = JsonConvert.DeserializeObject<Response<Ec>>(await response.Content.ReadAsStringAsync());
             if (status.success)
@@ -213,7 +213,7 @@ namespace DAO.API
                           }).ToArray()
             };
             var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);
-            var url = new Uri("enseignant/EditEnseignant.php", UriKind.Relative);
+            var url = new Uri("enseignant/EditEc.php", UriKind.Relative);
             var response = await Client.PostAsync(url, new StringContent(jsonObj, Encoding.UTF8, "application/json"));
             var status = JsonConvert.DeserializeObject<Response<Ec>>(await response.Content.ReadAsStringAsync());
             if (status.success)
