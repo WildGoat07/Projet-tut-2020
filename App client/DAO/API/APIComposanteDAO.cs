@@ -42,9 +42,25 @@ namespace DAO.API
             }
         }
 
-        public Task<CompCourante> CurrentAsync()
+        public async Task<CompCourante[]> CurrentAsync(int maxCount, int page)
         {
-            throw new NotImplementedException();
+            var obj = new Dictionary<string, object>();
+            var filters = new Dictionary<string, object>();
+            obj.Add("filters", filters);
+            obj.Add("quantity", maxCount);
+            obj.Add("skip", maxCount * page);
+
+            var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);
+            var url = new Uri("composante/SelectCompCourante.php", UriKind.Relative);
+            var response = await Client.PostAsync(url, new StringContent(jsonObj, Encoding.UTF8, "application/json"));
+            var status = JsonConvert.DeserializeObject<Response<CompCourante>>(await response.Content.ReadAsStringAsync());
+            if (status.success)
+                return status.values;
+            else
+            {
+                var err = status.errors.First();
+                throw new DAOException(err.error_desc, DAOException.ErrorCode.UNKNOWN);
+            }
         }
 
         public async Task DeleteAsync(IEnumerable<Composante> values)
@@ -126,9 +142,34 @@ namespace DAO.API
             }
         }
 
-        public Task SetCurrentAsync(Composante newCurrent)
+        public async Task<CompCourante[]> SetCurrentAsync(Composante newCurrent)
         {
-            throw new NotImplementedException();
+            if (newCurrent == null)
+                throw new ArgumentNullException(nameof(newCurrent));
+            string id = newCurrent.id_comp;
+
+            var obj = new
+            {
+                values = new[] { new {
+                    id_comp = id
+                } }
+            };
+
+            var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);
+            var url = new Uri("composante/CreateCompCourante.php", UriKind.Relative);
+            var response = await Client.PostAsync(url, new StringContent(jsonObj, Encoding.UTF8, "application/json"));
+            var status = JsonConvert.DeserializeObject<Response<CompCourante>>(await response.Content.ReadAsStringAsync());
+            if (status.success)
+                return status.values;
+            else
+            {
+                var err = status.errors.First();
+                throw new DAOException(err.error_desc, err.error_code switch
+                {
+                    "23000" => DAOException.ErrorCode.EXISTING_ENTRY,
+                    _ => DAOException.ErrorCode.UNKNOWN
+                });
+            }
         }
 
         public async Task<Composante[]> UpdateAsync(IEnumerable<(Composante, Composante)> values)

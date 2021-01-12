@@ -31,7 +31,7 @@ namespace DAO
         /// </summary>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <returns>La composante en cours</returns>
-        Task<CompCourante> CurrentAsync();
+        Task<CompCourante[]> CurrentAsync(int maxCount, int page);
 
         /// <summary>
         /// Supprime une composante
@@ -95,7 +95,7 @@ namespace DAO
         /// Change la composante courante
         /// </summary>
         /// <param name="newCurrent">La nouvelle composante courante</param>
-        Task SetCurrentAsync(Composante newCurrent);
+        Task<CompCourante[]> SetCurrentAsync(Composante newCurrent);
 
         /// <summary>
         /// Modifie une composante
