@@ -57,7 +57,7 @@ namespace DAO.API
             var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);
             var url = new Uri("categorie/DeleteCategorie.php", UriKind.Relative);
             var response = await Client.PostAsync(url, new StringContent(jsonObj, Encoding.UTF8, "application/json"));
-            var status = JsonConvert.DeserializeObject<Response<Categorie>>(await response.Content.ReadAsStringAsync());
+            var status = JsonConvert.DeserializeObject<DeleteResponse>(await response.Content.ReadAsStringAsync());
             if (!status.success)
             {
                 var err = status.errors.First();
@@ -105,7 +105,7 @@ namespace DAO.API
             obj.Add("reverse_order", reverseOrder);
             if (search != null)
                 obj.Add("search", search);
-            
+
             var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);
             var url = new Uri("categorie/SelectCategorie.php", UriKind.Relative);
             var response = await Client.PostAsync(url, new StringContent(jsonObj, Encoding.UTF8, "application/json"));

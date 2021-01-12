@@ -57,7 +57,7 @@ namespace DAO.API
             var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);
             var url = new Uri("ue/DeleteUe.php", UriKind.Relative);
             var response = await Client.PostAsync(url, new StringContent(jsonObj, Encoding.UTF8, "application/json"));
-            var status = JsonConvert.DeserializeObject<Response<Ue>>(await response.Content.ReadAsStringAsync());
+            var status = JsonConvert.DeserializeObject<DeleteResponse>(await response.Content.ReadAsStringAsync());
             if (!status.success)
             {
                 var err = status.errors.First();
