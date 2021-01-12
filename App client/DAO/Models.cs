@@ -115,10 +115,10 @@ namespace DAO
         string annee,
         int? NbGpCM = 0,
         int? NbGpEI = 0,
-        int? NBGpTD = 0,
-        int? NbGbTP = 0,
+        int? NbGpTD = 0,
+        int? NbGpTP = 0,
         int? NbGpTPL = 0,
-        int? NBGpPRJ = 0,
+        int? NbGpPRJ = 0,
         float? HEqTD = 0f
     );
     public record Ue

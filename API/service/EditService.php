@@ -53,11 +53,11 @@ foreach ($postObj->values as $values) {
         $strReq .= "`NbGpEI` = '$data->NbGpEI'";
     }
 
-    if (isset($data->NBGpTD)) {
+    if (isset($data->NbGpTD)) {
         if (!$firstValue)
             $strReq .= ",";
         $firstValue = false;
-        $strReq .= "`NBGpTD` = '$data->NBGpTD'";
+        $strReq .= "`NbGpTD` = '$data->NbGpTD'";
     }
 
     if (isset($data->NbGpTP)) {
@@ -74,11 +74,11 @@ foreach ($postObj->values as $values) {
         $strReq .= "`NbGpTPL` = '$data->NbGpTPL'";
     }
 
-    if (isset($data->NBGpPRJ)) {
+    if (isset($data->NbGpPRJ)) {
         if (!$firstValue)
             $strReq .= ",";
         $firstValue = false;
-        $strReq .= "`NBGpPRJ` = '$data->NBGpPRJ'";
+        $strReq .= "`NbGpPRJ` = '$data->NbGpPRJ'";
     }
 
     if (isset($data->HEqTD)) {
@@ -98,7 +98,7 @@ foreach ($postObj->values as $values) {
 
     if ($error[0] == '00000') {
         if ($updateReq->rowCount() != 0) {
-            $resultStr = "SELECT `id_ens`, `code_ec`, `annee`, `NbGpCM`, `NbGpEI`, `NBGpTD`, `NbGbTP`, `NbGpTPL`, `NBGpPRJ`, `HEqTD` FROM `service` WHERE ";
+            $resultStr = "SELECT `id_ens`, `code_ec`, `annee`, `NbGpCM`, `NbGpEI`, `NbGpTD`, `NbGpTP`, `NbGpTPL`, `NbGpPRJ`, `HEqTD` FROM `service` WHERE ";
 
             $firstValue=true;
             if (!$firstValue)
@@ -136,10 +136,10 @@ foreach ($postObj->values as $values) {
             $obj->annee = $row->annee;
             $obj->NbGpCM = $row->NbGpCM;
             $obj->NbGpEI = $row->NbGpEI;
-            $obj->NBGpTD = $row->NBGpTD;
-            $obj->NbGbTP = $row->NbGbTP;
+            $obj->NbGpTD = $row->NbGpTD;
+            $obj->NbGpTP = $row->NbGpTP;
             $obj->NbGpTPL = $row->NbGpTPL;
-            $obj->NBGpPRJ = $row->NBGpPRJ;
+            $obj->NbGpPRJ = $row->NbGpPRJ;
             $obj->HeqTD = $row->HEqTD;
 
             $returnedValues->values[] = $obj;

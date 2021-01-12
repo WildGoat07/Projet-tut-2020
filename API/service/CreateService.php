@@ -13,7 +13,7 @@ $returnedValues->errors = [];
 
 foreach ($postObj->values as $values) {
     $id_entered_ens = $values->id_ens;
-    $id_entered_code_ec = $values->id_code_ec;
+    $id_entered_code_ec = $values->code_ec;
     $id_entered_annee = $values->annee;
 
     $strReq = "INSERT INTO `service` (";
@@ -38,9 +38,9 @@ foreach ($postObj->values as $values) {
         $data .= ",'$values->NbGpEI'";
     }
 
-    if (isset($values->NBGpTD)) {
-        $strReq .= " ,`NBGpTD` ";
-        $data .= ",'$values->NBGpTD'";
+    if (isset($values->NbGpTD)) {
+        $strReq .= " ,`NbGpTD` ";
+        $data .= ",'$values->NbGpTD'";
     }
 
     if (isset($values->NbGpTP)) {
@@ -53,9 +53,9 @@ foreach ($postObj->values as $values) {
         $data .= ",'$values->NbGpTPL'";
     }
 
-    if (isset($values->NBGpPRJ)) {
-        $strReq .= " ,`NBGpPRJ` ";
-        $data .= ",'$values->NBGpPRJ'";
+    if (isset($values->NbGpPRJ)) {
+        $strReq .= " ,`NbGpPRJ` ";
+        $data .= ",'$values->NbGpPRJ'";
     }
 
     if (isset($values->HEqTD)) {
@@ -71,7 +71,7 @@ foreach ($postObj->values as $values) {
 
     if ($error[0] == '00000') {
         if ($createReq->rowCount() != 0) {
-            $resultStr = "SELECT `id_ens`, `code_ec`, `annee`, `NbGpCM`, `NbGpEI`, `NBGpTD`, `NbGbTP`, `NbGpTPL`, `NBGpPRJ`, `HEqTD` FROM `service` WHERE ";
+            $resultStr = "SELECT `id_ens`, `code_ec`, `annee`, `NbGpCM`, `NbGpEI`, `NbGpTD`, `NbGpTP`, `NbGpTPL`, `NbGpPRJ`, `HEqTD` FROM `service` WHERE ";
             $resultStr .= "`id_ens` = '$id_entered_ens' AND `code_ec`='$id_entered_code_ec' AND `annee`='$id_entered_annee'";
 
             $result = $db->query($resultStr);
@@ -83,10 +83,10 @@ foreach ($postObj->values as $values) {
             $obj->annee = $row->annee;
             $obj->NbGpCM = $row->NbGpCM;
             $obj->NbGpEI = $row->NbGpEI;
-            $obj->NBGpTD = $row->NBGpTD;
-            $obj->NbGbTP = $row->NbGbTP;
+            $obj->NbGpTD = $row->NbGpTD;
+            $obj->NbGpTP = $row->NbGpTP;
             $obj->NbGpTPL = $row->NbGpTPL;
-            $obj->NBGpPRJ = $row->NBGpPRJ;
+            $obj->NbGpPRJ = $row->NbGpPRJ;
             $obj->HEqTD = $row->HEqTD;
 
             $returnedValues->values[] = $obj;
