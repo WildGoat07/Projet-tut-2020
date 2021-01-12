@@ -54,7 +54,10 @@ namespace DAO.API
             var obj = new
             {
                 values = (from value in values
-                          select value.id_comp).ToArray()
+                          select new
+                          {
+                              value.id_comp
+                          }).ToArray()
             };
             var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);
             var url = new Uri("composante/DeleteComposante.php", UriKind.Relative);
