@@ -21,6 +21,10 @@ namespace DAO
         string nom_comp,
         string? lieu_comp = null
     );
+    public record CompCourante
+    (
+        string id_comp
+    );
     public record Diplome
     (
         string code_diplome,

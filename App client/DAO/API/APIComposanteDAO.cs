@@ -42,7 +42,7 @@ namespace DAO.API
             }
         }
 
-        public Task<Composante> CurrentAsync()
+        public Task<CompCourante> CurrentAsync()
         {
             throw new NotImplementedException();
         }

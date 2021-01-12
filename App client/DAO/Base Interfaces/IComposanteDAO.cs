@@ -31,7 +31,7 @@ namespace DAO
         /// </summary>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <returns>La composante en cours</returns>
-        Task<Composante> CurrentAsync();
+        Task<CompCourante> CurrentAsync();
 
         /// <summary>
         /// Supprime une composante
