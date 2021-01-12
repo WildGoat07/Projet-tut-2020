@@ -94,7 +94,7 @@ namespace DAO
     public record HorsComp
     (
         string id_ens,
-        string code_ec,
+        string id_comp,
         string annee,
         int? HCM = 0,
         int? HEI = 0,

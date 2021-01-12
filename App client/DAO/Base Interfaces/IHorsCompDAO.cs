@@ -59,7 +59,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>L'horsComp correspondante à l'id</returns>
-        async Task<HorsComp> GetByIdAsync(string code, int version) => (await GetByIdAsync(new[] { (code, version) })).First();
+        async Task<HorsComp> GetByIdAsync(string id_ens, string id_comp, string annee) => (await GetByIdAsync(new[] { (id_ens, id_comp, annee) })).First();
 
         /// <summary>
         /// Récupère des horsComp
@@ -67,7 +67,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Les horsComp correspondantes à l'id</returns>
-        Task<HorsComp[]> GetByIdAsync(IEnumerable<(string, int)> id);
+        Task<HorsComp[]> GetByIdAsync(IEnumerable<(string, string, string)> id);
 
         /// <summary>
         /// Récupère toutes les horsComp selon des filtres
@@ -78,7 +78,7 @@ namespace DAO
         /// </param>
         /// <param name="year">Année concernée</param>
         /// <param name="comp">Composante exterieure</param>
-        /// <param name="course">Enseignement concerné</param>
+        /// <param name="teacher">Enseignant concerné</param>
         /// <param name="CmHours">Min/max des heures de CM</param>
         /// <param name="EiHours">Min/max des heures de EI</param>
         /// <param name="equivalentHours">Min/max des heures équivalentes TD</param>
@@ -90,7 +90,7 @@ namespace DAO
         /// <param name="reverseOrder">True si le tri doit être inversé</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <returns>Toutes les horsComp filtrées disponibles</returns>
-        Task<HorsComp[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, IEnumerable<string>? course = null, IEnumerable<string>? comp = null, IEnumerable<string>? year = null, (int?, int?)? CmHours = null, (int?, int?)? EiHours = null, (int?, int?)? TdHours = null, (int?, int?)? TpHours = null, (int?, int?)? TplHours = null, (int?, int?)? PrjHours = null, (float?, float?)? equivalentHours = null);
+        Task<HorsComp[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, IEnumerable<string>? teacher = null, IEnumerable<string>? comp = null, IEnumerable<string>? year = null, (int?, int?)? CmHours = null, (int?, int?)? EiHours = null, (int?, int?)? TdHours = null, (int?, int?)? TpHours = null, (int?, int?)? TplHours = null, (int?, int?)? PrjHours = null, (float?, float?)? equivalentHours = null);
 
         /// <summary>
         /// Modifie une horsComp
