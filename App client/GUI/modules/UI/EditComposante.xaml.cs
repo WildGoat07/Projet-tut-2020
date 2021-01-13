@@ -52,8 +52,12 @@ namespace GUI.modules.UI
         public string? Validate()
         {
             //ici on renvoie un string de l'erreur, ou 'null' si aucune erreur
-            if (id_comp.Text.Length != 3)
+            if (id_comp.Text.Trim().Length != 3)
                 return "L'identifiant doit contenir 3 caractères";
+            if (Nom.Text.Trim().Length < 1)
+                return "Le nom ne peut pas être vide";
+            if (Lieu.Text.Trim().Length < 1)
+                return "Le lieu ne peut pas être vide";
 
             return null;
         }
@@ -99,17 +103,17 @@ namespace GUI.modules.UI
                         //création d'une composante
                         await App.Factory.ComposanteDAO.CreateAsync(new DAO.Composante
                             (
-                                id_comp.Text,
-                                Nom.Text,
-                                Lieu.Text
+                                id_comp.Text.Trim(),
+                                Nom.Text.Trim(),
+                                Lieu.Text.Trim()
                             ));
                     else
                         //modification d'une composante
                         await App.Factory.ComposanteDAO.UpdateAsync(initialValue, new DAO.Composante
                             (
-                                id_comp.Text,
-                                Nom.Text,
-                                Lieu.Text
+                                id_comp.Text.Trim(),
+                                Nom.Text.Trim(),
+                                Lieu.Text.Trim()
                             ));
                     module.CloseModule();
                 }

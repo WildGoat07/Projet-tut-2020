@@ -15,7 +15,7 @@ namespace GUI.modules
         public EditComposanteModule(Composante? comp)
         {
             Content = new UI.EditComposante(comp, this);
-            Title = comp == null ? "Créer une Composante" : $"Édition de {comp.nom_comp} ";
+            Title = comp == null ? "Créer une composante" : $"Édition de {comp.nom_comp} ";
             create = comp != null;
         }
 
