@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="GUI.modules.UI.EditCategorie"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:GUI.modules.UI"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <DockPanel>
+        <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" DockPanel.Dock="Bottom">
+            <Button x:Name="validation" VerticalAlignment="Bottom" d:Content="Test" Padding="15,5" Margin="5" Click="validation_Click" />
+            <Button x:Name="suppression" VerticalAlignment="Bottom" Content="Supprimer" d:Visibility="Visible" Visibility="Collapsed" Padding="15,5" Margin="5" Click="suppression_Click" />
+        </StackPanel>
+        <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock x:Name="id_text" Text="Numéro :" Margin="5" />
+                <TextBox x:Name="no_cat" d:Text="&lt;123&gt;" Margin="5" MinWidth="50" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Libelle :" Margin="5" />
+                <TextBox x:Name="Lib_categ" d:Text="&lt;categorie&gt;" Margin="5" MinWidth="200" />
+            </StackPanel>
+        </StackPanel>
+    </DockPanel>
+</UserControl>

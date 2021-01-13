@@ -16,46 +16,49 @@ using System.Windows.Shapes;
 namespace GUI.modules.UI
 {
     /// <summary>
-    /// Logique d'interaction pour EditComposante.xaml
+    /// Logique d'interaction pour EditCategorie.xaml
     /// </summary>
-    public partial class EditComposante : UserControl
+    public partial class EditCategorie : UserControl
     {
-        private DAO.Composante? initialValue;
+        private DAO.Categorie? initialValue;
         private Module module;
 
-        public EditComposante(DAO.Composante? comp, Module mod)
+        public EditCategorie(DAO.Categorie? cat, Module mod)
         {
             InitializeComponent();
             module = mod;
-            initialValue = comp;
-            if (comp != null)
+            initialValue = cat;
+            if (cat != null)
             {
-                //si on donne une composante, c'est qu'on doit modifier une composante existante
-                id_comp.BorderBrush = new SolidColorBrush(Colors.Red);
+                //si on donne une catégorie, c'est qu'on doit modifier une catégorie existante
+                no_cat.BorderBrush = new SolidColorBrush(Colors.Red);
                 id_text.Foreground = new SolidColorBrush(Colors.Red);
-                id_comp.ToolTip = "Modifier cette valeur peut être impossible si cet composante est liée ailleurs";
-                id_text.ToolTip = "Modifier cette valeur peut être impossible si cet composante est liée ailleurs";
+                no_cat.ToolTip = "Modifier cette valeur peut être impossible si cet catégorie est liée ailleurs";
+                id_text.ToolTip = "Modifier cette valeur peut être impossible si cet catégorie est liée ailleurs";
                 validation.Content = "Sauvegarder et quitter";
                 suppression.Visibility = Visibility.Visible;
             }
             else
             {
-                comp = new DAO.Composante("", "", "");
+                cat = new DAO.Categorie(0, "");
                 validation.Content = "Créer";
             }
             //on rempli d'abord les controls
-            id_comp.Text = comp.id_comp;
-            Nom.Text = comp.nom_comp;
-            Lieu.Text = comp.lieu_comp;
+            no_cat.Text = cat.no_cat.ToString();
+            Lib_categ.Text = cat.categorie;
         }
 
         public string? Validate()
         {
             //ici on renvoie un string de l'erreur, ou 'null' si aucune erreur
-            if (id_comp.Text.Trim().Length != 3)
-                return "L'identifiant doit contenir 3 caractères";
-            if (Nom.Text.Trim().Length < 1)
-                return "Le nom ne peut pas être vide";
+            int dummy = 0;
+
+            if (!int.TryParse(no_cat.Text, out dummy))
+                return "Numéro de catégorie incorrecte (pas un nombre)";
+            else if (dummy < 0)
+                return "Numéro de catégorie incorrecte (nombre négatif)";
+            if (Lib_categ.Text.Trim().Length < 1)
+                return "La catégorie ne doit pas être vide";
 
             return null;
         }
@@ -64,9 +67,9 @@ namespace GUI.modules.UI
         {
             try
             {
-                //suppression d'un compeignant
+                //suppression d'un catégorie
                 if (initialValue != null)
-                    await App.Factory.ComposanteDAO.DeleteAsync(initialValue);
+                    await App.Factory.CategorieDAO.DeleteAsync(initialValue);
                 module.CloseModule();
             }
             catch (DAO.DAOException exc)
@@ -78,11 +81,11 @@ namespace GUI.modules.UI
                         break;
 
                     case DAO.DAOException.ErrorCode.ENTRY_LINKED:
-                        MessageBox.Show("La composante est liée ailleurs", "Erreur de suppression", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("La catégorie est liée ailleurs", "Erreur de suppression", MessageBoxButton.OK, MessageBoxImage.Error);
                         break;
 
                     case DAO.DAOException.ErrorCode.MISSING_ENTRY:
-                        MessageBox.Show("La composante n'existe pas", "Erreur de suppression", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("La catégorie n'existe pas", "Erreur de suppression", MessageBoxButton.OK, MessageBoxImage.Error);
                         break;
                 }
             }
@@ -98,20 +101,18 @@ namespace GUI.modules.UI
                 try
                 {
                     if (initialValue == null)
-                        //création d'une composante
-                        await App.Factory.ComposanteDAO.CreateAsync(new DAO.Composante
+                        //création d'un catégorie
+                        await App.Factory.CategorieDAO.CreateAsync(new DAO.Categorie
                             (
-                                id_comp.Text.Trim(),
-                                Nom.Text.Trim(),
-                                Lieu.Text.Trim()
+                                int.Parse(no_cat.Text.Trim()),
+                                Lib_categ.Text.Trim()
                             ));
                     else
-                        //modification d'une composante
-                        await App.Factory.ComposanteDAO.UpdateAsync(initialValue, new DAO.Composante
+                        //modification d'un catégorie
+                        await App.Factory.CategorieDAO.UpdateAsync(initialValue, new DAO.Categorie
                             (
-                                id_comp.Text.Trim(),
-                                Nom.Text.Trim(),
-                                Lieu.Text.Trim()
+                                int.Parse(no_cat.Text.Trim()),
+                                Lib_categ.Text.Trim()
                             ));
                     module.CloseModule();
                 }
@@ -124,15 +125,15 @@ namespace GUI.modules.UI
                             break;
 
                         case DAO.DAOException.ErrorCode.ENTRY_LINKED:
-                            MessageBox.Show("La composante est liée ailleurs", "Erreur de liaison", MessageBoxButton.OK, MessageBoxImage.Error);
+                            MessageBox.Show("La catégorie est liée ailleurs", "Erreur de liaison", MessageBoxButton.OK, MessageBoxImage.Error);
                             break;
 
                         case DAO.DAOException.ErrorCode.EXISTING_ENTRY:
-                            MessageBox.Show("La composante existe déjà", "Erreur de duplication", MessageBoxButton.OK, MessageBoxImage.Error);
+                            MessageBox.Show("La catégorie existe déjà", "Erreur de duplication", MessageBoxButton.OK, MessageBoxImage.Error);
                             break;
 
                         case DAO.DAOException.ErrorCode.MISSING_ENTRY:
-                            MessageBox.Show("La composante n'existe pas", "Erreur de modification", MessageBoxButton.OK, MessageBoxImage.Error);
+                            MessageBox.Show("La catégorie n'existe pas", "Erreur de modification", MessageBoxButton.OK, MessageBoxImage.Error);
                             break;
                     }
                 }
