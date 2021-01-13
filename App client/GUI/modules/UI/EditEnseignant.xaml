@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="GUI.modules.UI.EditEnseignant"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:GUI.modules.UI"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <DockPanel>
+        <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" DockPanel.Dock="Bottom">
+            <Button x:Name="validation" VerticalAlignment="Bottom" d:Content="Test" Padding="15,5" Margin="5" Click="validation_Click" />
+            <Button x:Name="suppression" VerticalAlignment="Bottom" Content="Supprimer" d:Visibility="Visible" Visibility="Collapsed" Padding="15,5" Margin="5" Click="suppression_Click" />
+        </StackPanel>
+        <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock x:Name="id_text" Text="Identifiant :" Margin="5" />
+                <TextBox x:Name="id_ens" d:Text="&lt;AbC&gt;" Margin="5" MinWidth="50" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Nom :" Margin="5" />
+                <TextBox x:Name="Nom" d:Text="&lt;nom&gt;" Margin="5" MinWidth="100" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Prénom :" Margin="5" />
+                <TextBox x:Name="Prenom" d:Text="&lt;prenom&gt;" Margin="5" MinWidth="100" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Fonction :" Margin="5" />
+                <TextBox x:Name="Fonction" d:Text="&lt;fonction&gt;" Margin="5" MinWidth="100" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Heures obligatoires :" Margin="5" />
+                <TextBox x:Name="HOblig" d:Text="&lt;150&gt;" Margin="5" MinWidth="100" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Heures maximales :" Margin="5" />
+                <TextBox x:Name="HMax" d:Text="&lt;180&gt;" Margin="5" MinWidth="100" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="CRCT :" Margin="5" />
+                <TextBox x:Name="CRCT" d:Text="&lt;N&gt;" Margin="5" MinWidth="30" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="PES_PEDR :" Margin="5" />
+                <TextBox x:Name="PES_PEDR" d:Text="&lt;N&gt;" Margin="5" MinWidth="30" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Composante :" Margin="5" />
+                <ComboBox Name="id_comp" Margin="5" MinWidth="100" />
+            </StackPanel>
+        </StackPanel>
+    </DockPanel>
+</UserControl>

@@ -26,8 +26,8 @@ namespace GUI
         {
             InitializeComponent();
             _ = UpdateYearSelectionAsync();
-            _ = LoadModuleAsync(new DummyDateModule());//test
-            _ = LoadModuleAsync(new DummyModule());//test
+            _ = LoadModuleAsync(new EditEnseignantModule(null));//! test
+            _ = LoadModuleAsync(new EditEnseignantModule(new DAO.Enseignant("ChK", "un joli nom", "un merveilleux prénom", HOblig: 105.2f)));//! test
         }
 
         public Module? CurrentModule => (modules.SelectedItem as TabItem)?.Tag as Module;
@@ -65,8 +65,7 @@ namespace GUI
             item.Tag = module;
             modules.Items.Add(item);
             modules.SelectedItem = item;
-            if (refreshTask is not null)
-                await refreshTask;
+            await refreshTask;
         }
 
         public async Task RefreshAsync()
@@ -81,11 +80,8 @@ namespace GUI
         {
             var selection = yearSelection.SelectedItem;
             yearSelection.Items.Clear();
-            //! AnneeUniv doit d'abord être terminé
-            /*
             foreach (var item in await App.Factory.AnneeUnivDAO.GetAllAsync())
                 yearSelection.Items.Add(item.annee);
-            */
             yearSelection.SelectedItem = selection;
         }
 
