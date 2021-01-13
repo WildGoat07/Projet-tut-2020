@@ -30,7 +30,7 @@ namespace GUI.modules.UI
             initialValue = ens;
             if (ens != null)
             {
-                //si on donne un enseignant, c'est qu'on doit modifier un existant
+                //si on donne un enseignant, c'est qu'on doit modifier un enseignant existant
                 id_ens.BorderBrush = new SolidColorBrush(Colors.Red);
                 id_text.Foreground = new SolidColorBrush(Colors.Red);
                 id_ens.ToolTip = "Modifier cette valeur peut être impossible si cet enseignant est lié ailleurs";
@@ -69,20 +69,24 @@ namespace GUI.modules.UI
         {
             //ici on renvoie un string de l'erreur, ou 'null' si aucune erreur
             float dummy = 0;
-            if (HOblig.Text.Length > 0 && !float.TryParse(HOblig.Text, out dummy))
+            if (Nom.Text.Trim().Length < 1)
+                return "Le nom ne peut pas être vide";
+            if (Prenom.Text.Trim().Length < 1)
+                return "Le prénom ne peut pas être vide";
+            if (HOblig.Text.Trim().Length > 0 && !float.TryParse(HOblig.Text, out dummy))
                 return "Heures obligatoires incorrectes (pas un nombre)";
             else if (dummy < 0)
                 return "Heures obligatoires incorrectes (nombre négatif)";
-            if (HMax.Text.Length > 0 && !float.TryParse(HMax.Text, out dummy))
+            if (HMax.Text.Trim().Length > 0 && !float.TryParse(HMax.Text, out dummy))
                 return "Heures maximales incorrectes (pas un nombre)";
             else if (dummy < 0)
                 return "Heures maximales incorrectes (nombre négatif)";
-            if (CRCT.Text.Length > 1)
-                return "Le CRCT doit contenir 1 charactère";
-            if (PES_PEDR.Text.Length > 1)
-                return "Le PES_PEDR doit contenir 1 charactère";
-            if (id_ens.Text.Length != 3)
-                return "L'identifiant doit contenir 3 charactères";
+            if (CRCT.Text.Trim().Length > 1)
+                return "Le CRCT doit contenir 1 caractère";
+            if (PES_PEDR.Text.Trim().Length > 1)
+                return "Le PES_PEDR doit contenir 1 caractère";
+            if (id_ens.Text.Trim().Length != 3)
+                return "L'identifiant doit contenir 3 caractères";
 
             return null;
         }
@@ -128,28 +132,28 @@ namespace GUI.modules.UI
                         //création d'un enseignant
                         await App.Factory.EnseignantDAO.CreateAsync(new DAO.Enseignant
                             (
-                                id_ens.Text,
-                                Nom.Text,
-                                Prenom.Text,
-                                Fonction.Text.Length == 0 ? null : Fonction.Text,
-                                HOblig.Text.Length == 0 ? null : float.Parse(HOblig.Text),
-                                HMax.Text.Length == 0 ? null : float.Parse(HMax.Text),
-                                CRCT.Text.Length == 0 ? null : CRCT.Text.First(),
-                                PES_PEDR.Text.Length == 0 ? null : PES_PEDR.Text.First(),
+                                id_ens.Text.Trim(),
+                                Nom.Text.Trim(),
+                                Prenom.Text.Trim(),
+                                Fonction.Text.Trim().Length == 0 ? null : Fonction.Text,
+                                HOblig.Text.Trim().Length == 0 ? null : float.Parse(HOblig.Text),
+                                HMax.Text.Trim().Length == 0 ? null : float.Parse(HMax.Text),
+                                CRCT.Text.Trim().Length == 0 ? null : CRCT.Text.First(),
+                                PES_PEDR.Text.Trim().Length == 0 ? null : PES_PEDR.Text.First(),
                                 id_comp.SelectedIndex < 1 ? null : ((ToStringOverrider<DAO.Composante>)id_comp.SelectedItem).Value.id_comp
                             ));
                     else
                         //modification d'un enseignant
                         await App.Factory.EnseignantDAO.UpdateAsync(initialValue, new DAO.Enseignant
                             (
-                                id_ens.Text,
-                                Nom.Text,
-                                Prenom.Text,
-                                Fonction.Text.Length == 0 ? null : Fonction.Text,
-                                HOblig.Text.Length == 0 ? null : float.Parse(HOblig.Text),
-                                HMax.Text.Length == 0 ? null : float.Parse(HMax.Text),
-                                CRCT.Text.Length == 0 ? null : CRCT.Text.First(),
-                                PES_PEDR.Text.Length == 0 ? null : PES_PEDR.Text.First(),
+                                id_ens.Text.Trim(),
+                                Nom.Text.Trim(),
+                                Prenom.Text.Trim(),
+                                Fonction.Text.Trim().Length == 0 ? null : Fonction.Text,
+                                HOblig.Text.Trim().Length == 0 ? null : float.Parse(HOblig.Text),
+                                HMax.Text.Trim().Length == 0 ? null : float.Parse(HMax.Text),
+                                CRCT.Text.Trim().Length == 0 ? null : CRCT.Text.First(),
+                                PES_PEDR.Text.Trim().Length == 0 ? null : PES_PEDR.Text.First(),
                                 id_comp.SelectedIndex < 1 ? null : ((ToStringOverrider<DAO.Composante>)id_comp.SelectedItem).Value.id_comp
                             ));
                     module.CloseModule();
