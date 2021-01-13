@@ -135,11 +135,11 @@ namespace GUI.modules.UI
                                 id_ens.Text.Trim(),
                                 Nom.Text.Trim(),
                                 Prenom.Text.Trim(),
-                                Fonction.Text.Trim().Length == 0 ? null : Fonction.Text,
-                                HOblig.Text.Trim().Length == 0 ? null : float.Parse(HOblig.Text),
-                                HMax.Text.Trim().Length == 0 ? null : float.Parse(HMax.Text),
+                                Fonction.Text.Trim().Length == 0 ? null : Fonction.Text.Trim(),
+                                HOblig.Text.Trim().Length == 0 ? null : float.Parse(HOblig.Text.Trim()),
+                                HMax.Text.Trim().Length == 0 ? null : float.Parse(HMax.Text.Trim()),
                                 CRCT.Text.Trim().Length == 0 ? null : CRCT.Text.First(),
-                                PES_PEDR.Text.Trim().Length == 0 ? null : PES_PEDR.Text.First(),
+                                PES_PEDR.Text.Trim().Length == 0 ? null : PES_PEDR.Text.Trim().First(),
                                 id_comp.SelectedIndex < 1 ? null : ((ToStringOverrider<DAO.Composante>)id_comp.SelectedItem).Value.id_comp
                             ));
                     else
@@ -149,11 +149,11 @@ namespace GUI.modules.UI
                                 id_ens.Text.Trim(),
                                 Nom.Text.Trim(),
                                 Prenom.Text.Trim(),
-                                Fonction.Text.Trim().Length == 0 ? null : Fonction.Text,
-                                HOblig.Text.Trim().Length == 0 ? null : float.Parse(HOblig.Text),
-                                HMax.Text.Trim().Length == 0 ? null : float.Parse(HMax.Text),
-                                CRCT.Text.Trim().Length == 0 ? null : CRCT.Text.First(),
-                                PES_PEDR.Text.Trim().Length == 0 ? null : PES_PEDR.Text.First(),
+                                Fonction.Text.Trim().Length == 0 ? null : Fonction.Text.Trim(),
+                                HOblig.Text.Trim().Length == 0 ? null : float.Parse(HOblig.Text.Trim()),
+                                HMax.Text.Trim().Length == 0 ? null : float.Parse(HMax.Text.Trim()),
+                                CRCT.Text.Trim().Length == 0 ? null : CRCT.Text.Trim().First(),
+                                PES_PEDR.Text.Trim().Length == 0 ? null : PES_PEDR.Text.Trim().First(),
                                 id_comp.SelectedIndex < 1 ? null : ((ToStringOverrider<DAO.Composante>)id_comp.SelectedItem).Value.id_comp
                             ));
                     module.CloseModule();
