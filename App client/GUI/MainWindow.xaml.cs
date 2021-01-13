@@ -25,9 +25,6 @@ namespace GUI
         public MainWindow()
         {
             InitializeComponent();
-            _ = UpdateYearSelectionAsync();
-            _ = LoadModuleAsync(new EditEnseignantModule(null));//! test
-            _ = LoadModuleAsync(new EditEnseignantModule(new DAO.Enseignant("ChK", "un joli nom", "un merveilleux prénom", HOblig: 105.2f)));//! test
         }
 
         public Module? CurrentModule => (modules.SelectedItem as TabItem)?.Tag as Module;
@@ -82,7 +79,10 @@ namespace GUI
             yearSelection.Items.Clear();
             foreach (var item in await App.Factory.AnneeUnivDAO.GetAllAsync())
                 yearSelection.Items.Add(item.annee);
-            yearSelection.SelectedItem = selection;
+            if (selection == null)
+                yearSelection.SelectedIndex = yearSelection.Items.Count - 1;
+            else
+                yearSelection.SelectedItem = selection;
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e) => await RefreshAsync();
@@ -109,42 +109,12 @@ namespace GUI
             }
         }
 
-        private void SideButtonMouseDown(object sender, MouseButtonEventArgs e)
+        private async void Window_Initialized(object sender, EventArgs e)
         {
-            var grid = sender as Grid;
-            if (grid is not null)
-                grid.Background = new SolidColorBrush(App.AlphaAccent(75));
-        }
-
-        private void SideButtonMouseEnter(object sender, MouseEventArgs e)
-        {
-            var grid = sender as Grid;
-            if (grid is not null)
-            {
-                grid.Background = new SolidColorBrush(App.AlphaAccent(25));
-                if (grid.Children[0] is Label label)
-                    label.Foreground = new SolidColorBrush(App.Accent);
-                grid.Children[1].Visibility = Visibility.Visible;
-            }
-        }
-
-        private void SideButtonMouseLeave(object sender, MouseEventArgs e)
-        {
-            var grid = sender as Grid;
-            if (grid is not null)
-            {
-                grid.Background = new SolidColorBrush(Colors.Transparent);
-                if (grid.Children[0] is Label label)
-                    label.Foreground = new SolidColorBrush(Colors.Black);
-                grid.Children[1].Visibility = Visibility.Hidden;
-            }
-        }
-
-        private void SideButtonMouseUp(object sender, MouseButtonEventArgs e)
-        {
-            var grid = sender as Grid;
-            if (grid is not null)
-                grid.Background = new SolidColorBrush(App.AlphaAccent(25));
+            await UpdateYearSelectionAsync();
+            await LoadModuleAsync(new EnseignementViewModule());
+            await LoadModuleAsync(new EditEnseignantModule(null));//! test
+            await LoadModuleAsync(new EditEnseignantModule(new DAO.Enseignant("ChK", "un joli nom", "un merveilleux prénom", HOblig: 105.2f)));//!
         }
 
         private async void Window_PreviewKeyDown(object sender, KeyEventArgs e)

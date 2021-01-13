@@ -110,7 +110,10 @@ namespace DAO.API
             if (comp != null)
                 filters.Add("id_comp", comp.ToArray());
             if (diplome != null)
-                filters.Add("code_diplome", diplome.ToArray());
+            {
+                filters.Add("code_diplome", (from d in diplome select d.Item1).ToArray());
+                filters.Add("vdi", (from d in diplome select d.Item2).ToArray());
+            }
 
             var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);
             var url = new Uri("etape/SelectEtape.php", UriKind.Relative);
@@ -136,7 +139,8 @@ namespace DAO.API
                           {
                               target = new
                               {
-                                  value.Item1.code_etape, value.Item1.vet
+                                  value.Item1.code_etape,
+                                  value.Item1.vet
                               },
                               data = value.Item2
                           }).ToArray()

@@ -83,7 +83,7 @@ namespace DAO
         /// <param name="reverseOrder">True si le tri doit être inversé</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <returns>Tous les semestres filtrés disponibles</returns>
-        Task<Semestre[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, string? search = null, IEnumerable<int>? number = null, IEnumerable<(string?, int?)>? step = null);
+        Task<Semestre[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, string? search = null, IEnumerable<int>? number = null, IEnumerable<(string, int)>? step = null);
 
         /// <summary>
         /// Modifie un semestre

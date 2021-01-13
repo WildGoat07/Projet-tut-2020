@@ -48,8 +48,8 @@ namespace DAO
         int? NbEpr = 1,
         int? CNU = 2700,
         int? no_cat = null,
-        int? code_ec_pere = null,
-        int? code_ue = null
+        string? code_ec_pere = null,
+        string? code_ue = null
     );
     public record Enseignant
     (

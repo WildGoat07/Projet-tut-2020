@@ -90,7 +90,7 @@ namespace DAO.API
             }
         }
 
-        public async Task<Ec[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, string? search = null, IEnumerable<int>? Cnu = null, IEnumerable<int>? owner = null, IEnumerable<char>? nature = null, IEnumerable<int>? ue = null, IEnumerable<int>? category = null, (int?, int?)? CmHours = null, (int?, int?)? EiHours = null, (int?, int?)? TdHours = null, (int?, int?)? TpHours = null, (int?, int?)? TplHours = null, (int?, int?)? PrjHours = null, (int?, int?)? stepCount = null)
+        public async Task<Ec[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, string? search = null, IEnumerable<int>? Cnu = null, IEnumerable<string>? owner = null, IEnumerable<char>? nature = null, IEnumerable<string>? ue = null, IEnumerable<int>? category = null, (int?, int?)? CmHours = null, (int?, int?)? EiHours = null, (int?, int?)? TdHours = null, (int?, int?)? TpHours = null, (int?, int?)? TplHours = null, (int?, int?)? PrjHours = null, (int?, int?)? stepCount = null)
         {
             var obj = new Dictionary<string, object>();
             var filters = new Dictionary<string, object>();

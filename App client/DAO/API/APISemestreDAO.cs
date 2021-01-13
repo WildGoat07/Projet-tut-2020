@@ -93,7 +93,7 @@ namespace DAO.API
             }
         }
 
-        public async Task<Semestre[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, string? search = null, IEnumerable<int>? number = null, IEnumerable<(string?, int?)>? step = null)
+        public async Task<Semestre[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, string? search = null, IEnumerable<int>? number = null, IEnumerable<(string, int)>? step = null)
         {
             var obj = new Dictionary<string, object>();
             var filters = new Dictionary<string, object>();

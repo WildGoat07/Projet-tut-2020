@@ -112,7 +112,7 @@ namespace DAO.API
             if (parent != null)
                 filters.Add("code_ue_pere", parent.ToArray());
             if (semester != null)
-                filters.Add("PES_PEDR", semester.ToArray());
+                filters.Add("code_sem", (from sem in semester select sem.code_sem).ToArray());
             var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);
             var url = new Uri("ue/SelectUe.php", UriKind.Relative);
             var response = await Client.PostAsync(url, new StringContent(jsonObj, Encoding.UTF8, "application/json"));

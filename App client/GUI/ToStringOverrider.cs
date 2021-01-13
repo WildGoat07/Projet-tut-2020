@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GUI
 {
-    internal class ToStringOverrider<T>
+    public class ToStringOverrider<T>
     {
         private Func<string> fct;
 
