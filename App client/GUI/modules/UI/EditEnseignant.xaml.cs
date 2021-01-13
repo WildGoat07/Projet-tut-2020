@@ -30,7 +30,7 @@ namespace GUI.modules.UI
             initialValue = ens;
             if (ens != null)
             {
-                //si on donne un enseignant, c'est qu'on doit modifier un existant
+                //si on donne un enseignant, c'est qu'on doit modifier un enseignant existant
                 id_ens.BorderBrush = new SolidColorBrush(Colors.Red);
                 id_text.Foreground = new SolidColorBrush(Colors.Red);
                 id_ens.ToolTip = "Modifier cette valeur peut être impossible si cet enseignant est lié ailleurs";
@@ -78,11 +78,11 @@ namespace GUI.modules.UI
             else if (dummy < 0)
                 return "Heures maximales incorrectes (nombre négatif)";
             if (CRCT.Text.Length > 1)
-                return "Le CRCT doit contenir 1 charactère";
+                return "Le CRCT doit contenir 1 caractère";
             if (PES_PEDR.Text.Length > 1)
-                return "Le PES_PEDR doit contenir 1 charactère";
+                return "Le PES_PEDR doit contenir 1 caractère";
             if (id_ens.Text.Length != 3)
-                return "L'identifiant doit contenir 3 charactères";
+                return "L'identifiant doit contenir 3 caractères";
 
             return null;
         }

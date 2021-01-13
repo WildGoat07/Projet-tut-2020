@@ -26,8 +26,10 @@ namespace GUI
         {
             InitializeComponent();
             _ = UpdateYearSelectionAsync();
-            _ = LoadModuleAsync(new EditEnseignantModule(null));//! test
-            _ = LoadModuleAsync(new EditEnseignantModule(new DAO.Enseignant("ChK", "un joli nom", "un merveilleux prénom", HOblig: 105.2f)));//! test
+            //_ = LoadModuleAsync(new EditEnseignantModule(null));//! test
+            //_ = LoadModuleAsync(new EditEnseignantModule(new DAO.Enseignant("ChK", "un joli nom", "un merveilleux prénom", HOblig: 105.2f)));//! test
+            _ = LoadModuleAsync(new EditComposanteModule(null));//! test
+            _ = LoadModuleAsync(new EditComposanteModule(new DAO.Composante("HJK", "un joli nom", "un merveilleux lieu")));//! test
         }
 
         public Module? CurrentModule => (modules.SelectedItem as TabItem)?.Tag as Module;
