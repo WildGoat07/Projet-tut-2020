@@ -58,7 +58,7 @@ namespace GUI.modules.UI
             int dummy = 0;
             if (code_diplome.Text.Trim().Length == 0)
                 return "Le code du diplôme ne peut être vide. ";
-            else if (code_diplome.Text.Trim().Length > 100)
+            else if (code_diplome.Text.Trim().Length > 10)
                 return "Le code du diplôme ne peut pas contenir plus de 10 caractères. ";
             if (Libelle.Text.Trim().Length == 0)
                 return "Le libellé du diplôme doit contenir au moins un caractère";
@@ -68,8 +68,6 @@ namespace GUI.modules.UI
                 return "La version du diplôme ne peut être négative ou nulle";
             else if (dummy > 999)
                 return "La version du diplôme doit contenir au plus un nombre à 3 chiffres";
-            else if (dummy < 0)
-                return "La version du diplôme ne peut être un nombre négatif";
             if (!(Lib_vers.Text.Trim().Length > 0))
                 return "Le libellé de la version du diplôme doit contenir au moins un caractère";
 
