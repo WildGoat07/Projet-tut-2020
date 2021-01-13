@@ -91,7 +91,7 @@ namespace GUI.modules.UI
         {
             try
             {
-                //suppression d'un ueeignant
+                //suppression d'un ue
                 if (initialValue != null)
                     await App.Factory.UeDAO.DeleteAsync(initialValue);
                 module.CloseModule();
