@@ -62,7 +62,7 @@ if (isset($postObj->filters)) {
             $strReq .= " WHERE ";
             $whereSet = true;
         }
-        if( trim($eff_prev) === "" )
+        if( $eff_prev == null )
             $strReq .= "`eff_prev` IS NULL";
         else {
             $minSet = false;
@@ -85,7 +85,7 @@ if (isset($postObj->filters)) {
             $strReq .= " WHERE ";
             $whereSet = true;
         }
-        if( trim($eff_reel) === "" )
+        if( $eff_reel == null )
             $strReq .= "`eff_reel` IS NULL";
         else {
             $minSet = false;
@@ -355,9 +355,9 @@ if ($error[0]=='00000') {
         
             $obj->annee = utf8_encode($req['annee']);
         
-            $obj->eff_prev = utf8_encode($req['eff_prev']);
+            $obj->eff_prev = $req['eff_prev'] == null ? null : utf8_encode($req['eff_prev']);
         
-            $obj->eff_reel = utf8_encode($req['eff_reel']);
+            $obj->eff_reel = $req['eff_reel'] == null ? null : utf8_encode($req['eff_reel']);
         
             $obj->GpCM = utf8_encode($req['GpCM']);
         

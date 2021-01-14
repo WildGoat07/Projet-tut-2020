@@ -115,6 +115,7 @@ namespace DAO.API
             var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);
             var url = new Uri("diplome/SelectDiplome.php", UriKind.Relative);
             var response = await Client.PostAsync(url, new StringContent(jsonObj, Encoding.UTF8, "application/json"));
+
             var status = JsonConvert.DeserializeObject<Response<Diplome>>(await response.Content.ReadAsStringAsync());
             if (status.success)
                 return status.values;

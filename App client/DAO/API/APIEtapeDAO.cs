@@ -28,6 +28,9 @@ namespace DAO.API
             var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);
             var url = new Uri("etape/CreateEtape.php", UriKind.Relative);
             var response = await Client.PostAsync(url, new StringContent(jsonObj, Encoding.UTF8, "application/json"));
+
+            Console.WriteLine(await response.Content.ReadAsStringAsync());
+
             var status = JsonConvert.DeserializeObject<Response<Etape>>(await response.Content.ReadAsStringAsync());
             if (status.success)
                 return status.values;

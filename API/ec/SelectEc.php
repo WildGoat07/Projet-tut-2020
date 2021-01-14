@@ -216,7 +216,7 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->no_cat as $no_cat) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            if (trim($no_cat) === "")
+            if ($no_cat == null)
                 $strReq .= "`no_cat` IS NULL";
             else
                 $strReq .= "`no_cat` = \"$no_cat\"";
@@ -237,7 +237,7 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->code_ec_pere as $code_ec_pere) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            if (trim($code_ec_pere) === "")
+            if ($code_ec_pere == null)
                 $strReq .= "`code_ec_pere` IS NULL";
             else
                 $strReq .= "`code_ec_pere` = \"$code_ec_pere\"";
@@ -258,7 +258,7 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->code_ue as $code_ue) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            if (trim($code_ue) === "")
+            if ($code_ue == null)
                 $strReq .= "`code_ue` IS NULL";
             else
                 $strReq .= "`code_ue` = \"$code_ue\"";
@@ -318,11 +318,11 @@ if ($error[0] == '00000') {
 
             $obj->CNU = utf8_encode($req['CNU']);
 
-            $obj->no_cat = utf8_encode($req['no_cat']);
+            $obj->no_cat = $req['no_cat'] == null ? null : utf8_encode($req['no_cat']);
 
             $obj->code_ec_pere = $req['code_ec_pere'] == null ? null : utf8_encode($req['code_ec_pere']);
 
-            $obj->code_ue = utf8_encode($req['code_ue']);
+            $obj->code_ue = $req['code_ue'] == null ? null : utf8_encode($req['code_ue']);
 
             $ec->values[] = $obj;
         }

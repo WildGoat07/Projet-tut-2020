@@ -48,7 +48,7 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->fonction as $fonction) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            if( trim($fonction) === "" )
+            if( $fonction == null )
                 $strReq .= "`fonction` IS NULL";
             else
                 $strReq .= " `fonction` = \"$fonction\" ";
@@ -105,7 +105,7 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->id_comp as $id_comp) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            if( trim($id_comp) === "" )
+            if( $id_comp == null )
                 $strReq .= "`id_comp` IS NULL";
             else
                 $strReq .= " `id_comp` = \"$id_comp\" ";
@@ -121,7 +121,7 @@ if (isset($postObj->filters)) {
             $strReq .= " WHERE ";
             $whereSet = true;
         }
-        if( trim($HOblig) === "" )
+        if( $HOblig == null )
             $strReq .= "`HOblig` IS NULL";
         else {
             $minSet = false;
@@ -144,7 +144,7 @@ if (isset($postObj->filters)) {
             $strReq .= " WHERE ";
             $whereSet = true;
         }
-        if( trim($HMax) === "" )
+        if( $HMax == null )
             $strReq .= "`HMax` IS NULL";
         else {
             $minSet = false;
@@ -196,17 +196,17 @@ if ($error[0]=='00000') {
         
             $obj->prenom = utf8_encode($req['prenom']);
         
-            $obj->fonction = utf8_encode($req['fonction']);
+            $obj->fonction = $req['fonction'] == null ? null : utf8_encode($req['fonction']);
         
-            $obj->HOblig = utf8_encode($req['HOblig']);
+            $obj->HOblig = $req['HOblig'] == null ? null : utf8_encode($req['HOblig']);
         
-            $obj->HMax = utf8_encode($req['HMax']);
+            $obj->HMax = $req['HMax'] == null ? null : utf8_encode($req['HMax']);
         
             $obj->CRCT = utf8_encode($req['CRCT']);
         
             $obj->PES_PEDR = utf8_encode($req['PES_PEDR']);
         
-            $obj->id_comp = utf8_encode($req['id_comp']);
+            $obj->id_comp = $req['id_comp'] == null ? null : utf8_encode($req['id_comp']);
         
             $enseignant->values[] = $obj;
         }

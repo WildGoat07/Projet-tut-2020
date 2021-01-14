@@ -47,7 +47,7 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->no_sem as $no_sem) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            if (trim($no_sem) === "")
+            if ($no_sem == null)
                 $strReq .= "`no_sem` IS NULL";
             else
                 $strReq .= "`no_sem` = \"$no_sem\"";
@@ -68,7 +68,7 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->code_etape as $code_etape) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            if (trim($code_etape) === "")
+            if ($code_etape == null)
                 $strReq .= "`code_etape` IS NULL";
             else
                 $strReq .= "`code_etape` = \"$code_etape\"";
@@ -89,7 +89,7 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->vet as $vet) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            if (trim($vet) === "")
+            if ($vet == null)
                 $strReq .= "`vet` IS NULL";
             else
                 $strReq .= "`vet` = \"$vet\"";
@@ -131,11 +131,11 @@ if ($error[0] == '00000') {
 
             $obj->libelle_sem = utf8_encode($req['libelle_sem']);
 
-            $obj->no_sem = utf8_encode($req['no_sem']);
+            $obj->no_sem = $req['no_sem'] == null ? null : utf8_encode($req['no_sem']);
 
-            $obj->code_etape = utf8_encode($req['code_etape']);
+            $obj->code_etape = $req['code_etape'] == null ? null : utf8_encode($req['code_etape']);
 
-            $obj->vet = utf8_encode($req['vet']);
+            $obj->vet = $req['vet'] == null ? null : utf8_encode($req['vet']);
 
             $semestre->values[] = $obj;
         }
