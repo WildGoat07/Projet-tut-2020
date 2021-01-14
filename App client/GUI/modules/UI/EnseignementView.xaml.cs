@@ -226,6 +226,26 @@ namespace GUI.modules.UI
             return null;
         }
 
+        private async void addDiplome_Click(object sender, RoutedEventArgs e) => await MainWindow.Main.LoadModuleAsync(new EditDiplomeModule(null));
+
+        private async void addEC_Click(object sender, RoutedEventArgs e) => await MainWindow.Main.LoadModuleAsync(new EditEcModule(null));
+
+        private async void addEtape_Click(object sender, RoutedEventArgs e) => await MainWindow.Main.LoadModuleAsync(new EditEtapeModule(null));
+
+        private async void addSemestre_Click(object sender, RoutedEventArgs e) => await MainWindow.Main.LoadModuleAsync(new EditSemestreModule(null));
+
+        private async void addUE_Click(object sender, RoutedEventArgs e) => await MainWindow.Main.LoadModuleAsync(new EditUeModule(null));
+
+        private async void detailDiplome_Click(object sender, RoutedEventArgs e) => await MainWindow.Main.LoadModuleAsync(new EditDiplomeModule((diplomes.SelectedItem as ToStringOverrider<DAO.Diplome>)?.Value));
+
+        private async void detailEC_Click(object sender, RoutedEventArgs e) => await MainWindow.Main.LoadModuleAsync(new EditEcModule((ecs.SelectedItem as ToStringOverrider<DAO.Ec>)?.Value));
+
+        private async void detailEtape_Click(object sender, RoutedEventArgs e) => await MainWindow.Main.LoadModuleAsync(new EditEtapeModule((etapes.SelectedItem as ToStringOverrider<DAO.Etape>)?.Value));
+
+        private async void detailSemestre_Click(object sender, RoutedEventArgs e) => await MainWindow.Main.LoadModuleAsync(new EditSemestreModule((semestres.SelectedItem as ToStringOverrider<DAO.Semestre>)?.Value));
+
+        private async void detailUE_Click(object sender, RoutedEventArgs e) => await MainWindow.Main.LoadModuleAsync(new EditUeModule((ues.SelectedItem as ToStringOverrider<DAO.Ue>)?.Value));
+
         private async void diplomes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if ((diplomes.SelectedItem as ToStringOverrider<DAO.Diplome>)?.Value != CurrDiplome)
@@ -233,6 +253,7 @@ namespace GUI.modules.UI
                 CurrDiplome = (diplomes.SelectedItem as ToStringOverrider<DAO.Diplome>)?.Value;
                 await RefreshEtapes();
             }
+            detailDiplome.IsEnabled = diplomes.SelectedItem != null;
         }
 
         private async void ecs_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -242,6 +263,7 @@ namespace GUI.modules.UI
                 CurrEc = (ecs.SelectedItem as ToStringOverrider<DAO.Ec>)?.Value;
                 await RefreshDisplay();
             }
+            detailEC.IsEnabled = ecs.SelectedItem != null;
         }
 
         private async void etapes_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -251,6 +273,7 @@ namespace GUI.modules.UI
                 CurrEtape = (etapes.SelectedItem as ToStringOverrider<DAO.Etape>)?.Value;
                 await RefreshSemestres();
             }
+            detailEtape.IsEnabled = etapes.SelectedItem != null;
         }
 
         private async void saveButton_Click(object sender, RoutedEventArgs e) => await SaveEC();
@@ -262,6 +285,7 @@ namespace GUI.modules.UI
                 CurrSemestre = (semestres.SelectedItem as ToStringOverrider<DAO.Semestre>)?.Value;
                 await RefreshUE();
             }
+            detailSemestre.IsEnabled = semestres.SelectedItem != null;
         }
 
         private async void ues_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -271,6 +295,7 @@ namespace GUI.modules.UI
                 CurrUe = (ues.SelectedItem as ToStringOverrider<DAO.Ue>)?.Value;
                 await RefreshEC();
             }
+            detailUE.IsEnabled = ues.SelectedItem != null;
         }
     }
 }

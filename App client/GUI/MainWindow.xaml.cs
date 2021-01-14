@@ -25,7 +25,12 @@ namespace GUI
         public MainWindow()
         {
             InitializeComponent();
+            Main = this;
         }
+
+#pragma warning disable CS8618 // Un champ non-nullable doit contenir une valeur non-null lors de la fermeture du constructeur. Envisagez de déclarer le champ comme nullable.
+        public static MainWindow Main { get; private set; }
+#pragma warning restore CS8618 // Un champ non-nullable doit contenir une valeur non-null lors de la fermeture du constructeur. Envisagez de déclarer le champ comme nullable.
 
         public Module? CurrentModule => (modules.SelectedItem as TabItem)?.Tag as Module;
 
@@ -116,8 +121,6 @@ namespace GUI
         {
             await UpdateYearSelectionAsync();
             await LoadModuleAsync(new EnseignementViewModule());
-            await LoadModuleAsync(new EditEnseignantModule(null));//! test
-            await LoadModuleAsync(new EditEnseignantModule(new DAO.Enseignant("ChK", "un joli nom", "un merveilleux prénom", HOblig: 105.2f)));//!
         }
 
         private async void Window_PreviewKeyDown(object sender, KeyEventArgs e)
