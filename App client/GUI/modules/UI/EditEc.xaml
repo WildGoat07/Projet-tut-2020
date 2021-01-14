@@ -45,15 +45,17 @@
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="CNU :" Margin="5" />
                 <TextBox x:Name="CNU" d:Text="&lt;null&gt;" Margin="5" MinWidth="30" />
-                <TextBlock Text="Catégorie :" Margin="5" />
-                <TextBox x:Name="Categorie" d:Text="&lt;cat&gt;" Margin="5" MinWidth="20" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Code EC père :" Margin="5" />
+                <TextBlock Text="Catégorie :" Margin="5" />
+                <ComboBox Name="categorie" Margin="5" MinWidth="100" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="EC père :" Margin="5" />
                 <ComboBox Name="code_ec_pere" Margin="5" MinWidth="100" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Code UE :" Margin="5" />
+                <TextBlock Text="UE :" Margin="5" />
                 <ComboBox Name="code_ue" Margin="5" MinWidth="100" />
             </StackPanel>
         </StackPanel>
