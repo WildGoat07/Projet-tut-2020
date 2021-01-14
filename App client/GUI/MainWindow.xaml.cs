@@ -121,6 +121,7 @@ namespace GUI
         {
             await UpdateYearSelectionAsync();
             await LoadModuleAsync(new EnseignementViewModule());
+            await LoadModuleAsync(new ParametrageModule());
         }
 
         private async void Window_PreviewKeyDown(object sender, KeyEventArgs e)
