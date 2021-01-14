@@ -276,7 +276,23 @@ namespace DAO.API
                                   value.Item1.code_ec,
                                   value.Item1.annee
                               },
-                              data = value.Item2
+                              data = new
+                              {
+                                  value.Item2.eff_prev,
+                                  value.Item2.eff_reel,
+                                  value.Item2.GpCM,
+                                  value.Item2.GpCMSer,
+                                  value.Item2.GpEI,
+                                  value.Item2.GpEISer,
+                                  value.Item2.GpPRJ,
+                                  value.Item2.GpPRJSer,
+                                  value.Item2.GpTD,
+                                  value.Item2.GpTDSer,
+                                  value.Item2.GpTP,
+                                  value.Item2.GpTPL,
+                                  value.Item2.GpTPSer,
+                                  value.Item2.GpTPLSer
+                              }
                           }).ToArray()
             };
             var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);

@@ -159,7 +159,17 @@ namespace DAO.API
                               {
                                   value.Item1.id_ens
                               },
-                              data = value.Item2
+                              data = new
+                              {
+                                  value.Item2.CRCT,
+                                  value.Item2.fonction,
+                                  value.Item2.HMax,
+                                  value.Item2.HOblig,
+                                  value.Item2.id_comp,
+                                  value.Item2.nom,
+                                  value.Item2.PES_PEDR,
+                                  value.Item2.prenom
+                              }
                           }).ToArray()
             };
             var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);

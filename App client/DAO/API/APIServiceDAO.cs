@@ -52,7 +52,9 @@ namespace DAO.API
                 values = (from value in values
                           select new
                           {
-                              value.id_ens, value.code_ec, value.annee
+                              value.id_ens,
+                              value.code_ec,
+                              value.annee
                           }).ToArray()
             };
             var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);
@@ -112,7 +114,7 @@ namespace DAO.API
                 filters.Add("code_ec", ec.ToArray());
             if (year != null)
                 filters.Add("annee", year.ToArray());
-            if (CmNumber != null) 
+            if (CmNumber != null)
             {
                 object? range = CmNumber.Value.Item1.HasValue && CmNumber.Value.Item2.HasValue ?
                     new { min = CmNumber.Value.Item1.Value, max = CmNumber.Value.Item2.Value } :
@@ -122,8 +124,8 @@ namespace DAO.API
                 if (range != null)
                     filters.Add("NbGpCM", range);
             }
-                
-            if (EiNumber != null) 
+
+            if (EiNumber != null)
             {
                 object? range = EiNumber.Value.Item1.HasValue && EiNumber.Value.Item2.HasValue ?
                     new { min = EiNumber.Value.Item1.Value, max = EiNumber.Value.Item2.Value } :
@@ -135,58 +137,57 @@ namespace DAO.API
             }
             if (TdNumber != null)
             {
-                 object? range = TdNumber.Value.Item1.HasValue && TdNumber.Value.Item2.HasValue ?
-                    new { min = TdNumber.Value.Item1.Value, max = TdNumber.Value.Item2.Value } :
-                    TdNumber.Value.Item1.HasValue ? new { min = TdNumber.Value.Item1.Value } :
-                    TdNumber.Value.Item2.HasValue ?
-                    new { min = TdNumber.Value.Item2.Value } : null;
+                object? range = TdNumber.Value.Item1.HasValue && TdNumber.Value.Item2.HasValue ?
+                   new { min = TdNumber.Value.Item1.Value, max = TdNumber.Value.Item2.Value } :
+                   TdNumber.Value.Item1.HasValue ? new { min = TdNumber.Value.Item1.Value } :
+                   TdNumber.Value.Item2.HasValue ?
+                   new { min = TdNumber.Value.Item2.Value } : null;
                 if (range != null)
                     filters.Add("NbGpTD", range);
             }
             if (TpNumber != null)
             {
-                 object? range = TpNumber.Value.Item1.HasValue && TpNumber.Value.Item2.HasValue ?
-                    new { min = TpNumber.Value.Item1.Value, max = TpNumber.Value.Item2.Value } :
-                    TpNumber.Value.Item1.HasValue ? new { min = TpNumber.Value.Item1.Value } :
-                    TpNumber.Value.Item2.HasValue ?
-                    new { min = TpNumber.Value.Item2.Value } : null;
+                object? range = TpNumber.Value.Item1.HasValue && TpNumber.Value.Item2.HasValue ?
+                   new { min = TpNumber.Value.Item1.Value, max = TpNumber.Value.Item2.Value } :
+                   TpNumber.Value.Item1.HasValue ? new { min = TpNumber.Value.Item1.Value } :
+                   TpNumber.Value.Item2.HasValue ?
+                   new { min = TpNumber.Value.Item2.Value } : null;
                 if (range != null)
                     filters.Add("NbGpTP", range);
             }
             if (TplNumber != null)
             {
-                 object? range = TplNumber.Value.Item1.HasValue && TplNumber.Value.Item2.HasValue ?
-                    new { min = TplNumber.Value.Item1.Value, max = TplNumber.Value.Item2.Value } :
-                    TplNumber.Value.Item1.HasValue ? new { min = TplNumber.Value.Item1.Value } :
-                    TplNumber.Value.Item2.HasValue ?
-                    new { min = TplNumber.Value.Item2.Value } : null;
+                object? range = TplNumber.Value.Item1.HasValue && TplNumber.Value.Item2.HasValue ?
+                   new { min = TplNumber.Value.Item1.Value, max = TplNumber.Value.Item2.Value } :
+                   TplNumber.Value.Item1.HasValue ? new { min = TplNumber.Value.Item1.Value } :
+                   TplNumber.Value.Item2.HasValue ?
+                   new { min = TplNumber.Value.Item2.Value } : null;
                 if (range != null)
                     filters.Add("NbGpTPL", range);
             }
             if (PrjNumber != null)
             {
-                 object? range = PrjNumber.Value.Item1.HasValue && PrjNumber.Value.Item2.HasValue ?
-                    new { min = PrjNumber.Value.Item1.Value, max = PrjNumber.Value.Item2.Value } :
-                    PrjNumber.Value.Item1.HasValue ? new { min = PrjNumber.Value.Item1.Value } :
-                    PrjNumber.Value.Item2.HasValue ?
-                    new { min = PrjNumber.Value.Item2.Value } : null;
+                object? range = PrjNumber.Value.Item1.HasValue && PrjNumber.Value.Item2.HasValue ?
+                   new { min = PrjNumber.Value.Item1.Value, max = PrjNumber.Value.Item2.Value } :
+                   PrjNumber.Value.Item1.HasValue ? new { min = PrjNumber.Value.Item1.Value } :
+                   PrjNumber.Value.Item2.HasValue ?
+                   new { min = PrjNumber.Value.Item2.Value } : null;
                 if (range != null)
                     filters.Add("NbGpPRJ", range);
             }
             if (equivalentHours != null)
             {
-                 object? range = equivalentHours.Value.Item1.HasValue && equivalentHours.Value.Item2.HasValue ?
-                        new { min = equivalentHours.Value.Item1.Value, max = equivalentHours.Value.Item2.Value } :
-                        equivalentHours.Value.Item1.HasValue ? new { min = equivalentHours.Value.Item1.Value } :
-                        equivalentHours.Value.Item2.HasValue ?
-                        new { min = equivalentHours.Value.Item2.Value } : null;
-                    if (range != null)
-                        filters.Add("HEqTD", range);
+                object? range = equivalentHours.Value.Item1.HasValue && equivalentHours.Value.Item2.HasValue ?
+                       new { min = equivalentHours.Value.Item1.Value, max = equivalentHours.Value.Item2.Value } :
+                       equivalentHours.Value.Item1.HasValue ? new { min = equivalentHours.Value.Item1.Value } :
+                       equivalentHours.Value.Item2.HasValue ?
+                       new { min = equivalentHours.Value.Item2.Value } : null;
+                if (range != null)
+                    filters.Add("HEqTD", range);
             }
             var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);
             var url = new Uri("service/SelectService.php", UriKind.Relative);
             var response = await Client.PostAsync(url, new StringContent(jsonObj, Encoding.UTF8, "application/json"));
-
 
             var status = JsonConvert.DeserializeObject<Response<Service>>(await response.Content.ReadAsStringAsync());
             if (status.success)
@@ -213,7 +214,16 @@ namespace DAO.API
                                   value.Item1.code_ec,
                                   value.Item1.annee
                               },
-                              data = value.Item2
+                              data = new
+                              {
+                                  value.Item2.HEqTD,
+                                  value.Item2.NbGpCM,
+                                  value.Item2.NbGpEI,
+                                  value.Item2.NbGpPRJ,
+                                  value.Item2.NbGpTD,
+                                  value.Item2.NbGpTP,
+                                  value.Item2.NbGpTPL
+                              }
                           }).ToArray()
             };
             var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);

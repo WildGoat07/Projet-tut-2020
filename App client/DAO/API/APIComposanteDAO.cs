@@ -185,7 +185,11 @@ namespace DAO.API
                               {
                                   value.Item1.id_comp
                               },
-                              data = value.Item2
+                              data = new
+                              {
+                                  value.Item2.lieu_comp,
+                                  value.Item2.nom_comp
+                              }
                           }).ToArray()
             };
             var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);

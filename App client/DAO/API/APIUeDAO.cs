@@ -139,7 +139,14 @@ namespace DAO.API
                               {
                                   value.Item1.code_ue
                               },
-                              data = value.Item2
+                              data = new
+                              {
+                                  value.Item2.code_sem,
+                                  value.Item2.code_ue_pere,
+                                  value.Item2.ECTS,
+                                  value.Item2.libelle_ue,
+                                  value.Item2.nature
+                              }
                           }).ToArray()
             };
             var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);
