@@ -142,17 +142,17 @@ if ($error[0] == '00000') {
         foreach ($requete as $req) {
             $obj = new stdClass();
 
-            $obj->code_etape = $req['code_etape'];
+            $obj->code_etape = utf8_encode($req['code_etape']);
 
-            $obj->vet = $req['vet'];
+            $obj->vet = utf8_encode($req['vet']);
 
-            $obj->libelle_vet = $req['libelle_vet'];
+            $obj->libelle_vet = utf8_encode($req['libelle_vet']);
 
-            $obj->id_comp = $req['id_comp'];
+            $obj->id_comp = utf8_encode($req['id_comp']);
 
-            $req['code_diplome'] == null ? null : $obj->code_diplome = $req['code_diplome'];
+            $obj->code_diplome = $req['code_diplome'] == null ? null : utf8_encode($req['code_diplome']);
 
-            $req['vdi'] == null ? null : $obj->vdi = $req['vdi'];
+            $obj->vdi = $req['vdi'] == null ? null : utf8_encode($req['vdi']);
 
             $etape->values[] = $obj;
         }

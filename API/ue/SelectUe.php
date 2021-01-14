@@ -143,17 +143,17 @@ if ($error[0]=='00000') {
         foreach ($requete as $req) {
             $obj = new stdClass();
             
-            $obj->code_ue = $req['code_ue'];
+            $obj->code_ue = utf8_encode($req['code_ue']);
                 
-            $obj->libelle_ue = $req['libelle_ue'];
+            $obj->libelle_ue = utf8_encode($req['libelle_ue']);
         
-            $obj->nature = $req['nature'];
+            $obj->nature = utf8_encode($req['nature']);
         
-            $obj->ECTS = $req['ECTS'];
+            $obj->ECTS = utf8_encode($req['ECTS']);
         
-            $req['code_ue_pere'] == null ? null : $obj->code_ue_pere = $req['code_ue_pere'];
+            $obj->code_ue_pere = $req['code_ue_pere'] == null ? null : utf8_encode($req['code_ue_pere']);
         
-            $req['code_sem'] == null ? null : $obj->code_sem = $req['code_sem'];
+            $obj->code_sem = $req['code_sem'] == null ? null : utf8_encode($req['code_sem']);
         
             $ue->values[] = $obj;
         }

@@ -296,33 +296,33 @@ if ($error[0] == '00000') {
         foreach ($requete as $req) {
             $obj = new stdClass();
 
-            $obj->code_ec = $req['code_ec'];
+            $obj->code_ec = utf8_encode($req['code_ec']);
 
-            $obj->libelle_ec = $req['libelle_ec'];
+            $obj->libelle_ec = utf8_encode($req['libelle_ec']);
 
-            $obj->nature = $req['nature'];
+            $obj->nature = utf8_encode($req['nature']);
 
-            $obj->HCM = $req['HCM'];
+            $obj->HCM = utf8_encode($req['HCM']);
 
-            $obj->HEI = $req['HEI'];
+            $obj->HEI = utf8_encode($req['HEI']);
 
-            $obj->HTD = $req['HTD'];
+            $obj->HTD = utf8_encode($req['HTD']);
 
-            $obj->HTP = $req['HTP'];
+            $obj->HTP = utf8_encode($req['HTP']);
 
-            $obj->HTPL = $req['HTPL'];
+            $obj->HTPL = utf8_encode($req['HTPL']);
 
-            $obj->HPRJ = $req['HPRJ'];
+            $obj->HPRJ = utf8_encode($req['HPRJ']);
 
-            $obj->NbEpr = $req['NbEpr'];
+            $obj->NbEpr = utf8_encode($req['NbEpr']);
 
-            $obj->CNU = $req['CNU'];
+            $obj->CNU = utf8_encode($req['CNU']);
 
-            $req['no_cat'] == null ? null : $obj->no_cat = $req['no_cat'];
+            $obj->no_cat = $req['no_cat'] == null ? null : utf8_encode($req['no_cat']);
 
-            $obj->code_ec_pere = $req['code_ec_pere'] == null ? null : $req['code_ec_pere'];
+            $obj->code_ec_pere = $req['code_ec_pere'] == null ? null : utf8_encode($req['code_ec_pere']);
 
-            $req['code_ue'] == null ? null : $obj->code_ue = $req['code_ue'];
+            $obj->code_ue = $req['code_ue'] == null ? null : utf8_encode($req['code_ue']);
 
             $ec->values[] = $obj;
         }

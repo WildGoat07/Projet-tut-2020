@@ -120,24 +120,23 @@ $requete = $db->prepare($strReq);
 $statement = $requete->execute();
 $error = $requete->errorInfo();
 
-
 if ($error[0]=='00000') {
     if ($requete->rowCount() != 0) {
         foreach ($requete as $req) {
             $obj = new stdClass();
         
-            $obj->code_diplome = $req['code_diplome'];
+            $obj->code_diplome = utf8_encode($req['code_diplome']);
         
-            $obj->libelle_diplome = $req['libelle_diplome'];
+            $obj->libelle_diplome = utf8_encode($req['libelle_diplome']);
         
-            $obj->vdi = $req['vdi'];
+            $obj->vdi = utf8_encode($req['vdi']);
         
-            $obj->libelle_vdi = $req['libelle_vdi'];
+            $obj->libelle_vdi = utf8_encode($req['libelle_vdi']);
+
+            $obj->annee_deb = $req['annee_deb'] == null ? null : utf8_encode($req['annee_deb']);
         
-            $req['annee_deb'] == null ? null : $obj->annee_deb = $req['annee_deb'];
-        
-            $req['annee_fin'] == null ? null : $obj->annee_fin = $req['annee_fin'];
-        
+            $obj->annee_fin = $req['annee_fin'] == null ? null : utf8_encode($req['annee_fin']);
+
             $diplome->values[] = $obj;
         }
     }

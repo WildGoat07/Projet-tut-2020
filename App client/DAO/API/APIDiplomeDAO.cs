@@ -113,8 +113,14 @@ namespace DAO.API
                 filters.Add("annee_fin", end.ToArray());
 
             var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);
+
+            Console.WriteLine(jsonObj);
+
             var url = new Uri("diplome/SelectDiplome.php", UriKind.Relative);
             var response = await Client.PostAsync(url, new StringContent(jsonObj, Encoding.UTF8, "application/json"));
+
+            Console.WriteLine(await response.Content.ReadAsStringAsync());
+
             var status = JsonConvert.DeserializeObject<Response<Diplome>>(await response.Content.ReadAsStringAsync());
             if (status.success)
                 return status.values;

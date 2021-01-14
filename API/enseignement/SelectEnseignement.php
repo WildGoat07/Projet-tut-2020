@@ -351,37 +351,37 @@ if ($error[0]=='00000') {
         foreach ($requete as $req) {
             $obj = new stdClass();
         
-            $obj->code_ec = $req['code_ec'];
+            $obj->code_ec = utf8_encode($req['code_ec']);
         
-            $obj->annee = $req['annee'];
+            $obj->annee = utf8_encode($req['annee']);
         
-            $req['eff_prev'] == null ? null : $obj->eff_prev = $req['eff_prev'];
+            $obj->eff_prev = $req['eff_prev'] == null ? null : utf8_encode($req['eff_prev']);
         
-            $req['eff_reel'] == null ? null : $obj->eff_reel = $req['eff_reel'];
+            $obj->eff_reel = $req['eff_reel'] == null ? null : utf8_encode($req['eff_reel']);
         
-            $obj->GpCM = $req['GpCM'];
+            $obj->GpCM = utf8_encode($req['GpCM']);
         
-            $obj->GpEI = $req['GpEI'];
+            $obj->GpEI = utf8_encode($req['GpEI']);
         
-            $obj->GpTD = $req['GpTD'];
+            $obj->GpTD = utf8_encode($req['GpTD']);
         
-            $obj->GpTP = $req['GpTP'];
+            $obj->GpTP = utf8_encode($req['GpTP']);
         
-            $obj->GpTPL = $req['GpTPL'];
+            $obj->GpTPL = utf8_encode($req['GpTPL']);
         
-            $obj->GpPRJ = $req['GpPRJ'];
+            $obj->GpPRJ = utf8_encode($req['GpPRJ']);
         
-            $obj->GpCMSer = $req['GpCMSer'];
+            $obj->GpCMSer = utf8_encode($req['GpCMSer']);
         
-            $obj->GpEISer = $req['GpEISer'];
+            $obj->GpEISer = utf8_encode($req['GpEISer']);
         
-            $obj->GpTDSer = $req['GpTDSer'];
+            $obj->GpTDSer = utf8_encode($req['GpTDSer']);
         
-            $obj->GpTPSer = $req['GpTPSer'];
+            $obj->GpTPSer = utf8_encode($req['GpTPSer']);
         
-            $obj->GpTPLSer = $req['GpTPLSer'];
+            $obj->GpTPLSer = utf8_encode($req['GpTPLSer']);
         
-            $obj->GpPRJer = $req['GpPRJSer'];
+            $obj->GpPRJer = utf8_encode($req['GpPRJSer']);
         
             $enseignement->values[] = $obj;
         }

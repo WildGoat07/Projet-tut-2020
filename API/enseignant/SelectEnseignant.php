@@ -190,23 +190,23 @@ if ($error[0]=='00000') {
         foreach ($requete as $req) {
             $obj = new stdClass();
         
-            $obj->id_ens = $req['id_ens'];
+            $obj->id_ens = utf8_encode($req['id_ens']);
         
-            $obj->nom = $req['nom'];
+            $obj->nom = utf8_encode($req['nom']);
         
-            $obj->prenom = $req['prenom'];
+            $obj->prenom = utf8_encode($req['prenom']);
         
-            $req['fonction'] == null ? null : $obj->fonction = $req['fonction'];
+            $obj->fonction = $req['fonction'] == null ? null : utf8_encode($req['fonction']);
         
-            $req['HOblig'] == null ? null : $obj->HOblig = $req['HOblig'];
+            $obj->HOblig = $req['HOblig'] == null ? null : utf8_encode($req['HOblig']);
         
-            $req['HMax'] == null ? null : $obj->HMax = $req['HMax'];
+            $obj->HMax = $req['HMax'] == null ? null : utf8_encode($req['HMax']);
         
-            $obj->CRCT = $req['CRCT'];
+            $obj->CRCT = utf8_encode($req['CRCT']);
         
-            $obj->PES_PEDR = $req['PES_PEDR'];
+            $obj->PES_PEDR = utf8_encode($req['PES_PEDR']);
         
-            $req['id_comp'] == null ? null : $obj->id_comp = $req['id_comp'];
+            $obj->id_comp = $req['id_comp'] == null ? null : utf8_encode($req['id_comp']);
         
             $enseignant->values[] = $obj;
         }

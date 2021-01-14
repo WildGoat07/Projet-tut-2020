@@ -127,15 +127,15 @@ if ($error[0] == '00000') {
         foreach ($requete as $req) {
             $obj = new stdClass();
 
-            $obj->code_sem = $req['code_sem'];
+            $obj->code_sem = utf8_encode($req['code_sem']);
 
-            $obj->libelle_sem = $req['libelle_sem'];
+            $obj->libelle_sem = utf8_encode($req['libelle_sem']);
 
-            $req['no_sem'] == null ? null : $obj->no_sem = $req['no_sem'];
+            $obj->no_sem = $req['no_sem'] == null ? null : utf8_encode($req['no_sem']);
 
-            $req['code_etape'] == null ? null : $obj->code_etape = $req['code_etape'];
+            $obj->code_etape = $req['code_etape'] == null ? null : utf8_encode($req['code_etape']);
 
-            $req['vet'] == null ? null : $obj->vet = $req['vet'];
+            $obj->vet = $req['vet'] == null ? null : utf8_encode($req['vet']);
 
             $semestre->values[] = $obj;
         }
