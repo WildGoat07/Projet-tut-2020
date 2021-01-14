@@ -33,7 +33,10 @@ namespace GUI
         {
             var refreshTask = module.RefreshAsync();
             if (module is DateDepedantModule m)
+            {
                 m.years = yearSelection;
+                yearSelection.SelectionChanged += (sender, e) => m.DateChanged();
+            }
             var item = new TabItem();
             object header;
             if (module.Closeable)
@@ -78,7 +81,7 @@ namespace GUI
             var selection = yearSelection.SelectedItem;
             yearSelection.Items.Clear();
             foreach (var item in await App.Factory.AnneeUnivDAO.GetAllAsync())
-                yearSelection.Items.Add(item.annee);
+                yearSelection.Items.Add(new ToStringOverrider<DAO.AnneeUniv>(item, item.annee));
             if (selection == null)
                 yearSelection.SelectedIndex = yearSelection.Items.Count - 1;
             else

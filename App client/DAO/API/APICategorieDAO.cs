@@ -132,7 +132,10 @@ namespace DAO.API
                               {
                                   value.Item1.no_cat
                               },
-                              data = value.Item2
+                              data = new
+                              {
+                                  value.Item2.categorie
+                              }
                           }).ToArray()
             };
             var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);

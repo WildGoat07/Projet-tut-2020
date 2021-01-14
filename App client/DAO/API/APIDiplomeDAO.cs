@@ -51,7 +51,8 @@ namespace DAO.API
                 values = (from value in values
                           select new
                           {
-                              value.code_diplome, value.vdi
+                              value.code_diplome,
+                              value.vdi
                           }).ToArray()
             };
             var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);
@@ -135,9 +136,16 @@ namespace DAO.API
                           {
                               target = new
                               {
-                                  value.Item1.code_diplome, value.Item1.vdi
+                                  value.Item1.code_diplome,
+                                  value.Item1.vdi
                               },
-                              data = value.Item2
+                              data = new
+                              {
+                                  value.Item2.annee_deb,
+                                  value.Item2.annee_fin,
+                                  value.Item2.libelle_diplome,
+                                  value.Item2.libelle_vdi
+                              }
                           }).ToArray()
             };
             var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);

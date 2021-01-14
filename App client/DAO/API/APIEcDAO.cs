@@ -211,12 +211,28 @@ namespace DAO.API
                               {
                                   value.Item1.code_ec
                               },
-                              data = value.Item2
+                              data = new
+                              {
+                                  value.Item2.CNU,
+                                  value.Item2.code_ec_pere,
+                                  value.Item2.code_ue,
+                                  value.Item2.HCM,
+                                  value.Item2.HEI,
+                                  value.Item2.HPRJ,
+                                  value.Item2.HTD,
+                                  value.Item2.HTP,
+                                  value.Item2.HTPL,
+                                  value.Item2.libelle_ec,
+                                  value.Item2.NbEpr,
+                                  value.Item2.no_cat,
+                                  value.Item2.nature
+                              }
                           }).ToArray()
             };
             var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);
             var url = new Uri("ec/EditEc.php", UriKind.Relative);
             var response = await Client.PostAsync(url, new StringContent(jsonObj, Encoding.UTF8, "application/json"));
+            var str = await response.Content.ReadAsStringAsync();
             var status = JsonConvert.DeserializeObject<Response<Ec>>(await response.Content.ReadAsStringAsync());
             if (status.success)
                 return (from value in values select value.Item2).ToArray();

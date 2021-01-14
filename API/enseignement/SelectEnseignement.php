@@ -10,7 +10,7 @@ $enseignement->success = true;
 $enseignement->errors = [];
 
 $strReq = "SELECT `code_ec`, `annee`, `eff_prev`, `eff_reel`, `GpCM`, `GpEI`, `GpTD`, `GpTP`, `GpTPL`, `GpPRJ`
-, `GpCMSer`, `GpEISer`, `GpTDSer`, `GpTPLSer`, `GpPRJSer` FROM `enseignement`";
+, `GpCMSer`, `GpEISer`, `GpTDSer`, `GpTPSer`, `GpTPLSer`, `GpPRJSer` FROM `enseignement`";
 $postObj = json_decode(file_get_contents('php://input'));
 
 $whereSet = false;

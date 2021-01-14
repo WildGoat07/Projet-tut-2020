@@ -30,7 +30,7 @@ namespace GUI.modules.UI
             initialValue = sem;
             if (sem != null)
             {
-                //si on donne un semestre, c'est qu'on doit modifier un existant
+                //si on donne un semestre, c'est qu'on doit modifier un semestre existant
                 code_sem.BorderBrush = new SolidColorBrush(Colors.Red);
                 id_text.Foreground = new SolidColorBrush(Colors.Red);
                 code_sem.ToolTip = "Modifier cette valeur peut être impossible si ce semestre est lié ailleurs";
@@ -121,7 +121,7 @@ namespace GUI.modules.UI
                 try
                 {
                     if (initialValue == null)
-                        //création d'un enseignant
+                        //création d'un semsetre
                         await App.Factory.SemestreDAO.CreateAsync(new DAO.Semestre
                             (
                                 code_sem.Text.Trim(),
@@ -131,7 +131,7 @@ namespace GUI.modules.UI
                                 vet.SelectedIndex < 1 ? null : ((ToStringOverrider<DAO.Etape>)vet.SelectedItem).Value.vet
                             ));
                     else
-                        //modification d'un enseignant
+                        //modification d'un semestre
                         await App.Factory.SemestreDAO.UpdateAsync(initialValue, new DAO.Semestre
                             (
                                 code_sem.Text.Trim(),

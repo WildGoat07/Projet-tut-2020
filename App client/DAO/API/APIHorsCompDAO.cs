@@ -213,7 +213,16 @@ namespace DAO.API
                                   value.Item1.id_comp,
                                   value.Item1.annee
                               },
-                              data = value.Item2
+                              data = new
+                              {
+                                  value.Item2.HCM,
+                                  value.Item2.HEI,
+                                  value.Item2.HEqTD,
+                                  value.Item2.HPRJ,
+                                  value.Item2.HTD,
+                                  value.Item2.HTP,
+                                  value.Item2.HTPL
+                              }
                           }).ToArray()
             };
             var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);

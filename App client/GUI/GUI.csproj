@@ -16,6 +16,7 @@
     <None Remove="icons\Previous_16x.png" />
     <None Remove="icons\Refresh_16x.png" />
     <None Remove="icons\Remove_color_16x.png" />
+    <None Remove="icons\Save_16x.png" />
     <None Remove="icons\Search_16x.png" />
     <None Remove="icons\StartPause_16x.png" />
   </ItemGroup>
@@ -48,6 +49,7 @@
     <Resource Include="icons\Previous_16x.png" />
     <Resource Include="icons\Refresh_16x.png" />
     <Resource Include="icons\Remove_color_16x.png" />
+    <Resource Include="icons\Save_16x.png" />
     <Resource Include="icons\Search_16x.png" />
     <Resource Include="icons\StartPause_16x.png" />
   </ItemGroup>

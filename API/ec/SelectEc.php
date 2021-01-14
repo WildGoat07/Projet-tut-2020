@@ -216,7 +216,7 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->no_cat as $no_cat) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            if( trim($no_cat) === "" )
+            if (trim($no_cat) === "")
                 $strReq .= "`no_cat` IS NULL";
             else
                 $strReq .= "`no_cat` = \"$no_cat\"";
@@ -237,7 +237,7 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->code_ec_pere as $code_ec_pere) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            if( trim($code_ec_pere) === "" )
+            if (trim($code_ec_pere) === "")
                 $strReq .= "`code_ec_pere` IS NULL";
             else
                 $strReq .= "`code_ec_pere` = \"$code_ec_pere\"";
@@ -258,7 +258,7 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->code_ue as $code_ue) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            if( trim($code_ue) === "" )
+            if (trim($code_ue) === "")
                 $strReq .= "`code_ue` IS NULL";
             else
                 $strReq .= "`code_ue` = \"$code_ue\"";
@@ -269,12 +269,11 @@ if (isset($postObj->filters)) {
 }
 
 if (isset($postObj->search)) {
-    $strReq .= $whereSet?" AND ":" WHERE ";
+    $strReq .= $whereSet ? " AND " : " WHERE ";
 
     $search = cleanString($postObj->search);
 
     $strReq .= " compareStrings(\"$search\", `libelle_ec`) ";
-
 }
 
 if (isset($postObj->order))
@@ -292,44 +291,43 @@ $requete = $db->prepare($strReq);
 $statement = $requete->execute();
 $error = $requete->errorInfo();
 
-if ($error[0]=='00000') {
+if ($error[0] == '00000') {
     if ($requete->rowCount() != 0) {
         foreach ($requete as $req) {
             $obj = new stdClass();
-        
+
             $obj->code_ec = utf8_encode($req['code_ec']);
-        
+
             $obj->libelle_ec = utf8_encode($req['libelle_ec']);
-        
+
             $obj->nature = utf8_encode($req['nature']);
-        
+
             $obj->HCM = utf8_encode($req['HCM']);
-        
+
             $obj->HEI = utf8_encode($req['HEI']);
-        
+
             $obj->HTD = utf8_encode($req['HTD']);
-        
+
             $obj->HTP = utf8_encode($req['HTP']);
-        
+
             $obj->HTPL = utf8_encode($req['HTPL']);
-        
+
             $obj->HPRJ = utf8_encode($req['HPRJ']);
-        
+
             $obj->NbEpr = utf8_encode($req['NbEpr']);
-        
+
             $obj->CNU = utf8_encode($req['CNU']);
-        
+
             $obj->no_cat = utf8_encode($req['no_cat']);
-        
-            $obj->code_ec_pere = utf8_encode($req['code_ec_pere']);
-        
+
+            $obj->code_ec_pere = $req['code_ec_pere'] == null ? null : utf8_encode($req['code_ec_pere']);
+
             $obj->code_ue = utf8_encode($req['code_ue']);
-        
+
             $ec->values[] = $obj;
         }
     }
-}
-else {
+} else {
     $ec->success = false;
 
     $obj = new stdClass();

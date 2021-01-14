@@ -101,7 +101,9 @@ namespace DAO.API
                               {
                                   value.Item1.annee
                               },
-                              data = value.Item2
+                              data = new
+                              {
+                              }
                           }).ToArray()
             };
             var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);
