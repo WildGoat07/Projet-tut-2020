@@ -12,7 +12,7 @@ namespace GUI.modules
     {
         public EnseignementViewModule()
         {
-            Content = new UI.EnseignementView();
+            Content = new UI.EnseignementView(() => CurrentYear);
         }
 
         public override bool Closeable => false;
@@ -21,9 +21,7 @@ namespace GUI.modules
 
         public override string Title => "Enseignements";
 
-        public override void DateChanged(AnneeUniv? year)
-        {
-        }
+        public override async void DateChanged() => await RefreshAsync();
 
         public override async Task RefreshAsync() => await Content.RefreshAsync();
     }

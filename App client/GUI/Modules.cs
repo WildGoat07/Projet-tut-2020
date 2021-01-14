@@ -11,10 +11,12 @@ namespace GUI
 {
     public abstract class DateDepedantModule : Module
     {
-        internal ComboBox? years;
-        public AnneeUniv? CurrentYear => years?.SelectedItem as AnneeUniv;
+#pragma warning disable CS8618 // Un champ non-nullable doit contenir une valeur non-null lors de la fermeture du constructeur. Envisagez de déclarer le champ comme nullable.
+        internal ComboBox years;
+#pragma warning restore CS8618 // Un champ non-nullable doit contenir une valeur non-null lors de la fermeture du constructeur. Envisagez de déclarer le champ comme nullable.
+        public AnneeUniv CurrentYear => ((ToStringOverrider<AnneeUniv>)years.SelectedItem).Value;
 
-        public abstract void DateChanged(AnneeUniv? year);
+        public abstract void DateChanged();
     }
 
     public abstract class Module

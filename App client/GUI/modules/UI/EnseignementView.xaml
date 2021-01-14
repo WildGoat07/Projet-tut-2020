@@ -74,7 +74,7 @@
                 </Button>
             </StackPanel>
             <TextBlock Grid.Row="4" Grid.Column="0" Text="EC" Margin="5" VerticalAlignment="Center" />
-            <ComboBox Grid.Row="4" Grid.Column="1" x:Name="ecs" Margin="5" VerticalAlignment="Center" MinWidth="100" />
+            <ComboBox Grid.Row="4" Grid.Column="1" x:Name="ecs" Margin="5" VerticalAlignment="Center" MinWidth="100" SelectionChanged="ecs_SelectionChanged" />
             <StackPanel Grid.Row="4" Grid.Column="2" Orientation="Horizontal">
                 <Button x:Name="addEC" Margin="5" VerticalAlignment="Center" Style="{DynamicResource imageButton}">
                     <Image Stretch="None" Margin="5" Source="/icons/Add_16x.png" />
@@ -143,8 +143,11 @@
                         <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
                     <TextBlock Margin="5" Grid.Row="0" Text="Equ. TD" VerticalAlignment="Bottom" HorizontalAlignment="Center" />
-                    <TextBox Margin="5" Grid.Row="1" IsReadOnly="True" VerticalAlignment="Bottom" HorizontalAlignment="Center" MinWidth="30" />
+                    <TextBox x:Name="equTD" Margin="5" Grid.Row="1" IsReadOnly="True" VerticalAlignment="Bottom" HorizontalAlignment="Center" MinWidth="30" />
                 </Grid>
+                <Button x:Name="saveButton" IsEnabled="False" VerticalAlignment="Bottom" Margin="5" Style="{DynamicResource imageButton}" Click="saveButton_Click">
+                    <Image Stretch="None" Margin="5" Source="/icons/Save_16x.png" />
+                </Button>
             </StackPanel>
         </Grid>
     </StackPanel>
