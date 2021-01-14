@@ -24,10 +24,10 @@
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Diplôme" Margin="5" VerticalAlignment="Center" />
             <ComboBox Grid.Row="0" Grid.Column="1" x:Name="diplomes" Margin="5" VerticalAlignment="Center" MinWidth="100" SelectionChanged="diplomes_SelectionChanged" />
             <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal">
-                <Button x:Name="addDiplome" Margin="5" VerticalAlignment="Center" Style="{DynamicResource imageButton}">
+                <Button x:Name="addDiplome" Margin="5" VerticalAlignment="Center" Style="{DynamicResource imageButton}" Click="addDiplome_Click">
                     <Image Stretch="None" Margin="5" Source="/icons/Add_16x.png" />
                 </Button>
-                <Button x:Name="detailDiplome" Margin="5" IsEnabled="False" VerticalAlignment="Center" Style="{DynamicResource imageButton}">
+                <Button x:Name="detailDiplome" Margin="5" IsEnabled="False" VerticalAlignment="Center" Style="{DynamicResource imageButton}" Click="detailDiplome_Click">
                     <Image Stretch="None" Margin="5" Source="/icons/Search_16x.png" />
                 </Button>
                 <Button x:Name="removeDiplome" Margin="5" IsEnabled="False"  VerticalAlignment="Center" Style="{DynamicResource imageButton}">
@@ -37,10 +37,10 @@
             <TextBlock Grid.Row="1" Grid.Column="0" Text="Étape" Margin="5" VerticalAlignment="Center" />
             <ComboBox Grid.Row="1" Grid.Column="1" x:Name="etapes" Margin="5" VerticalAlignment="Center" MinWidth="100" SelectionChanged="etapes_SelectionChanged" />
             <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal">
-                <Button x:Name="addEtape" Margin="5" VerticalAlignment="Center" Style="{DynamicResource imageButton}">
+                <Button x:Name="addEtape" Margin="5" VerticalAlignment="Center" Style="{DynamicResource imageButton}" Click="addEtape_Click">
                     <Image Stretch="None" Margin="5" Source="/icons/Add_16x.png" />
                 </Button>
-                <Button x:Name="detailEtape" Margin="5"  IsEnabled="False" VerticalAlignment="Center" Style="{DynamicResource imageButton}">
+                <Button x:Name="detailEtape" Margin="5"  IsEnabled="False" VerticalAlignment="Center" Style="{DynamicResource imageButton}" Click="detailEtape_Click">
                     <Image Stretch="None" Margin="5" Source="/icons/Search_16x.png" />
                 </Button>
                 <Button x:Name="removeEtape" Margin="5"  IsEnabled="False" VerticalAlignment="Center" Style="{DynamicResource imageButton}">
@@ -50,10 +50,10 @@
             <TextBlock Grid.Row="2" Grid.Column="0" Text="Semestre" Margin="5" VerticalAlignment="Center" />
             <ComboBox Grid.Row="2" Grid.Column="1" x:Name="semestres" Margin="5" VerticalAlignment="Center" MinWidth="100" SelectionChanged="semestres_SelectionChanged" />
             <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal">
-                <Button x:Name="addSemestre" Margin="5" VerticalAlignment="Center" Style="{DynamicResource imageButton}">
+                <Button x:Name="addSemestre" Margin="5" VerticalAlignment="Center" Style="{DynamicResource imageButton}" Click="addSemestre_Click">
                     <Image Stretch="None" Margin="5" Source="/icons/Add_16x.png" />
                 </Button>
-                <Button x:Name="detailSemestre" Margin="5" IsEnabled="False"  VerticalAlignment="Center" Style="{DynamicResource imageButton}">
+                <Button x:Name="detailSemestre" Margin="5" IsEnabled="False"  VerticalAlignment="Center" Style="{DynamicResource imageButton}" Click="detailSemestre_Click">
                     <Image Stretch="None" Margin="5" Source="/icons/Search_16x.png" />
                 </Button>
                 <Button x:Name="removeSemestre" Margin="5" IsEnabled="False"  VerticalAlignment="Center" Style="{DynamicResource imageButton}">
@@ -63,10 +63,10 @@
             <TextBlock Grid.Row="3" Grid.Column="0" Text="UE" Margin="5" VerticalAlignment="Center" />
             <ComboBox Grid.Row="3" Grid.Column="1" x:Name="ues" Margin="5" VerticalAlignment="Center" MinWidth="100" SelectionChanged="ues_SelectionChanged" />
             <StackPanel Grid.Row="3" Grid.Column="2" Orientation="Horizontal">
-                <Button x:Name="addUE" Margin="5" VerticalAlignment="Center" Style="{DynamicResource imageButton}">
+                <Button x:Name="addUE" Margin="5" VerticalAlignment="Center" Style="{DynamicResource imageButton}" Click="addUE_Click">
                     <Image Stretch="None" Margin="5" Source="/icons/Add_16x.png" />
                 </Button>
-                <Button x:Name="detailUE" Margin="5" IsEnabled="False"  VerticalAlignment="Center" Style="{DynamicResource imageButton}">
+                <Button x:Name="detailUE" Margin="5" IsEnabled="False"  VerticalAlignment="Center" Style="{DynamicResource imageButton}" Click="detailUE_Click">
                     <Image Stretch="None" Margin="5" Source="/icons/Search_16x.png" />
                 </Button>
                 <Button x:Name="removeUE" Margin="5"  IsEnabled="False" VerticalAlignment="Center" Style="{DynamicResource imageButton}">
@@ -76,10 +76,10 @@
             <TextBlock Grid.Row="4" Grid.Column="0" Text="EC" Margin="5" VerticalAlignment="Center" />
             <ComboBox Grid.Row="4" Grid.Column="1" x:Name="ecs" Margin="5" VerticalAlignment="Center" MinWidth="100" SelectionChanged="ecs_SelectionChanged" />
             <StackPanel Grid.Row="4" Grid.Column="2" Orientation="Horizontal">
-                <Button x:Name="addEC" Margin="5" VerticalAlignment="Center" Style="{DynamicResource imageButton}">
+                <Button x:Name="addEC" Margin="5" VerticalAlignment="Center" Style="{DynamicResource imageButton}" Click="addEC_Click">
                     <Image Stretch="None" Margin="5" Source="/icons/Add_16x.png" />
                 </Button>
-                <Button x:Name="detailEC" Margin="5" IsEnabled="False"  VerticalAlignment="Center" Style="{DynamicResource imageButton}">
+                <Button x:Name="detailEC" Margin="5" IsEnabled="False"  VerticalAlignment="Center" Style="{DynamicResource imageButton}" Click="detailEC_Click">
                     <Image Stretch="None" Margin="5" Source="/icons/Search_16x.png" />
                 </Button>
                 <Button x:Name="removeEC" Margin="5"  IsEnabled="False" VerticalAlignment="Center" Style="{DynamicResource imageButton}">

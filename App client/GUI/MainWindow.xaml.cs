@@ -25,7 +25,12 @@ namespace GUI
         public MainWindow()
         {
             InitializeComponent();
+            Main = this;
         }
+
+#pragma warning disable CS8618 // Un champ non-nullable doit contenir une valeur non-null lors de la fermeture du constructeur. Envisagez de déclarer le champ comme nullable.
+        public static MainWindow Main { get; private set; }
+#pragma warning restore CS8618 // Un champ non-nullable doit contenir une valeur non-null lors de la fermeture du constructeur. Envisagez de déclarer le champ comme nullable.
 
         public Module? CurrentModule => (modules.SelectedItem as TabItem)?.Tag as Module;
 
