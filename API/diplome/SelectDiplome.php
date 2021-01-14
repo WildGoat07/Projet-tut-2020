@@ -87,7 +87,7 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->annee_fin as $annee_fin) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            if( $annee_fin) == null )
+            if($annee_fin == null )
                 $strReq .= "`annee_fin` IS NULL";
             else
                 $strReq .= "`annee_fin` = \"$annee_fin\"";
