@@ -5,8 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+        Title="" Height="700" Width="1200" Background="#FFF6F6F6" PreviewKeyDown="Window_PreviewKeyDown" Initialized="Window_Initialized">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="test" />
+        </Menu>
+        <StackPanel DockPanel.Dock="Top" Margin="5" VerticalAlignment="Bottom" Orientation="Horizontal">
+            <Button Style="{DynamicResource imageButton}" Click="Button_Click">
+                <Image Stretch="None" Source="/icons/Refresh_16x.png" ToolTip="Actualise les données de l'onglet ouvert (F5)" />
+            </Button>
+            <Button Style="{DynamicResource imageButton}">
+                <Image Stretch="None" Source="/icons/Log_16x.png" ToolTip="Ouvre les logs de l'application" />
+            </Button>
+        </StackPanel>
+        <Grid>
+            <ComboBox VerticalAlignment="Top" HorizontalAlignment="Left" Name="yearSelection" Margin="25,5" Visibility="Hidden" d:Visibility="Visible" />
+            <Label Name="moduleTitle" VerticalAlignment="Top" HorizontalAlignment="Center" d:Content="Test" FontSize="24" />
+            <!--center-->
+            <TabControl Margin="5,50,5,5" Name="modules" Background="#FFF6F6F6" SelectionChanged="modules_SelectionChanged" />
+        </Grid>
+    </DockPanel>
 </Window>

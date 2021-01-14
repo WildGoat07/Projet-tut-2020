@@ -62,7 +62,7 @@ if ($error[0]=='00000') {
         
             $obj->nom_comp = utf8_encode($req['nom_comp']);
         
-            $obj->lieu_comp = utf8_encode($req['lieu_comp']);
+            $obj->lieu_comp = $req['lieu_comp'] == null ? null : utf8_encode($req['lieu_comp']);
         
             $composante->values[] = $obj;
         }

@@ -1,5 +1,6 @@
 <?php
 require_once '../app/Database.php';
+require_once '../utilities.php';
 
 header('Content-Type: application/json');
 
@@ -9,7 +10,7 @@ $enseignement->success = true;
 $enseignement->errors = [];
 
 $strReq = "SELECT `code_ec`, `annee`, `eff_prev`, `eff_reel`, `GpCM`, `GpEI`, `GpTD`, `GpTP`, `GpTPL`, `GpPRJ`
-, `GpCMSer`, `GpEISer`, `GpTDSer`, `GpTPLSer`, `GpPRJSer` FROM `enseignement`";
+, `GpCMSer`, `GpEISer`, `GpTDSer`, `GpTPSer`, `GpTPLSer`, `GpPRJSer` FROM `enseignement`";
 $postObj = json_decode(file_get_contents('php://input'));
 
 $whereSet = false;
@@ -61,7 +62,7 @@ if (isset($postObj->filters)) {
             $strReq .= " WHERE ";
             $whereSet = true;
         }
-        if( trim($eff_prev) === "" )
+        if( $eff_prev == null )
             $strReq .= "`eff_prev` IS NULL";
         else {
             $minSet = false;
@@ -84,7 +85,7 @@ if (isset($postObj->filters)) {
             $strReq .= " WHERE ";
             $whereSet = true;
         }
-        if( trim($eff_reel) === "" )
+        if( $eff_reel == null )
             $strReq .= "`eff_reel` IS NULL";
         else {
             $minSet = false;
@@ -346,7 +347,7 @@ $statement = $requete->execute();
 $error = $requete->errorInfo();
 
 if ($error[0]=='00000') {
-    if ($requete->rowCount() != 0)) {
+    if ($requete->rowCount() != 0) {
         foreach ($requete as $req) {
             $obj = new stdClass();
         
@@ -354,9 +355,9 @@ if ($error[0]=='00000') {
         
             $obj->annee = utf8_encode($req['annee']);
         
-            $obj->eff_prev = utf8_encode($req['eff_prev']);
+            $obj->eff_prev = $req['eff_prev'] == null ? null : utf8_encode($req['eff_prev']);
         
-            $obj->eff_reel = utf8_encode($req['eff_reel']);
+            $obj->eff_reel = $req['eff_reel'] == null ? null : utf8_encode($req['eff_reel']);
         
             $obj->GpCM = utf8_encode($req['GpCM']);
         

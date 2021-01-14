@@ -15,7 +15,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>La nouvelle composante</returns>
-        async Task<Composante> CreateAsync(Composante value) => (await CreateAsync(new Composante[] { value })).First();
+        async Task<Composante> CreateAsync(Composante value) => (await CreateAsync(new[] { value })).First();
 
         /// <summary>
         /// Créé des nouvelles composantes
@@ -24,14 +24,14 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Les nouvelles composantes</returns>
-        Task<Composante[]> CreateAsync(ArraySegment<Composante> values);
+        Task<Composante[]> CreateAsync(IEnumerable<Composante> values);
 
         /// <summary>
         /// Récupère la composante en cours
         /// </summary>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <returns>La composante en cours</returns>
-        Task<Composante> CurrentAsync();
+        Task<CompCourante[]> CurrentAsync(int maxCount, int page);
 
         /// <summary>
         /// Supprime une composante
@@ -39,7 +39,7 @@ namespace DAO
         /// <param name="value">Composante à supprimer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        async Task DeleteAsync(Composante value) => await DeleteAsync(new Composante[] { value });
+        async Task DeleteAsync(Composante value) => await DeleteAsync(new[] { value });
 
         /// <summary>
         /// Supprime des composantes
@@ -47,7 +47,7 @@ namespace DAO
         /// <param name="values">Composantes à supprimer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        Task DeleteAsync(ArraySegment<Composante> values);
+        Task DeleteAsync(IEnumerable<Composante> values);
 
         /// <summary>
         /// Récupère toutes les composantes
@@ -58,7 +58,7 @@ namespace DAO
         /// </param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <returns>Toutes les composantes disponibles</returns>
-        async Task<Composante[]> GetAllAsync(int maxCount, int page) => await GetFilteredAsync(maxCount, page);
+        Task<Composante[]> GetAllAsync(int maxCount, int page) => GetFilteredAsync(maxCount, page);
 
         /// <summary>
         /// Récupère une composante
@@ -66,7 +66,15 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>La composante correspondante à l'id</returns>
-        Task<Composante> GetByIdAsync(string id);
+        async Task<Composante> GetByIdAsync(string id) => (await GetByIdAsync(new[] { id })).First();
+
+        /// <summary>
+        /// Récupère des composantes
+        /// </summary>
+        /// <exception cref="DAOException">Une erreur est survenue</exception>
+        /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
+        /// <returns>Les composantes correspondantes à l'id</returns>
+        Task<Composante[]> GetByIdAsync(IEnumerable<string> id);
 
         /// <summary>
         /// Récupère toutes les composantes
@@ -76,12 +84,18 @@ namespace DAO
         /// Les <paramref name="maxCount"/> * <paramref name="page"/> première valeurs seront évitées
         /// </param>
         /// <param name="location">Lieu de la composante</param>
+        /// <param name="search">Mots-clés à rechercher</param>
         /// <param name="orderBy">Champ utilisé pour trier</param>
         /// <param name="reverseOrder">True si le tri doit être inversé</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
-        /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Toutes les composantes disponibles</returns>
-        Task<Composante[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, ArraySegment<string>? location = null);
+        Task<Composante[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, string? search = null, IEnumerable<string>? location = null);
+
+        /// <summary>
+        /// Change la composante courante
+        /// </summary>
+        /// <param name="newCurrent">La nouvelle composante courante</param>
+        Task<CompCourante[]> SetCurrentAsync(Composante newCurrent);
 
         /// <summary>
         /// Modifie une composante
@@ -91,17 +105,15 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>La composante modifiée</returns>
-        async Task<Composante> UpdateAsync(Composante oldValue, Composante newValue) => (await UpdateAsync(new Composante[] { oldValue }, new Composante[] { newValue })).First();
+        async Task<Composante> UpdateAsync(Composante oldValue, Composante newValue) => (await UpdateAsync(new[] { (oldValue, newValue) })).First();
 
         /// <summary>
         /// Modifie des composantes
         /// </summary>
-        /// <param name="oldValues">Anciennes valeurs des composantes</param>
-        /// <param name="newValues">Nouvelles valeurs des composantes</param>
+        /// <param name="values">Valeurs des composantes</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        /// <exception cref="ArgumentException">Les tableaux sont de taille différente</exception>
         /// <returns>Les composantes modifiées</returns>
-        Task<Composante[]> UpdateAsync(ArraySegment<Composante> oldValues, ArraySegment<Composante> newValues);
+        Task<Composante[]> UpdateAsync(IEnumerable<(Composante, Composante)> values);
     }
 }

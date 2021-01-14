@@ -1,5 +1,6 @@
 <?php
 require_once '../app/Database.php';
+require_once '../utilities.php';
 
 header('Content-Type: application/json');
 
@@ -82,7 +83,7 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->code_diplome as $code_diplome) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            if( trim($code_diplome) === "" )
+            if ($code_diplome == null)
                 $strReq .= "`code_diplome` IS NULL";
             else
                 $strReq .= "`code_diplome` = \"$code_diplome\"";
@@ -103,7 +104,7 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->vdi as $vdi) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            if( trim($vdi) === "" )
+            if ($vdi == null)
                 $strReq .= "`vdi` IS NULL";
             else
                 $strReq .= "`vdi` = \"$vdi\"";
@@ -114,12 +115,11 @@ if (isset($postObj->filters)) {
 }
 
 if (isset($postObj->search)) {
-    $strReq .= $whereSet?" AND ":" WHERE ";
+    $strReq .= $whereSet ? " AND " : " WHERE ";
 
     $search = cleanString($postObj->search);
 
     $strReq .= " compareStrings(\"$search\", `libelle_vet`) ";
-
 }
 
 if (isset($postObj->order))
@@ -137,28 +137,27 @@ $requete = $db->prepare($strReq);
 $statement = $requete->execute();
 $error = $requete->errorInfo();
 
-if ($error[0]=='00000') {
-    if ($requete->rowCount() != 0)) {
+if ($error[0] == '00000') {
+    if ($requete->rowCount() != 0) {
         foreach ($requete as $req) {
             $obj = new stdClass();
-        
+
             $obj->code_etape = utf8_encode($req['code_etape']);
-        
+
             $obj->vet = utf8_encode($req['vet']);
-        
+
             $obj->libelle_vet = utf8_encode($req['libelle_vet']);
-        
+
             $obj->id_comp = utf8_encode($req['id_comp']);
-        
-            $obj->code_diplome = utf8_encode($req['code_diplome']);
-        
-            $obj->vdi = utf8_encode($req['vdi']);
-        
+
+            $obj->code_diplome = $req['code_diplome'] == null ? null : utf8_encode($req['code_diplome']);
+
+            $obj->vdi = $req['vdi'] == null ? null : utf8_encode($req['vdi']);
+
             $etape->values[] = $obj;
         }
     }
-}
-else {
+} else {
     $etape->success = false;
 
     $obj = new stdClass();

@@ -15,7 +15,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Le nouveau semestre</returns>
-        async Task<Semestre> CreateAsync(Semestre value) => (await CreateAsync(new Semestre[] { value })).First();
+        async Task<Semestre> CreateAsync(Semestre value) => (await CreateAsync(new[] { value })).First();
 
         /// <summary>
         /// Créé de nouveaux semestres
@@ -24,7 +24,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Les nouveaux semestres</returns>
-        Task<Semestre[]> CreateAsync(ArraySegment<Semestre> values);
+        Task<Semestre[]> CreateAsync(IEnumerable<Semestre> values);
 
         /// <summary>
         /// Supprime un semestre
@@ -32,7 +32,7 @@ namespace DAO
         /// <param name="value">Semestre à supprimer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        async Task DeleteAsync(Semestre value) => await DeleteAsync(new Semestre[] { value });
+        async Task DeleteAsync(Semestre value) => await DeleteAsync(new[] { value });
 
         /// <summary>
         /// Supprime des semestres
@@ -40,7 +40,7 @@ namespace DAO
         /// <param name="value">Semestres à supprimer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        Task DeleteAsync(ArraySegment<Semestre> value);
+        Task DeleteAsync(IEnumerable<Semestre> value);
 
         /// <summary>
         /// Récupère tous les semestres
@@ -54,12 +54,20 @@ namespace DAO
         async Task<Semestre[]> GetAllAsync(int maxCount, int page) => await GetFilteredAsync(maxCount, page);
 
         /// <summary>
-        /// Récupère un semestre
+        /// Récupère des semestres
         /// </summary>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        /// <returns>Le semestre correspondant à l'id</returns>
-        Task<Semestre> GetByIdAsync(string code);
+        /// <returns>Les semestres correspondants à l'id</returns>
+        async Task<Semestre> GetByIdAsync(string code) => (await GetByIdAsync(new[] { code })).First();
+
+        /// <summary>
+        /// Récupère des semestres
+        /// </summary>
+        /// <exception cref="DAOException">Une erreur est survenue</exception>
+        /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
+        /// <returns>Les semestres correspondants à l'id</returns>
+        Task<Semestre[]> GetByIdAsync(IEnumerable<string> code);
 
         /// <summary>
         /// Récupère tous les semestres selon des filtres
@@ -68,13 +76,14 @@ namespace DAO
         /// <param name="page">
         /// Les <paramref name="maxCount"/> * <paramref name="page"/> première valeurs seront évitées
         /// </param>
+        /// <param name="search">Mots-clés à rechercher</param>
         /// <param name="number">Le numéro des semestres</param>
         /// <param name="step">L'étape des semestres</param>
         /// <param name="orderBy">Champ utilisé pour trier</param>
         /// <param name="reverseOrder">True si le tri doit être inversé</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <returns>Tous les semestres filtrés disponibles</returns>
-        Task<Semestre[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, ArraySegment<int>? number = null, ArraySegment<(string?, int?)>? step = null);
+        Task<Semestre[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, string? search = null, IEnumerable<int>? number = null, IEnumerable<(string, int)>? step = null);
 
         /// <summary>
         /// Modifie un semestre
@@ -84,17 +93,15 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Le semestre modifié</returns>
-        async Task<Semestre> UpdateAsync(Semestre oldValue, Semestre newValue) => (await UpdateAsync(new Semestre[] { oldValue }, new Semestre[] { newValue })).First();
+        async Task<Semestre> UpdateAsync(Semestre oldValue, Semestre newValue) => (await UpdateAsync(new[] { (oldValue, newValue) })).First();
 
         /// <summary>
         /// Modifie des semestres
         /// </summary>
-        /// <param name="oldValues">Anciennes valeurs des semestres</param>
-        /// <param name="newValues">Nouvelles valeurs des semestres</param>
+        /// <param name="values">Valeurs des semestres</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        /// <exception cref="ArgumentException">Les tableaux sont de taille différente</exception>
         /// <returns>Les semestres modifiés</returns>
-        Task<Semestre[]> UpdateAsync(ArraySegment<Semestre> oldValues, ArraySegment<Semestre> newValues);
+        Task<Semestre[]> UpdateAsync(IEnumerable<(Semestre, Semestre)> values);
     }
 }

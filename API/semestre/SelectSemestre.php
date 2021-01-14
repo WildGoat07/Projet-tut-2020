@@ -1,5 +1,6 @@
 <?php
 require_once '../app/Database.php';
+require_once '../utilities.php';
 
 header('Content-Type: application/json');
 
@@ -46,7 +47,7 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->no_sem as $no_sem) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            if( trim($no_sem) === "" )
+            if ($no_sem == null)
                 $strReq .= "`no_sem` IS NULL";
             else
                 $strReq .= "`no_sem` = \"$no_sem\"";
@@ -67,7 +68,7 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->code_etape as $code_etape) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            if( trim($code_etape) === "" )
+            if ($code_etape == null)
                 $strReq .= "`code_etape` IS NULL";
             else
                 $strReq .= "`code_etape` = \"$code_etape\"";
@@ -88,9 +89,9 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->vet as $vet) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            if( trim($vet) === "" )
+            if ($vet == null)
                 $strReq .= "`vet` IS NULL";
-            else    
+            else
                 $strReq .= "`vet` = \"$vet\"";
             $firstArrayFilter = false;
         }
@@ -99,12 +100,11 @@ if (isset($postObj->filters)) {
 }
 
 if (isset($postObj->search)) {
-    $strReq .= $whereSet?" AND ":" WHERE ";
+    $strReq .= $whereSet ? " AND " : " WHERE ";
 
     $search = cleanString($postObj->search);
 
     $strReq .= " compareStrings(\"$search\", `libelle_sem`) ";
-
 }
 
 if (isset($postObj->order))
@@ -122,26 +122,25 @@ $requete = $db->prepare($strReq);
 $statement = $requete->execute();
 $error = $requete->errorInfo();
 
-if ($error[0]=='00000') {
-    if ($requete->rowCount() != 0)) {
+if ($error[0] == '00000') {
+    if ($requete->rowCount() != 0) {
         foreach ($requete as $req) {
             $obj = new stdClass();
-        
+
             $obj->code_sem = utf8_encode($req['code_sem']);
-        
+
             $obj->libelle_sem = utf8_encode($req['libelle_sem']);
-        
-            $obj->no_sem = utf8_encode($req['no_sem']);
-        
-            $obj->code_etape = utf8_encode($req['code_etape']);
-        
-            $obj->vet = utf8_encode($req['vet']);
-        
+
+            $obj->no_sem = $req['no_sem'] == null ? null : utf8_encode($req['no_sem']);
+
+            $obj->code_etape = $req['code_etape'] == null ? null : utf8_encode($req['code_etape']);
+
+            $obj->vet = $req['vet'] == null ? null : utf8_encode($req['vet']);
+
             $semestre->values[] = $obj;
         }
     }
-}
-else {
+} else {
     $semestre->success = false;
 
     $obj = new stdClass();

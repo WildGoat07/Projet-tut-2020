@@ -15,7 +15,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Le nouveau diplôme</returns>
-        async Task<Diplome> CreateAsync(Diplome value) => (await CreateAsync(new Diplome[] { value })).First();
+        async Task<Diplome> CreateAsync(Diplome value) => (await CreateAsync(new[] { value })).First();
 
         /// <summary>
         /// Créé de nouveaux diplômes
@@ -24,7 +24,7 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Les nouveaux diplômes</returns>
-        Task<Diplome[]> CreateAsync(ArraySegment<Diplome> values);
+        Task<Diplome[]> CreateAsync(IEnumerable<Diplome> values);
 
         /// <summary>
         /// Supprime un diplôme
@@ -32,15 +32,15 @@ namespace DAO
         /// <param name="value">Diplôme à supprimer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        async Task DeleteAsync(Diplome value) => await DeleteAsync(new Diplome[] { value });
+        async Task DeleteAsync(Diplome value) => await DeleteAsync(new[] { value });
 
         /// <summary>
         /// Supprime des diplômes
         /// </summary>
-        /// <param name="value">Diplômes à supprimer</param>
+        /// <param name="values">Diplômes à supprimer</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        Task DeleteAsync(ArraySegment<Diplome> value);
+        Task DeleteAsync(IEnumerable<Diplome> values);
 
         /// <summary>
         /// Récupère tous les diplômes
@@ -54,12 +54,20 @@ namespace DAO
         async Task<Diplome[]> GetAllAsync(int maxCount, int page) => await GetFilteredAsync(maxCount, page);
 
         /// <summary>
-        /// Récupère un diplôme
+        /// Récupère des diplômes
+        /// </summary>
+        /// <exception cref="DAOException">Une erreur est survenue</exception>
+        /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
+        /// <returns>Les diplômes correspondants à l'id</returns>
+        Task<Diplome[]> GetByIdAsync(IEnumerable<(string, int)> id);
+
+        /// <summary>
+        /// Récupère de diplôme
         /// </summary>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Le diplôme correspondant à l'id</returns>
-        Task<Diplome> GetByIdAsync(string code, int version);
+        async Task<Diplome> GetByIdAsync(string code, int version) => (await GetByIdAsync(new[] { (code, version) })).First();
 
         /// <summary>
         /// Récupère tous les diplômes selon des filtres
@@ -68,13 +76,14 @@ namespace DAO
         /// <param name="page">
         /// Les <paramref name="maxCount"/> * <paramref name="page"/> première valeurs seront évitées
         /// </param>
+        /// <param name="search">Mots-clés à rechercher</param>
         /// <param name="begin">Années de départ du diplôme</param>
         /// <param name="end">Années de fin du diplôme</param>
         /// <param name="orderBy">Champ utilisé pour trier</param>
         /// <param name="reverseOrder">True si le tri doit être inversé</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <returns>Tous les diplômes filtrés disponibles</returns>
-        Task<Diplome[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, ArraySegment<int>? begin = null, ArraySegment<int>? end = null);
+        Task<Diplome[]> GetFilteredAsync(int maxCount, int page, string? orderBy = null, bool reverseOrder = false, string? search = null, IEnumerable<int>? begin = null, IEnumerable<int>? end = null);
 
         /// <summary>
         /// Modifie un diplôme
@@ -84,17 +93,15 @@ namespace DAO
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
         /// <returns>Le diplôme modifié</returns>
-        async Task<Diplome> UpdateAsync(Diplome oldValue, Diplome newValue) => (await UpdateAsync(new Diplome[] { oldValue }, new Diplome[] { newValue })).First();
+        async Task<Diplome> UpdateAsync(Diplome oldValue, Diplome newValue) => (await UpdateAsync(new[] { (oldValue, newValue) })).First();
 
         /// <summary>
         /// Modifie des diplômes
         /// </summary>
-        /// <param name="oldValues">Anciennes valeurs des diplômes</param>
-        /// <param name="newValues">Nouvelles valeurs des diplômes</param>
+        /// <param name="values">Valeurs des diplômes</param>
         /// <exception cref="DAOException">Une erreur est survenue</exception>
         /// <exception cref="ArgumentNullException">Un des paramètres est null</exception>
-        /// <exception cref="ArgumentException">Les tableaux sont de taille différente</exception>
         /// <returns>Les diplômes modifiés</returns>
-        Task<Diplome[]> UpdateAsync(ArraySegment<Diplome> oldValues, ArraySegment<Diplome> newValues);
+        Task<Diplome[]> UpdateAsync(IEnumerable<(Diplome, Diplome)> values);
     }
 }
