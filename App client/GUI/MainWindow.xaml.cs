@@ -121,8 +121,6 @@ namespace GUI
         {
             await UpdateYearSelectionAsync();
             await LoadModuleAsync(new EnseignementViewModule());
-            await LoadModuleAsync(new EditEnseignantModule(null));//! test
-            await LoadModuleAsync(new EditEnseignantModule(new DAO.Enseignant("ChK", "un joli nom", "un merveilleux prénom", HOblig: 105.2f)));//!
         }
 
         private async void Window_PreviewKeyDown(object sender, KeyEventArgs e)
