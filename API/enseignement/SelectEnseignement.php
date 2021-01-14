@@ -62,7 +62,7 @@ if (isset($postObj->filters)) {
             $strReq .= " WHERE ";
             $whereSet = true;
         }
-        if( trim($eff_prev) === "" )
+        if( $eff_prev == null )
             $strReq .= "`eff_prev` IS NULL";
         else {
             $minSet = false;
@@ -85,7 +85,7 @@ if (isset($postObj->filters)) {
             $strReq .= " WHERE ";
             $whereSet = true;
         }
-        if( trim($eff_reel) === "" )
+        if( $eff_reel == null )
             $strReq .= "`eff_reel` IS NULL";
         else {
             $minSet = false;
@@ -351,37 +351,37 @@ if ($error[0]=='00000') {
         foreach ($requete as $req) {
             $obj = new stdClass();
         
-            $obj->code_ec = utf8_encode($req['code_ec']);
+            $obj->code_ec = $req['code_ec'];
         
-            $obj->annee = utf8_encode($req['annee']);
+            $obj->annee = $req['annee'];
         
-            $obj->eff_prev = utf8_encode($req['eff_prev']);
+            $req['eff_prev'] == null ? null : $obj->eff_prev = $req['eff_prev'];
         
-            $obj->eff_reel = utf8_encode($req['eff_reel']);
+            $req['eff_reel'] == null ? null : $obj->eff_reel = $req['eff_reel'];
         
-            $obj->GpCM = utf8_encode($req['GpCM']);
+            $obj->GpCM = $req['GpCM'];
         
-            $obj->GpEI = utf8_encode($req['GpEI']);
+            $obj->GpEI = $req['GpEI'];
         
-            $obj->GpTD = utf8_encode($req['GpTD']);
+            $obj->GpTD = $req['GpTD'];
         
-            $obj->GpTP = utf8_encode($req['GpTP']);
+            $obj->GpTP = $req['GpTP'];
         
-            $obj->GpTPL = utf8_encode($req['GpTPL']);
+            $obj->GpTPL = $req['GpTPL'];
         
-            $obj->GpPRJ = utf8_encode($req['GpPRJ']);
+            $obj->GpPRJ = $req['GpPRJ'];
         
-            $obj->GpCMSer = utf8_encode($req['GpCMSer']);
+            $obj->GpCMSer = $req['GpCMSer'];
         
-            $obj->GpEISer = utf8_encode($req['GpEISer']);
+            $obj->GpEISer = $req['GpEISer'];
         
-            $obj->GpTDSer = utf8_encode($req['GpTDSer']);
+            $obj->GpTDSer = $req['GpTDSer'];
         
-            $obj->GpTPSer = utf8_encode($req['GpTPSer']);
+            $obj->GpTPSer = $req['GpTPSer'];
         
-            $obj->GpTPLSer = utf8_encode($req['GpTPLSer']);
+            $obj->GpTPLSer = $req['GpTPLSer'];
         
-            $obj->GpPRJer = utf8_encode($req['GpPRJSer']);
+            $obj->GpPRJer = $req['GpPRJSer'];
         
             $enseignement->values[] = $obj;
         }

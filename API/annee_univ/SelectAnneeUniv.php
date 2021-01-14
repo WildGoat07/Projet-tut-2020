@@ -43,7 +43,7 @@ if ($error[0]=='00000') {
         foreach ($requete as $req) {
             $obj = new stdClass();
         
-            $obj->annee = utf8_encode($req['annee']);
+            $obj->annee = $req['annee'];
         
             $annee->values[] = $obj;
         }

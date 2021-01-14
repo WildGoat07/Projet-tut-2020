@@ -224,25 +224,25 @@ if ($error[0]=='00000') {
         foreach ($requete as $req) {
             $obj = new stdClass();
         
-            $obj->id_ens = utf8_encode($req['id_ens']);
+            $obj->id_ens = $req['id_ens'];
         
-            $obj->code_ec = utf8_encode($req['code_ec']);
+            $obj->code_ec = $req['code_ec'];
         
-            $obj->annee = utf8_encode($req['annee']);
+            $obj->annee = $req['annee'];
         
-            $obj->NbGpCM = utf8_encode($req['NbGpCM']);
+            $obj->NbGpCM = $req['NbGpCM'];
         
-            $obj->NbGpEI = utf8_encode($req['NbGpEI']);
+            $obj->NbGpEI = $req['NbGpEI'];
         
-            $obj->NbGpTD = utf8_encode($req['NbGpTD']);
+            $obj->NbGpTD = $req['NbGpTD'];
         
-            $obj->NbGpTP = utf8_encode($req['NbGpTP']);
+            $obj->NbGpTP = $req['NbGpTP'];
         
-            $obj->NbGpTPL = utf8_encode($req['NbGpTPL']);
+            $obj->NbGpTPL = $req['NbGpTPL'];
         
-            $obj->NbGpPRJ = utf8_encode($req['NbGpPRJ']);
+            $obj->NbGpPRJ = $req['NbGpPRJ'];
         
-            $obj->NbHEqTDGp = utf8_encode($req['HEqTD']);
+            $obj->NbHEqTDGp = $req['HEqTD'];
         
             $service->values[] = $obj;
         }

@@ -83,7 +83,7 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->code_ue_pere as $code_ue_pere) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            if( trim($code_ue_pere) === "" )
+            if( $code_ue_pere == null )
                 $strReq .= "`code_ue_pere` IS NULL";
             else
                 $strReq .= "`code_ue_pere` = \"$code_ue_pere\"";
@@ -104,7 +104,7 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->code_sem as $code_sem) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            if( trim($code_sem) === "" )
+            if( $code_sem == null )
                 $strReq .= "`code_sem` IS NULL";
             else
                 $strReq .= "`code_sem` = \"$code_sem\"";
@@ -142,18 +142,18 @@ if ($error[0]=='00000') {
     if ($requete->rowCount() != 0) {
         foreach ($requete as $req) {
             $obj = new stdClass();
+            
+            $obj->code_ue = $req['code_ue'];
+                
+            $obj->libelle_ue = $req['libelle_ue'];
         
-            $obj->code_ue = utf8_encode($req['code_ue']);
+            $obj->nature = $req['nature'];
         
-            $obj->libelle_ue = utf8_encode($req['libelle_ue']);
+            $obj->ECTS = $req['ECTS'];
         
-            $obj->nature = utf8_encode($req['nature']);
+            $req['code_ue_pere'] == null ? null : $obj->code_ue_pere = $req['code_ue_pere'];
         
-            $obj->ECTS = utf8_encode($req['ECTS']);
-        
-            $obj->code_ue_pere = utf8_encode($req['code_ue_pere']);
-        
-            $obj->code_sem = utf8_encode($req['code_sem']);
+            $req['code_sem'] == null ? null : $obj->code_sem = $req['code_sem'];
         
             $ue->values[] = $obj;
         }

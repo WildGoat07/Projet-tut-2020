@@ -49,11 +49,13 @@ namespace DAO.API
             var obj = new
             {
                 values = (from value in values
-                          select value.code_ec).ToArray()
+                          select new { value.code_ec }).ToArray()
             };
             var jsonObj = JsonConvert.SerializeObject(obj, Formatting.None);
             var url = new Uri("ec/DeleteEc.php", UriKind.Relative);
             var response = await Client.PostAsync(url, new StringContent(jsonObj, Encoding.UTF8, "application/json"));
+            //var ok = await response.Content.ReadAsStringAsync();
+
             var status = JsonConvert.DeserializeObject<DeleteResponse>(await response.Content.ReadAsStringAsync());
             if (!status.success)
             {
