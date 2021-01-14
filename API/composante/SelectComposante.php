@@ -58,11 +58,11 @@ if ($error[0]=='00000') {
         foreach ($requete as $req) {
             $obj = new stdClass();
         
-            $obj->id_comp = utf8_encode($req['id_comp']);
+            $obj->id_comp = $req['id_comp'];
         
-            $obj->nom_comp = utf8_encode($req['nom_comp']);
+            $obj->nom_comp = $req['nom_comp'];
         
-            $obj->lieu_comp = utf8_encode($req['lieu_comp']);
+            $req['lieu_comp'] == null ? null : $obj->lieu_comp = $req['lieu_comp'];
         
             $composante->values[] = $obj;
         }

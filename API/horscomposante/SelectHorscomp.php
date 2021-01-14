@@ -224,25 +224,25 @@ if ($error[0]=='00000') {
         foreach ($requete as $req) {
             $obj = new stdClass();
         
-            $obj->id_ens = utf8_encode($req['id_ens']);
+            $obj->id_ens = $req['id_ens'];
         
-            $obj->id_comp = utf8_encode($req['id_comp']);
+            $obj->id_comp = $req['id_comp'];
         
-            $obj->annee = utf8_encode($req['annee']);
+            $obj->annee = $req['annee'];
         
-            $obj->HCM = utf8_encode($req['HCM']);
+            $obj->HCM = $req['HCM'];
         
-            $obj->HEI = utf8_encode($req['HEI']);
+            $obj->HEI = $req['HEI'];
         
-            $obj->HTD = utf8_encode($req['HTD']);
+            $obj->HTD = $req['HTD'];
         
-            $obj->HTP = utf8_encode($req['HTP']);
+            $obj->HTP = $req['HTP'];
         
-            $obj->HTPL = utf8_encode($req['HTPL']);
+            $obj->HTPL = $req['HTPL'];
         
-            $obj->HPRJ = utf8_encode($req['HPRJ']);
+            $obj->HPRJ = $req['HPRJ'];
         
-            $obj->HEqTD = utf8_encode($req['HEqTD']);
+            $obj->HEqTD = $req['HEqTD'];
         
             $horscomp->values[] = $obj;
         }

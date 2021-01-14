@@ -58,8 +58,8 @@ if ($error[0]=='00000') {
         foreach ($requete as $req) {
             $obj = new stdClass();
         
-            $obj->no_cat = utf8_encode($req['no_cat']);
-            $obj->categorie = utf8_encode($req['categorie']);
+            $obj->no_cat = $req['no_cat'];
+            $obj->categorie = $req['categorie'];
         
             $categories->values[] = $obj;
         }

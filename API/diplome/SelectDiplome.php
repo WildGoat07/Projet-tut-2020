@@ -66,7 +66,7 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->annee_deb as $annee_deb) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            if( trim($annee_deb) === "" )
+            if( $annee_deb == null )
                 $strReq .= "`annee_deb` IS NULL";
             else
                 $strReq .= "`annee_deb` = \"$annee_deb\"";
@@ -87,7 +87,7 @@ if (isset($postObj->filters)) {
         foreach ($postObj->filters->annee_fin as $annee_fin) {
             if (!$firstArrayFilter)
                 $strReq .= " OR ";
-            if( trim($annee_fin) === "" )
+            if( $annee_fin) == null )
                 $strReq .= "`annee_fin` IS NULL";
             else
                 $strReq .= "`annee_fin` = \"$annee_fin\"";
@@ -126,17 +126,17 @@ if ($error[0]=='00000') {
         foreach ($requete as $req) {
             $obj = new stdClass();
         
-            $obj->code_diplome = utf8_encode($req['code_diplome']);
+            $obj->code_diplome = $req['code_diplome'];
         
-            $obj->libelle_diplome = utf8_encode($req['libelle_diplome']);
+            $obj->libelle_diplome = $req['libelle_diplome'];
         
-            $obj->vdi = utf8_encode($req['vdi']);
+            $obj->vdi = $req['vdi'];
         
-            $obj->libelle_vdi = utf8_encode($req['libelle_vdi']);
+            $obj->libelle_vdi = $req['libelle_vdi'];
         
-            $obj->annee_deb = utf8_encode($req['annee_deb']);
+            $req['annee_deb'] == null ? null : $obj->annee_deb = $req['annee_deb'];
         
-            $obj->annee_fin = utf8_encode($req['annee_fin']);
+            $req['annee_fin'] == null ? null : $obj->annee_fin = $req['annee_fin'];
         
             $diplome->values[] = $obj;
         }
